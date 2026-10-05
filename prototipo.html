@@ -39,6 +39,7 @@
   --ai:#7FD1A6; --ai-bg:#14301F; --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 20px rgba(0,0,0,.35);
   color-scheme:dark}
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 html,body{height:100%}
 body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.45;font-variant-numeric:tabular-nums}
 button{font:inherit;color:inherit;cursor:pointer}
@@ -163,12 +164,38 @@ tr.row:hover td{background:var(--surface-2)}
 .seg button.on{background:var(--accent-soft);color:var(--accent);font-weight:600}
 /* Lists */
 .list{display:flex;flex-direction:column}
-.li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line-2)}
+.li{display:flex;gap:12px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line-2)}
+.li>div:not(.stripe):not(.btns):not(.acts):not(.more){flex:1;min-width:0}
 .li:last-child{border-bottom:0}
 .li .t{font-weight:600}
 .li .m{font-size:12.5px;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:2px}
-.stripe{width:4px;align-self:stretch;border-radius:3px;background:var(--line)}
-.stripe.crit{background:var(--crit)} .stripe.warn{background:var(--warn)} .stripe.stale{background:var(--stale)} .stripe.info{background:var(--accent)} .stripe.good{background:var(--good)}
+.stripe{display:none}
+/* Acciones compactas */
+.acts{display:flex;gap:2px;align-items:center;flex:none}
+.ib{width:34px;height:34px;border-radius:8px;border:1px solid transparent;background:none;display:grid;place-items:center;color:var(--muted);position:relative;flex:none}
+.ib:hover{background:var(--surface-2);border-color:var(--line);color:var(--ink)}
+.ib svg{width:17px;height:17px}
+.ib.good:hover{color:var(--good);background:var(--good-bg);border-color:transparent}
+.ib.crit:hover{color:var(--crit);background:var(--crit-bg);border-color:transparent}
+.ib.solid{border-color:var(--line);background:var(--surface)}
+[data-tip]:hover::after,[data-tip]:focus-visible::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 6px);right:0;background:var(--ink);color:var(--bg);font-size:11.5px;font-weight:500;padding:4px 8px;border-radius:6px;white-space:nowrap;pointer-events:none;z-index:25}
+.check{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--faint);background:var(--surface);display:grid;place-items:center;flex:none;color:transparent;padding:0;position:relative}
+.check svg{width:13px;height:13px}
+.check:hover{border-color:var(--good);color:var(--good);background:var(--good-bg)}
+.check[data-tip]:hover::after{left:0;right:auto}
+.more{position:relative;flex:none}
+.menu{position:absolute;right:0;top:calc(100% + 4px);z-index:30;min-width:190px;background:var(--surface);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);padding:4px;display:flex;flex-direction:column}
+.mi{border:0;background:none;text-align:left;padding:8px 10px;border-radius:6px;font-size:13px;display:flex;gap:8px;align-items:center}
+.mi:hover{background:var(--surface-2)}
+.mi svg{width:15px;height:15px;color:var(--muted)}
+.mi.crit{color:var(--crit)}
+.grp{display:flex;align-items:baseline;gap:8px;padding:14px 16px 4px;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--muted)}
+.grp b{font-weight:600;color:var(--faint)}
+.grp.late{color:var(--crit)}
+.dot{width:7px;height:7px;border-radius:50%;display:inline-block;background:var(--faint);flex:none}
+.dot.crit{background:var(--crit)} .dot.warn{background:var(--warn)} .dot.stale{background:var(--stale)} .dot.good{background:var(--good)}
+.li .m .sep{color:var(--line)}
+.blk{color:var(--stale);font-weight:500}
 .empty{padding:28px 16px;text-align:center;color:var(--muted)}
 /* Ficha */
 .ficha-h{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:start}
@@ -278,8 +305,6 @@ tr.row:hover td{background:var(--surface-2)}
   .welcome .stats{gap:18px}
   .cal .dc{min-height:64px}
   .cal .ev{font-size:0;padding:0;height:6px}
-  .li{grid-template-columns:auto minmax(0,1fr);row-gap:8px}
-  .li>:nth-child(3){grid-column:2;justify-self:start}
 }
 /* ---- Mobile ---- */
 .mbrand,.bnav,.scrim,.side-mob{display:none}
@@ -369,8 +394,10 @@ tr.row:hover td{background:var(--surface-2)}
   .rule{grid-template-columns:minmax(0,1fr)}
   .rule .chip{justify-self:start}
   /* listas */
-  .li{padding:12px 14px}
-  .li .btns{width:100%}
+  .li{padding:12px 14px;flex-wrap:wrap}
+  .li>.btns{width:100%}
+  .ib{width:38px;height:38px}
+  [data-tip]:hover::after{display:none}
   /* modal como hoja inferior */
   .overlay{place-items:end stretch;padding:0}
   .modal{width:100%;max-height:88vh;border-radius:16px 16px 0 0;border-bottom:0;padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -450,6 +477,19 @@ const ICON = {
  copy:'<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M4 16V4h12"/>',
  info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8v.5"/>',
  share:'<path d="M4 12v7h16v-7M12 3v12M7 8l5-5 5 5"/>',
+ dots:'<circle cx="5" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="19" cy="12" r="1.2"/>',
+ x:'<path d="M6 6l12 12M18 6 6 18"/>',
+ undo:'<path d="M9 14 4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/>',
+ up:'<path d="M12 19V5M6 11l6-6 6 6"/>',
+ pause:'<rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/>',
+ play:'<path d="M7 5v14l11-7z"/>',
+ swap:'<path d="M7 4 3 8l4 4M3 8h14M17 20l4-4-4-4M21 16H7"/>',
+ task:'<rect x="4" y="4" width="16" height="16" rx="3"/><path d="m8 12 3 3 5-6"/>',
+ note:'<path d="M5 4h14v11l-5 5H5z"/><path d="M14 20v-5h5"/>',
+ chat:'<path d="M4 5h16v11H9l-5 4z"/>',
+ bell:'<path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 21h4"/>',
+ open:'<path d="M14 4h6v6M20 4l-9 9"/><path d="M19 14v6H4V5h6"/>',
+ shield:'<path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/>',
  sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M5 19l1.5-1.5M17.5 6.5 19 5"/>'
 };
 const ic = (n,extra='') => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" ${extra}>${ICON[n]}</svg>`;
@@ -644,6 +684,8 @@ const person = id => `<span style="display:inline-flex;align-items:center;gap:6p
 const expLink = e => `<button class="link" data-act="open" data-id="${e.id}">${esc(e.soc)}</button>`;
 const naHtml = e => { const n=nextAction(e); const late = n.f<TODAY; return `<div class="na"><span>${esc(n.t)}</span><span class="d ${late?'late':''}">${late?'Atrasada · ':''}${fd(n.f)} · ${rel(n.f)}</span></div>`; };
 
+const ib = (act,icon,tip,attrs='',cls='') => `<button class="ib ${cls}" data-act="${act}" ${attrs} aria-label="${esc(tip)}" data-tip="${esc(tip)}">${ic(icon)}</button>`;
+const more = items => `<div class="more"><button class="ib" data-act="more" aria-label="Más acciones" aria-haspopup="menu">${ic('dots')}</button><div class="menu" role="menu" hidden>${items.filter(Boolean).map(([act,icon,label,attrs='',cls=''])=>`<button class="mi ${cls}" role="menuitem" data-act="${act}" ${attrs}>${ic(icon)}${esc(label)}</button>`).join('')}</div></div>`;
 function toast(msg){ const r=$('#toastRoot'); r.innerHTML=`<div class="toast">${ic('check','width="16" height="16"')}${esc(msg)}</div>`; clearTimeout(toast.t); toast.t=setTimeout(()=>r.innerHTML='',2600); }
 function modal(title,body,onOk,okLabel='Guardar'){
   $('#modalRoot').innerHTML = `<div class="overlay" data-act="mclose"><div class="modal" role="dialog" aria-modal="true" aria-label="${esc(title)}"><div class="card-h"><h2>${esc(title)}</h2><button class="btn ghost sm" data-act="mclose" aria-label="Cerrar">✕</button></div><form class="card-b" id="mform">${body}<div class="btns" style="justify-content:flex-end"><button type="button" class="btn" data-act="mclose">Cancelar</button><button class="btn pri" type="submit">${esc(okLabel)}</button></div></form></div></div>`;
@@ -751,9 +793,13 @@ function welcome(title,sub,stats){
 }
 function taskRow(t){
   const e = EXP.find(x=>x.id===t.exp); const late = t.due<TODAY; const blk=t.estado==='bloqueada';
-  return `<div class="li"><div class="stripe ${blk?'stale':late?'crit':days(t.due)<=7?'warn':'info'}"></div>
-   <div><div class="t">${esc(t.titulo)}</div><div class="m">${expLink(e)}<span>·</span><span class="${late?'down b':''}">${late?'Venció':'Vence'} ${fd(t.due)} (${rel(t.due)})</span><span class="chip">${t.origen}</span>${blk?`<span class="chip stale">Bloqueada: ${esc(t.bloqueo)}</span>`:''}</div></div>
-   <div class="btns">${blk?`<button class="btn sm" data-act="unblock" data-id="${t.id}">Desbloquear</button>`:`<button class="btn sm good" data-act="done" data-id="${t.id}">${ic('check')}Completar</button><button class="btn sm" data-act="block" data-id="${t.id}">Bloquear</button>`}<button class="btn sm ghost" data-act="escalar" data-id="${t.id}">Escalar</button></div></div>`;
+  return `<div class="li">${blk?`<span class="check" style="border-style:dashed" aria-hidden="true"></span>`:`<button class="check" data-act="done" data-id="${t.id}" aria-label="Completar tarea" data-tip="Completar">${ic('check')}</button>`}
+   <div><div class="t">${esc(t.titulo)}</div><div class="m">${expLink(e)}<span class="sep">·</span>${blk?`<span class="blk">Bloqueada: ${esc(t.bloqueo)}</span>`:`<span class="${late?'down':''}">${late?'venció':''} ${fd(t.due)}</span>`}</div></div>
+   ${more([blk?['unblock','play','Desbloquear',`data-id="${t.id}"`]:['block','pause','Bloquear',`data-id="${t.id}"`],['escalar','up','Escalar a manager',`data-id="${t.id}"`],['open','open','Abrir expediente',`data-id="${e.id}"`]])}</div>`;
+}
+function taskGroups(list){
+  const g = [['Atrasadas',list.filter(t=>t.estado!=='bloqueada'&&t.due<TODAY),'late'],['Esta semana',list.filter(t=>t.estado!=='bloqueada'&&t.due>=TODAY&&days(t.due)<=7),''],['Más adelante',list.filter(t=>t.estado!=='bloqueada'&&days(t.due)>7),''],['Bloqueadas',list.filter(t=>t.estado==='bloqueada'),'']];
+  return g.filter(x=>x[1].length).map(([l,ts,c])=>`<div class="grp ${c}">${l} <b>${ts.length}</b></div>${ts.map(taskRow).join('')}`).join('');
 }
 function homeAsis(){
   const mine = TASKS().filter(t=>t.resp===me() && t.estado!=='completada').sort((a,b)=>(a.estado==='bloqueada')-(b.estado==='bloqueada')||a.due-b.due);
@@ -764,21 +810,21 @@ function homeAsis(){
   const sols = SOLS.filter(s=>EXP.find(e=>e.id===s.exp).resp===me() && s.items.some(x=>x[1]!=='validado'));
   return welcome(`Buen día, <em>${P(me()).name.split(' ')[0]}</em>`,`Tenés ${mine.length} pendientes en tu cola; empezá por los ${late} atrasados.`,[[mine.length,'en tu cola'],[late,'atrasados'],[myExp.length,'expedientes']]) +
   `<div class="grid g-main">
-    <section class="card"><div class="card-h"><h2>Mi cola de hoy</h2><span class="hint">Ordenada por urgencia</span></div><div class="list">${mine.length?mine.map(taskRow).join(''):'<div class="empty">No tenés pendientes. Buen trabajo.</div>'}</div></section>
+    <section class="card"><div class="card-h"><h2>Mi cola de hoy</h2></div><div class="list">${mine.length?taskGroups(mine):'<div class="empty">No tenés pendientes. Buen trabajo.</div>'}</div></section>
     <div class="grid" style="align-content:start">
-      <section class="card"><div class="card-h"><h2>Datos a actualizar</h2><span class="chip stale">${stale.length}</span></div><div class="list">${stale.length?stale.map(e=>{const ev=expEval(e);return `<div class="li"><div class="stripe stale"></div><div><div class="t">${expLink(e)}</div><div class="m">${TLAB[ev.fdrag.tipo]} · hace ${ev.freshDays} días</div></div><button class="btn sm" data-act="medir" data-id="${ev.fdrag.id}">Registrar</button></div>`}).join(''):'<div class="empty">Todo al día</div>'}</div></section>
-      <section class="card"><div class="card-h"><h2>Próximos 30 días</h2><button class="link small" data-act="nav" data-v="calendario">Ver calendario</button></div><div class="list">${venc.slice(0,6).map(h=>`<div class="li"><div class="stripe ${days(h.f)<=7?'warn':'info'}"></div><div><div class="t">${esc(h.tipo)}</div><div class="m">${expLink(h.e)}</div></div><span class="small b">${fd(h.f)}</span></div>`).join('')||'<div class="empty">Sin vencimientos</div>'}</div></section>
+      <section class="card"><div class="card-h"><h2>Datos a actualizar</h2><span class="hint">${stale.length}</span></div><div class="list">${stale.length?stale.map(e=>{const ev=expEval(e);return `<div class="li"><div class="stripe stale"></div><div><div class="t">${expLink(e)}</div><div class="m">${TLAB[ev.fdrag.tipo]} · hace ${ev.freshDays} días</div></div>${ib('medir','plus','Registrar medición',`data-id="${ev.fdrag.id}"`)}</div>`}).join(''):'<div class="empty">Todo al día</div>'}</div></section>
+      <section class="card"><div class="card-h"><h2>Próximos 30 días</h2><button class="link small" data-act="nav" data-v="calendario">Ver calendario</button></div><div class="list">${venc.slice(0,6).map(h=>`<div class="li"><div class="stripe ${days(h.f)<=7?'warn':'info'}"></div><div><div class="t">${esc(h.tipo)}</div><div class="m">${expLink(h.e)}</div></div><span class="small muted">${fd(h.f)}</span></div>`).join('')||'<div class="empty">Sin vencimientos</div>'}</div></section>
       <section class="card"><div class="card-h"><h2>Solicitudes abiertas</h2><button class="link small" data-act="nav" data-v="solicitudes">Ver todas</button></div><div class="list">${sols.map(s=>solMini(s)).join('')||'<div class="empty">Sin solicitudes abiertas</div>'}</div></section>
     </div>
   </div>`;
 }
-function solMini(s){ const e=EXP.find(x=>x.id===s.exp); const v=s.items.filter(x=>x[1]==='validado').length; return `<div class="li"><div class="stripe ${-days(s.enviada)>20?'crit':'info'}"></div><div><div class="t">${expLink(e)}</div><div class="m">${v} de ${s.items.length} ítems validados · enviada ${rel(s.enviada)}</div></div><span class="chip">${s.recs} recordat.</span></div>`; }
+function solMini(s){ const e=EXP.find(x=>x.id===s.exp); const v=s.items.filter(x=>x[1]==='validado').length; return `<div class="li"><div class="stripe ${-days(s.enviada)>20?'crit':'info'}"></div><div><div class="t">${expLink(e)}</div><div class="m">${v} de ${s.items.length} validados · enviada ${rel(s.enviada)}</div></div></div>`; }
 function homeMgr(){
   const ex = exceptions().filter(x=>x.sev!=='muted');
   const revs = REVS.filter(r=>r.estado==='pendiente' && r.nivel==='Manager');
   const byT = ['Riesgo','Vencido','Dato desactualizado','Información faltante'].map(t=>({t,n:ex.filter(x=>x.tipo===t).length}));
   return welcome(`Cartera por <em>excepción</em>`,`${ex.length} situaciones fuera de lo normal y ${revs.length} revisiones esperan tu decisión.`,[[ex.length,'excepciones'],[revs.length,'revisiones'],[EXP.filter(e=>e.estado==='En seguimiento').length,'en seguimiento']]) +
-  `<div class="grid g4">${byT.map(b=>`<button class="card kpi" style="text-align:left" data-act="exc-filter" data-t="${b.t}"><span class="lab">${b.t}</span><span class="val">${b.n}</span><span class="delta">Ver en el centro de excepciones →</span></button>`).join('')}</div>
+  `<div class="grid g4">${byT.map(b=>`<button class="card kpi" style="text-align:left" data-act="exc-filter" data-t="${b.t}"><span class="lab">${b.t}</span><span class="val">${b.n}</span></button>`).join('')}</div>
   <div class="grid g-main">
     <section class="card"><div class="card-h"><h2>Lo más urgente</h2><button class="link small" data-act="nav" data-v="excepciones">Abrir centro de excepciones</button></div><div class="list">${ex.sort((a,b)=>({crit:0,warn:1,stale:2}[a.sev]-{crit:0,warn:1,stale:2}[b.sev])).slice(0,7).map(excRow).join('')}</div></section>
     <div class="grid" style="align-content:start">
@@ -829,7 +875,7 @@ function expTable(list,compact=false){
 V.cartera = () => {
   const list = sorted(filtered()); const c = counts(list.filter(e=>e.estado==='En seguimiento'));
   const opt = (k,arr,l) => `<select class="sel" data-act="filter" data-k="${k}" aria-label="${l}"><option value="">${l}</option>${arr.map(([v,t])=>`<option value="${v}" ${S.f[k]===v?'selected':''}>${t}</option>`).join('')}</select>`;
-  return `<div class="hd"><div><p class="eyebrow">A03 · Cartera</p><h1>Cartera de expedientes</h1><p class="sub">Cada expediente con sus tres señales: si cumple, si el dato está al día y qué toca hacer después.</p></div><div class="btns"><button class="btn" data-act="export">${ic('copy')}Copiar como CSV</button><button class="btn pri" data-act="nuevo">${ic('plus')}Alta de expediente</button></div></div>
+  return `<div class="hd"><div><p class="eyebrow">A03 · Cartera</p><h1>Cartera de expedientes</h1><p class="sub">Cada expediente con sus tres señales: si cumple, si el dato está al día y qué toca hacer después.</p></div><div class="btns">${ib('export','copy','Copiar como CSV','','solid')}<button class="btn pri" data-act="nuevo">${ic('plus')}Alta de expediente</button></div></div>
   <div class="filters">${opt('resp',ASIS.map(id=>[id,P(id).name]),'Responsable')}${opt('min',MIN.map(m=>[m,m]),'Ministerio')}${opt('salud',[['verde','Cumpliendo'],['amarillo','En riesgo'],['rojo','Incumpliendo']],'Salud')}${opt('fresh',[['ok','Al día'],['por','Por vencer'],['vieja','Desactualizado']],'Frescura')}${opt('hz',[['14','Próximas 2 semanas'],['28','Próximas 4 semanas'],['60','Próximos 2 meses']],'Horizonte')}
   ${Object.values(S.f).some(Boolean)||S.q?`<button class="btn ghost sm" data-act="clear">Limpiar filtros</button>`:''}<span class="small muted" style="margin-left:auto">${list.length} expedientes · <span class="up b">${c.verde}</span> / <span style="color:var(--warn)" class="b">${c.amarillo}</span> / <span class="down b">${c.rojo}</span></span></div>
   <section class="card">${expTable(list)}</section>`;
@@ -842,7 +888,7 @@ V.ficha = () => {
   return `<div><button class="btn ghost sm" data-act="nav" data-v="cartera">${ic('back')}Cartera</button></div>
   <div class="ficha-h"><div><p class="eyebrow">Expediente ${e.num} · ${e.min} · ${e.sector}</p><h1>${esc(e.soc)}</h1>
    <div class="meta"><span>RUT <b>${e.rut}</b></span>${e.grupo?`<span>Grupo <b>${esc(e.grupo)}</b></span>`:''}<span>Inversión comprometida <b>${usd(e.monto)}</b></span><span>Responsable <b>${P(e.resp).name}</b></span><span>Estado <b>${e.estado}</b></span>${e.sensible?`<span class="lock">${ic('lock')}Información sensible</span>`:''}</div></div>
-   <div class="btns"><button class="btn" data-act="tarea" data-id="${e.id}">${ic('plus')}Tarea</button><button class="btn" data-act="interaccion" data-id="${e.id}">Registrar interacción</button><button class="btn pri" data-act="revision" data-id="${e.id}">Enviar a revisión</button></div></div>
+   <div class="btns">${ib('tarea','plus','Nueva tarea',`data-id="${e.id}"`,'solid')}${ib('interaccion','chat','Registrar interacción',`data-id="${e.id}"`,'solid')}<button class="btn pri" data-act="revision" data-id="${e.id}">Enviar a revisión</button></div></div>
   <div class="signals3">
    <div><span class="lab">Salud</span><div>${sig(ev.salud)}</div><span class="small muted">${ev.drag?`Lo arrastra: <b style="color:var(--ink)">${esc(ev.drag.label)}</b>`:'Todos los compromisos en regla'}</span>${e.override&&e.override.hasta>TODAY?`<span class="chip stale">Excepción vigente hasta ${fd(e.override.hasta)}</span>`:''}</div>
    <div><span class="lab">Frescura del dato</span><div>${fresh(ev.fresh,ev.freshDays)}</div><span class="small muted">${ev.fresh==='ok'?'Todas las mediciones dentro del umbral':`${TLAB[ev.fdrag.tipo]}: umbral ${TH[ev.fdrag.tipo]} días`}</span></div>
@@ -864,10 +910,10 @@ FT.compromisos = (e) => `<section class="card"><div class="card-h"><h2>Compromis
   <span class="small muted">${esc(h.why)}</span>
   <div class="btns">${fresh(f.s,f.d)}<span class="chip">Origen: ${l.origen}</span><span class="chip">Ventana ${MES[c.ini.getMonth()]} ${c.ini.getFullYear()} – ${MES[c.fin.getMonth()]} ${c.fin.getFullYear()}</span></div>
   ${c.nota?`<div class="note"><b>Nota de contexto</b> · vigente hasta ${fdy(c.nota.hasta)}<br>${esc(c.nota.texto)}<div class="xs muted" style="margin-top:3px">${esc(c.nota.autor)} · ${fd(c.nota.f)}</div></div>`:''}
-  <div class="btns" style="margin-top:4px"><button class="btn sm pri" data-act="medir" data-id="${c.id}">Registrar medición</button><button class="btn sm" data-act="nota" data-id="${c.id}">Nota de contexto</button></div></div>
+  <div class="btns" style="margin-top:4px"><button class="btn sm pri" data-act="medir" data-id="${c.id}">Registrar medición</button>${ib('nota','note','Nota de contexto',`data-id="${c.id}"`,'solid')}</div></div>
   <div>${c.tipo==='certificacion'?`<div class="callout">${ic('info')}<div><b>${esc(c.cert)}</b><div class="small muted">Plazo comprometido: ${fdy(c.certFin)}. ${l.v?'Certificado vinculado como evidencia.':'Sin certificado cargado.'}</div></div></div>`:compChart(c)}</div></div>`;}).join('')}</section>`;
 FT.vencimientos = e => `<section class="card"><div class="list">${[...e.hitos,...e.tareas.filter(t=>t.estado!=='completada').map(t=>({tipo:'Tarea: '+t.titulo,f:t.due}))].sort((a,b)=>a.f-b.f).map(h=>`<div class="li"><div class="stripe ${days(h.f)<0?'crit':days(h.f)<=14?'warn':'info'}"></div><div><div class="t">${esc(h.tipo)}</div><div class="m">${rel(h.f)}</div></div><span class="small b">${fdy(h.f)}</span></div>`).join('')}</div></section>`;
-FT.tareas = e => { const ts=e.tareas.filter(t=>t.estado!=='completada'); return `<section class="card"><div class="card-h"><h2>Tareas abiertas</h2><button class="btn sm" data-act="tarea" data-id="${e.id}">${ic('plus')}Nueva tarea</button></div><div class="list">${ts.map(taskRow).join('')||'<div class="empty">Sin tareas abiertas</div>'}</div></section>`; };
+FT.tareas = e => { const ts=e.tareas.filter(t=>t.estado!=='completada'); return `<section class="card"><div class="card-h"><h2>Tareas abiertas</h2><button class="btn sm" data-act="tarea" data-id="${e.id}">${ic('plus')}Nueva tarea</button></div><div class="list">${taskGroups(ts)||'<div class="empty">Sin tareas abiertas</div>'}</div></section>`; };
 FT.documentos = e => `<section class="card"><div class="card-h"><h2>Documentos</h2><span class="hint">Referenciados desde SharePoint, solo lectura</span></div><div class="tw"><table><thead><tr><th>Tipo</th><th>Documento</th><th>Versión</th><th>Fecha</th><th></th></tr></thead><tbody>${e.docs.map(d=>`<tr><td><span class="chip">${d.tipo}</span></td><td>${d.falta?`<span class="down b">Falta: ${esc(d.nombre)}</span>`:esc(d.nombre)}</td><td class="small">${d.ver}${d.tipo==='FIT'?' <span class="chip good">vigente</span>':''}</td><td class="small muted">${d.falta?'—':fdy(d.f)}</td><td style="text-align:right">${d.falta?`<button class="btn sm" data-act="pedir" data-id="${e.id}" data-doc="${esc(d.tipo)}">Pedir al cliente</button>`:`<button class="btn sm ghost" data-act="abrir-doc">Abrir</button>`}</td></tr>`).join('')}</tbody></table></div></section>`;
 FT.irae = e => { const r=e.irae; const saldo=r.rec-r.util; const dif = r.decl!=null && r.decl!==r.rec;
   return `<div class="grid g4">${[['Recomendado',r.rec,'Cálculo del sistema con topes'],['Declarado (DJ)',r.decl,r.decl==null?'DJ aún no registrada':'Según DJ presentada'],['Utilizado',r.util,'Aplicado en el ejercicio'],['Saldo pendiente',saldo,'Disponible para próximos ejercicios']].map(([l,v,s])=>`<div class="card kpi"><span class="lab">${l}</span><span class="val" style="font-size:24px">${v==null?'—':usd(v)}</span><span class="delta">${s}</span></div>`).join('')}</div>
@@ -878,8 +924,8 @@ function timeline(items){ return `<div class="timeline">${items.map(b=>`<div cla
 
 /* Excepciones */
 function excRow(x){
-  return `<div class="li"><div class="stripe ${x.sev==='muted'?'':x.sev}"></div><div><div class="t">${expLink(x.exp)} <span class="chip ${x.sev==='muted'?'':x.sev}">${x.tipo}</span></div><div class="m"><span>${esc(x.why)}</span><span>·</span>${person(x.exp.resp)}<span>· ${rel(x.f)}</span></div></div>
-  <div class="btns">${x.sev==='muted'?'':`<button class="btn sm" data-act="exc-tarea" data-k="${esc(x.exp.id+'|'+x.tipo+'|'+x.why)}">Crear tarea</button><button class="btn sm" data-act="reasignar" data-id="${x.exp.id}">Reasignar</button>${x.tipo==='Riesgo'?`<button class="btn sm ghost" data-act="override" data-id="${x.exp.id}">Aplicar excepción</button>`:''}`}</div></div>`;
+  return `<div class="li"><div><div class="t">${expLink(x.exp)}</div><div class="small" style="margin-top:2px">${esc(x.why)}</div><div class="m"><span class="dot ${x.sev==='muted'?'':x.sev}"></span><span>${x.tipo}</span><span class="sep">·</span><span>${P(x.exp.resp).name.split(' ')[0]}</span><span class="sep">·</span><span>${rel(x.f)}</span></div></div>
+  ${x.sev==='muted'?'':`<div class="acts">${ib('exc-tarea','task','Convertir en tarea',`data-k="${esc(x.exp.id+'|'+x.tipo+'|'+x.why)}"`)}${more([['reasignar','swap','Reasignar expediente',`data-id="${x.exp.id}"`],x.tipo==='Riesgo'?['override','shield','Aplicar excepción al estado',`data-id="${x.exp.id}"`]:null,['open','open','Abrir expediente',`data-id="${x.exp.id}"`]])}</div>`}</div>`;
 }
 V.excepciones = () => {
   const all = exceptions(); const tipos=['todas','Riesgo','Vencido','Dato desactualizado','Información faltante','Atenuada por nota'];
@@ -904,8 +950,8 @@ V.calendario = () => {
 /* Revisiones */
 function revRow(r){
   const e=EXP.find(x=>x.id===r.exp);
-  return `<div class="li"><div class="stripe ${r.nivel==='Socio'?'crit':'info'}"></div><div><div class="t">${esc(r.tipo)} <span class="chip ${r.nivel==='Socio'?'crit':'info'}">Nivel ${r.nivel}</span></div><div class="m">${expLink(e)}<span>· de ${P(r.autor).name}</span><span>· ${rel(r.desde)}</span></div><div class="small" style="margin-top:4px">${esc(r.detalle)}</div></div>
-  <div class="btns">${r.estado==='pendiente'?`<button class="btn sm good" data-act="rev" data-r="aprobada" data-id="${r.id}">${ic('check')}Aprobar</button><button class="btn sm warnb" data-act="rev" data-r="devuelta" data-id="${r.id}">Devolver</button><button class="btn sm crit" data-act="rev" data-r="rechazada" data-id="${r.id}">Rechazar</button>${r.nivel!=='Socio'?`<button class="btn sm ghost" data-act="rev" data-r="escalada" data-id="${r.id}">Escalar</button>`:''}`:`<span class="chip ${r.estado==='aprobada'?'good':r.estado==='rechazada'?'crit':'warn'}">${r.estado}</span>`}</div></div>`;
+  return `<div class="li"><div><div class="t">${esc(r.tipo)}</div><div class="small" style="margin-top:2px">${esc(r.detalle)}</div><div class="m">${expLink(e)}<span class="sep">·</span><span>${P(r.autor).name.split(' ')[0]}</span><span class="sep">·</span><span>${rel(r.desde)}</span>${r.nivel==='Socio'?'<span class="sep">·</span><span class="down">Nivel socio</span>':''}</div></div>
+  ${r.estado==='pendiente'?`<div class="acts">${ib('rev','check','Aprobar',`data-r="aprobada" data-id="${r.id}"`,'good solid')}${ib('rev','undo','Devolver con observaciones',`data-r="devuelta" data-id="${r.id}"`)}${more([['rev','x','Rechazar',`data-r="rechazada" data-id="${r.id}"`,'crit'],r.nivel!=='Socio'?['rev','up','Escalar a socios',`data-r="escalada" data-id="${r.id}"`]:null])}</div>`:`<span class="chip ${r.estado==='aprobada'?'good':r.estado==='rechazada'?'crit':'warn'}">${r.estado}</span>`}</div>`;
 }
 V.revisiones = () => { const lvl = S.role==='socio'?'Socio':S.role==='manager'?'Manager':null;
   const pend = REVS.filter(r=>r.estado==='pendiente'&&(!lvl||r.nivel===lvl)), mias = REVS.filter(r=>r.autor===me()), hechas=REVS.filter(r=>r.estado!=='pendiente');
@@ -919,8 +965,8 @@ V.solicitudes = () => `<div class="hd"><div><p class="eyebrow">A17 · Solicitude
   <div class="grid g2">${SOLS.map(s=>{const e=EXP.find(x=>x.id===s.exp); const v=s.items.filter(x=>x[1]==='validado').length; const st = v===s.items.length?'Completa':s.items.some(x=>x[1]!=='pendiente')?'Parcial':-days(s.enviada)>20?'Vencida':'Abierta';
    return `<section class="card"><div class="card-h"><div><h2>${expLink(e)}</h2><div class="small muted">${esc(s.contacto)} · enviada ${fd(s.enviada)}</div></div><span class="chip ${st==='Completa'?'good':st==='Vencida'?'crit':st==='Parcial'?'warn':'info'}">${st}</span></div>
    <div class="card-b" style="display:flex;flex-direction:column;gap:8px"><div class="bar good"><i style="width:${v/s.items.length*100}%"></i></div><span class="xs muted">${v} de ${s.items.length} validados · ${s.recs} recordatorios internos</span>
-   ${s.items.map((it,k)=>`<div style="display:flex;justify-content:space-between;gap:8px;align-items:center;padding:6px 0;border-top:1px solid var(--line-2)"><span>${esc(it[0])}</span><div class="btns"><span class="chip ${IST[it[1]]}">${it[1]}</span>${it[1]==='recibido'?`<button class="btn sm good" data-act="item" data-s="${s.id}" data-k="${k}" data-v="validado">Validar</button><button class="btn sm crit" data-act="item" data-s="${s.id}" data-k="${k}" data-v="rechazado">Rechazar</button>`:it[1]==='pendiente'||it[1]==='rechazado'?`<button class="btn sm" data-act="item" data-s="${s.id}" data-k="${k}" data-v="recibido">Marcar recibido</button>`:''}</div></div>`).join('')}
-   ${st!=='Completa'?`<div class="btns" style="margin-top:4px"><button class="btn sm" data-act="recordar" data-s="${s.id}">Crear recordatorio</button><span class="chip ai">B17 · borrador de email automático</span></div>`:''}</div></section>`;}).join('')}</div>`;
+   ${s.items.map((it,k)=>`<div style="display:flex;justify-content:space-between;gap:8px;align-items:center;padding:6px 0;border-top:1px solid var(--line-2)"><span>${esc(it[0])}</span><div class="acts"><span class="chip ${IST[it[1]]}">${it[1]}</span>${it[1]==='recibido'?ib('item','check','Validar',`data-s="${s.id}" data-k="${k}" data-v="validado"`,'good')+ib('item','x','Rechazar',`data-s="${s.id}" data-k="${k}" data-v="rechazado"`,'crit'):it[1]==='pendiente'||it[1]==='rechazado'?ib('item','inbox','Marcar recibido',`data-s="${s.id}" data-k="${k}" data-v="recibido"`):''}</div></div>`).join('')}
+   ${st!=='Completa'?`<div class="btns" style="margin-top:4px"><button class="btn sm" data-act="recordar" data-s="${s.id}">${ic('bell')}Recordar faltantes</button></div>`:''}</div></section>`;}).join('')}</div>`;
 
 /* Informes */
 function concl(e){ const out=[]; e.comps.forEach(c=>{ const h=compHealth(c);
@@ -967,7 +1013,7 @@ V.facturacion = () => { const cols=[['listo','Listo para facturar','Hito cumplid
   return `<div class="hd"><div><p class="eyebrow">A13 · Facturación y cobranza</p><h1>Presentado → facturado → cobrado</h1><p class="sub">La factura se habilita por un hito real del expediente. Se emite en su sistema de facturación y se registra acá.</p></div><button class="btn" data-act="importar">${ic('upload')}Importar archivo de facturas</button></div>
   <div class="grid g4">${cols.map(([k,l])=>`<div class="card kpi"><span class="lab">${l}</span><span class="val" style="font-size:24px;${k==='vencido'?'color:var(--crit)':''}">${usd(tot(k))}</span><span class="delta">${FACT.filter(f=>f.estado===k).length} hitos</span></div>`).join('')}</div>
   <div class="kan">${cols.map(([k,l,s])=>`<div class="col"><div class="col-h"><b>${l}</b><span>${s}</span></div>${FACT.filter(f=>f.estado===k).map(f=>{const e=EXP.find(x=>x.id===f.exp); return `<div class="kc"><div style="display:flex;justify-content:space-between;gap:6px"><span class="amt">${usd(f.saldo||f.monto)}</span>${f.nro?`<span class="xs muted">${f.nro}</span>`:''}</div><div class="small b">${esc(e.soc)}</div><div class="xs muted">${esc(f.hito)} · ${k==='listo'?'habilitado '+rel(f.f):k==='cobrado'?'cobrado':'vence '+fd(f.vence)}</div>${f.saldo?`<span class="chip warn">Pago parcial · saldo ${usd(f.saldo)}</span>`:''}${k==='listo'&&-days(f.f)>14?'<span class="chip crit">Sin facturar hace más de 14 días</span>':''}
-   <div class="btns">${k==='listo'?`<button class="btn sm pri" data-act="facturar" data-id="${f.id}">Registrar factura</button>`:k==='facturado'||k==='vencido'?`<button class="btn sm" data-act="cobrar" data-id="${f.id}">Registrar pago</button>${k==='vencido'?`<button class="btn sm ghost" data-act="reclamo" data-id="${f.id}">Reclamo (${f.reclamos||0})</button>`:''}`:''}</div></div>`;}).join('')}</div>`).join('')}</div>`; };
+   <div class="btns">${k==='listo'?`<button class="btn sm pri" data-act="facturar" data-id="${f.id}">Registrar factura</button>`:k==='facturado'||k==='vencido'?`<button class="btn sm" data-act="cobrar" data-id="${f.id}">Registrar pago</button>${k==='vencido'?ib('reclamo','bell',`Preparar reclamo (${f.reclamos||0} enviados)`,`data-id="${f.id}"`):''}`:''}</div></div>`;}).join('')}</div>`).join('')}</div>`; };
 
 /* Tablero socios (B21) */
 V.tablero = () => { const act=EXP.filter(e=>e.estado==='En seguimiento'); const c=counts(act);
@@ -1026,7 +1072,10 @@ function addBit(e,t,tipo='sys'){ e.bit.unshift({f:TODAY,tipo,t,autor:P(me()).nam
 const findTask = id => TASKS().find(t=>t.id===id);
 const findComp = id => { for(const e of EXP){ const c=e.comps.find(x=>x.id===id); if(c) return [e,c]; } };
 document.addEventListener('click', ev => {
+  const inMenu = ev.target.closest('.more');
+  document.querySelectorAll('.menu:not([hidden])').forEach(m=>{ if(!inMenu || !inMenu.contains(m)) m.hidden=true; });
   const el = ev.target.closest('[data-act]'); if(!el) return; const a = el.dataset.act;
+  if(a==='more'){ const m=el.nextElementSibling; m.hidden=!m.hidden; return; }
   if(a==='mclose'){ if(ev.target===el || el.tagName==='BUTTON') $('#modalRoot').innerHTML=''; return; }
   if(el.tagName==='SELECT') return;
   const go = v => { S.view=v; S.informe=null; $('#side').classList.remove('open'); document.body.classList.remove('drawer'); render(); window.scrollTo(0,0); };
