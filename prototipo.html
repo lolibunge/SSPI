@@ -193,6 +193,12 @@ tr.row:hover td{background:var(--surface-2)}
 .ib.crit:hover{color:var(--crit);background:var(--crit-bg);border-color:transparent}
 .ib.solid{border-color:var(--line);background:var(--surface)}
 [data-tip]:hover::after,[data-tip]:focus-visible::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 6px);right:0;background:var(--ink);color:var(--bg);font-size:11.5px;font-weight:500;padding:4px 8px;border-radius:6px;white-space:nowrap;pointer-events:none;z-index:25}
+.av[data-tip]{position:relative;cursor:default}
+.tip-b[data-tip]:hover::after{bottom:auto;top:calc(100% + 6px);left:50%;right:auto;transform:translateX(-50%)}
+.fr.tip-b{position:relative}
+table.exp .c-resp .nm{display:none}
+table.exp th,table.exp td{padding-inline:10px}
+table.exp .c-resp,table.exp .c-min{width:1%;white-space:nowrap}
 .check{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--faint);background:var(--surface);display:grid;place-items:center;flex:none;color:transparent;padding:0;position:relative}
 .check svg{width:13px;height:13px}
 .check:hover{border-color:var(--good);color:var(--good);background:var(--good-bg)}
@@ -390,7 +396,8 @@ tr.row:hover td{background:var(--surface-2)}
   table.exp td::before{display:none!important}
   table.exp .c-soc{grid-column:1;grid-row:1}
   table.exp .c-sal{grid-column:2;grid-row:1;justify-self:end;display:flex;flex-direction:column;align-items:flex-end;gap:4px}
-  table.exp .c-resp{grid-column:1;grid-row:2;font-size:12.5px}
+  table.exp .c-resp{grid-column:1;grid-row:2;font-size:12.5px;display:flex;align-items:center;gap:6px}
+  table.exp .c-resp .nm{display:inline}
   table.exp .c-fr{grid-column:2;grid-row:2;justify-self:end}
   table.exp .c-na{grid-column:1/-1;grid-row:3;background:var(--surface-2);border-radius:7px;padding:8px 10px}
   table.exp .c-na .na{min-width:0}
@@ -701,6 +708,9 @@ const sig = s => `<span class="sig s-${s}">${SAL[s]}</span>`;
 const fresh = (s,d) => s==='ok' ? `<span class="fr">${ic('clock')} al día · ${d} d</span>` : s==='por' ? `<span class="fr f-por">${ic('clock')} por vencer · ${d} d</span>` : `<span class="fr f-vieja">${ic('clock')} desactualizado · ${d} d</span>`;
 const person = id => `<span style="display:inline-flex;align-items:center;gap:6px"><span class="av sm">${ini(P(id).name)}</span>${esc(P(id).name.split(' ')[0])}</span>`;
 const expLink = e => `<button class="link" data-act="open" data-id="${e.id}">${esc(e.soc)}</button>`;
+const FRL = {ok:'Al día',por:'Por vencer',vieja:'Desactualizado'};
+const freshShort = ev => `<span class="fr tip-b ${ev.fresh==='vieja'?'f-vieja':ev.fresh==='por'?'f-por':''}" data-tip="${FRL[ev.fresh]} · última medición hace ${ev.freshDays} días" aria-label="${FRL[ev.fresh]}, ${ev.freshDays} días">${ic('clock')}${ev.freshDays} d</span>`;
+const naShort = e => { const n=nextAction(e); const late=n.f<TODAY; return `<div class="na"><span>${esc(n.t)}</span><span class="d ${late?'late':''}">${fd(n.f)}${late?' · atrasada':''}</span></div>`; };
 const naHtml = e => { const n=nextAction(e); const late = n.f<TODAY; return `<div class="na"><span>${esc(n.t)}</span><span class="d ${late?'late':''}">${late?'Atrasada · ':''}${fd(n.f)} · ${rel(n.f)}</span></div>`; };
 
 const ib = (act,icon,tip,attrs='',cls='') => `<button class="ib ${cls}" data-act="${act}" ${attrs} aria-label="${esc(tip)}" data-tip="${esc(tip)}">${ic(icon)}</button>`;
@@ -918,8 +928,8 @@ function sorted(list){
 }
 function expTable(list,compact=false){
   const th = (k,l) => `<th class="sortable" data-act="sort" data-k="${k}">${l}${S.sort.k===k?(S.sort.d>0?' ↑':' ↓'):''}</th>`;
-  return `<div class="tw"><table class="exp"><thead><tr>${th('soc','Sociedad / expediente')}${compact?'':th('min','Ministerio')}${th('resp','Responsable')}${th('salud','Salud')}${th('fresh','Frescura')}${th('na','Próxima acción')}${compact?'':'<th>Ventana</th>'}</tr></thead><tbody>
-  ${list.map(e=>{const ev=expEval(e); const lw=days(e.fin); return `<tr class="row" data-act="open" data-id="${e.id}"><td class="c-soc"><div class="b">${esc(e.soc)}${e.sensible?` <span title="Información sensible">${ic('lock','width="12" height="12" style="vertical-align:-1px;color:var(--faint)"')}</span>`:''}</div><div class="exp-n">Exp. ${e.num}${e.grupo?' · '+esc(e.grupo):''}</div></td>${compact?'':`<td class="c-min"><span class="chip">${e.min}</span></td>`}<td class="c-resp">${person(e.resp)}</td><td class="c-sal">${e.estado==='En seguimiento'?sig(ev.salud):`<span class="chip info">${e.estado}</span>`}${e.comps.some(c=>compHealth(c).atenuada)?' <span class="chip stale" title="Alerta atenuada por nota de contexto">nota</span>':''}</td><td class="c-fr">${fresh(ev.fresh,ev.freshDays)}</td><td class="c-na">${naHtml(e)}</td>${compact?'':`<td class="c-win small muted" style="white-space:nowrap">hasta ${MES[e.fin.getMonth()]} ${e.fin.getFullYear()}${lw<180?' · <b class="down">cierra pronto</b>':''}</td>`}</tr>`;}).join('')}
+  return `<div class="tw"><table class="exp"><thead><tr>${th('soc','Sociedad / expediente')}${compact?'':th('min','Ministerio')}${th('resp','Resp.')}${th('salud','Salud')}${th('fresh','Frescura')}${th('na','Próxima acción')}${compact?'':'<th>Ventana</th>'}</tr></thead><tbody>
+  ${list.map(e=>{const ev=expEval(e); const lw=days(e.fin); return `<tr class="row" data-act="open" data-id="${e.id}"><td class="c-soc"><div class="b">${esc(e.soc)}${e.sensible?` <span title="Información sensible">${ic('lock','width="12" height="12" style="vertical-align:-1px;color:var(--faint)"')}</span>`:''}</div><div class="exp-n">Exp. ${e.num}${e.grupo?' · '+esc(e.grupo):''}</div></td>${compact?'':`<td class="c-min small muted">${e.min}</td>`}<td class="c-resp"><span class="av sm tip-b" data-tip="${esc(P(e.resp).name)}" aria-label="Responsable: ${esc(P(e.resp).name)}">${ini(P(e.resp).name)}</span><span class="nm">${esc(P(e.resp).name.split(' ')[0])}</span></td><td class="c-sal">${e.estado==='En seguimiento'?sig(ev.salud):`<span class="chip info">${e.estado}</span>`}${e.comps.some(c=>compHealth(c).atenuada)?' <span class="chip stale" title="Alerta atenuada por nota de contexto">nota</span>':''}</td><td class="c-fr">${freshShort(ev)}</td><td class="c-na">${naShort(e)}</td>${compact?'':`<td class="c-win small ${lw<180?'down b':'muted'}" style="white-space:nowrap" ${lw<180?'title="La ventana cierra en menos de 6 meses"':''}>${MES[e.fin.getMonth()]} ${e.fin.getFullYear()}</td>`}</tr>`;}).join('')}
   </tbody></table>${list.length?'':'<div class="empty">Ningún expediente coincide con los filtros.</div>'}</div>`;
 }
 V.cartera = () => {
