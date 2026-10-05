@@ -199,6 +199,23 @@ tr.row:hover td{background:var(--surface-2)}
 table.exp .c-resp .nm{display:none}
 table.exp th,table.exp td{padding-inline:10px}
 table.exp .c-resp,table.exp .c-min{width:1%;white-space:nowrap}
+.sol-list{display:flex;flex-direction:column}
+.sol{padding:14px 16px;border-bottom:1px solid var(--line)}
+.sol:last-child{border-bottom:0}
+.sol-h{display:grid;grid-template-columns:minmax(0,1fr) auto 96px 34px 34px;gap:4px;align-items:center}
+.sol-h .sol-st{margin-right:20px}
+.sol-t .t{font-weight:600}
+.sol-t .m{font-size:12.5px;color:var(--muted);display:flex;gap:6px;flex-wrap:wrap;margin-top:2px}
+.sol-st{display:flex;align-items:center;gap:10px}
+.prog{width:72px;height:6px;border-radius:4px;background:var(--line-2);overflow:hidden;display:block}
+.prog i{display:block;height:100%;background:var(--good);border-radius:4px}
+.stt{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--muted);white-space:nowrap}
+.stt.crit{color:var(--crit)} .stt.warn{color:var(--warn)} .stt.good{color:var(--good)} .stt.info{color:var(--accent)}
+.dot.info{background:var(--accent)}
+.sol-items{margin-top:8px;margin-left:14px;border-left:2px solid var(--line-2);padding-left:14px}
+.sol-i{display:grid;grid-template-columns:minmax(0,1fr) 96px 34px 34px;gap:4px;align-items:center;min-height:38px;padding:2px 0}
+.sol-i .nm{font-size:13.5px}
+.slot{display:flex;justify-content:center}
 .check{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--faint);background:var(--surface);display:grid;place-items:center;flex:none;color:transparent;padding:0;position:relative}
 .check svg{width:13px;height:13px}
 .check:hover{border-color:var(--good);color:var(--good);background:var(--good-bg)}
@@ -433,6 +450,16 @@ table.exp .c-resp,table.exp .c-min{width:1%;white-space:nowrap}
   .grid.g2>.fld{grid-column:1/-1}
   .kpi .val{font-size:24px}
   .portal-h{padding:16px}
+  .sol{padding:12px 14px}
+  .sol-h{grid-template-columns:minmax(0,1fr) auto 38px;row-gap:6px}
+  .sol-h>span:empty{display:none}
+  .sol-t{grid-column:1/-1;grid-row:1;padding-right:44px}
+  .sol-a{grid-row:1;grid-column:3;align-self:start}
+  .sol-st{grid-row:2;grid-column:1}
+  .sol-h>.stt{grid-row:2;grid-column:2/-1;justify-self:end}
+  .sol-i{padding:6px 0;row-gap:2px}
+  .sol-items{margin-left:4px;padding-left:10px}
+  .sol-i{grid-template-columns:minmax(0,1fr) 82px 38px 38px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -1021,12 +1048,29 @@ V.revisiones = () => { const lvl = S.role==='socio'?'Socio':S.role==='manager'?'
 
 /* Solicitudes */
 const IST = {pendiente:'',recibido:'info',validado:'good',rechazado:'crit'};
-V.solicitudes = () => `<div class="hd"><div><p class="eyebrow">A17 · Solicitudes de información</p><h1>Solicitudes al cliente</h1><p class="sub">Recibido no es validado: una solicitud sigue abierta mientras falte validar algún ítem.</p></div><button class="btn pri" data-act="nueva-sol">${ic('plus')}Nueva solicitud</button></div>
-  <div class="grid g2">${SOLS.map(s=>{const e=EXP.find(x=>x.id===s.exp); const v=s.items.filter(x=>x[1]==='validado').length; const st = v===s.items.length?'Completa':s.items.some(x=>x[1]!=='pendiente')?'Parcial':-days(s.enviada)>20?'Vencida':'Abierta';
-   return `<section class="card"><div class="card-h"><div><h2>${expLink(e)}</h2><div class="small muted">${esc(s.contacto)} · enviada ${fd(s.enviada)}</div></div><span class="chip ${st==='Completa'?'good':st==='Vencida'?'crit':st==='Parcial'?'warn':'info'}">${st}</span></div>
-   <div class="card-b" style="display:flex;flex-direction:column;gap:8px"><div class="bar good"><i style="width:${v/s.items.length*100}%"></i></div><span class="xs muted">${v} de ${s.items.length} validados · ${s.recs} recordatorios internos</span>
-   ${s.items.map((it,k)=>`<div style="display:flex;justify-content:space-between;gap:8px;align-items:center;padding:6px 0;border-top:1px solid var(--line-2)"><span>${esc(it[0])}</span><div class="acts"><span class="chip ${IST[it[1]]}">${it[1]}</span>${it[1]==='recibido'?ib('item','check','Validar',`data-s="${s.id}" data-k="${k}" data-v="validado"`,'good')+ib('item','x','Rechazar',`data-s="${s.id}" data-k="${k}" data-v="rechazado"`,'crit'):it[1]==='pendiente'||it[1]==='rechazado'?ib('item','inbox','Marcar recibido',`data-s="${s.id}" data-k="${k}" data-v="recibido"`):''}</div></div>`).join('')}
-   ${st!=='Completa'?`<div class="btns" style="margin-top:4px"><button class="btn sm" data-act="recordar" data-s="${s.id}">${ic('bell')}Recordar faltantes</button></div>`:''}</div></section>`;}).join('')}</div>`;
+const solState = s => { const v=s.items.filter(x=>x[1]==='validado').length; return v===s.items.length?'Completa':-days(s.enviada)>20?'Vencida':s.items.some(x=>x[1]!=='pendiente')?'Parcial':'Abierta'; };
+const SOLORD = {Vencida:0,Parcial:1,Abierta:2,Completa:3};
+const SOLCL = {Vencida:'crit',Parcial:'warn',Abierta:'',Completa:'good'};
+const ITL = {pendiente:'Pendiente',recibido:'Recibido',validado:'Validado',rechazado:'Rechazado'};
+const ITC = {pendiente:'',recibido:'info',validado:'good',rechazado:'crit'};
+function solBlock(s){
+  const e=EXP.find(x=>x.id===s.exp); const v=s.items.filter(x=>x[1]==='validado').length; const st=solState(s);
+  const slot = (html) => `<span class="slot">${html||''}</span>`;
+  return `<section class="sol">
+   <header class="sol-h"><div class="sol-t"><div class="t">${expLink(e)}</div><div class="m">${esc(s.contacto)}<span class="sep">·</span>enviada ${fd(s.enviada)}${s.recs?`<span class="sep">·</span>${s.recs} ${s.recs===1?'recordatorio':'recordatorios'}`:''}</div></div>
+    <div class="sol-st"><span class="prog"><i style="width:${v/s.items.length*100}%"></i></span><span class="small muted">${v}/${s.items.length}</span></div><span class="stt ${SOLCL[st]}"><span class="dot ${SOLCL[st]}"></span>${st}</span><span></span>
+    <div class="sol-a slot">${st!=='Completa'?ib('recordar','bell','Recordar los ítems faltantes',`data-s="${s.id}"`):''}</div></header>
+   <div class="sol-items">${s.items.map((it,k)=>{ const a=`data-s="${s.id}" data-k="${k}"`;
+     const main = it[1]==='recibido'?ib('item','check','Validar',a+' data-v="validado"','good'):(it[1]==='pendiente'||it[1]==='rechazado')?ib('item','inbox','Marcar recibido',a+' data-v="recibido"'):'';
+     const sec = it[1]==='recibido'?ib('item','x','Rechazar',a+' data-v="rechazado"','crit'):'';
+     return `<div class="sol-i"><span class="nm">${esc(it[0])}</span><span class="stt ${ITC[it[1]]}"><span class="dot ${ITC[it[1]]}"></span>${ITL[it[1]]}</span>${slot(main)}${slot(sec)}</div>`; }).join('')}</div>
+  </section>`;
+}
+V.solicitudes = () => { const list=[...SOLS].sort((a,b)=>SOLORD[solState(a)]-SOLORD[solState(b)]||a.enviada-b.enviada);
+  const cnt = k => SOLS.filter(x=>solState(x)===k).length;
+  return `<div class="hd"><div><p class="eyebrow">A17 · Solicitudes de información</p><h1>Solicitudes al cliente</h1><p class="sub">Recibido no es validado: una solicitud sigue abierta mientras falte validar algún ítem.</p></div><button class="btn pri" data-act="nueva-sol">${ic('plus')}Nueva solicitud</button></div>
+  <p class="small muted" style="margin:0">${cnt('Vencida')} vencidas · ${cnt('Parcial')} parciales · ${cnt('Abierta')} abiertas · ${cnt('Completa')} completas</p>
+  <div class="card sol-list">${list.map(solBlock).join('')}</div>`; };
 
 /* Informes */
 function concl(e){ const out=[]; e.comps.forEach(c=>{ const h=compHealth(c);
