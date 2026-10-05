@@ -1453,7 +1453,7 @@ function renderLogin(){ const r=$('#loginRoot'); if(!S.login){ r.innerHTML=''; r
   r.innerHTML = `<div class="login"><div class="login-box"><div class="mono login-mono">S<i></i>S</div><h1>${rec||sent?'Recuperar acceso':'Ingresá a SSPI'}</h1><p class="sub">${sent?'Si el email está registrado, te enviamos un enlace para crear una contraseña nueva. Vence en 30 minutos.':rec?'Te enviamos un enlace para crear una contraseña nueva.':'Gestión de proyectos de inversión · SS Proyectos'}</p>
   ${sent?`<button class="btn pri wide" data-act="login-back">Volver a ingresar</button>`:`<form data-form="${rec?'recover':'login'}" class="lform"><div class="fld"><label for="lem">Email</label><input id="lem" name="em" type="email" required placeholder="nombre@ssproyectos.com.uy" autocomplete="username"></div>${rec?'':`<div class="fld"><label for="lpw">Contraseña</label><input id="lpw" name="pw" type="password" required autocomplete="current-password"></div><label class="small muted" style="display:flex;gap:8px;align-items:center"><input type="checkbox" checked> Mantener la sesión iniciada</label>`}<button class="btn pri wide" type="submit">${rec?'Enviar enlace':'Ingresar'}</button></form>
   <button class="link small" data-act="${rec?'login-back':'login-rec'}">${rec?'Volver':'¿Olvidaste tu contraseña?'}</button>`}
-  <div class="login-demo"><span class="xs muted" style="width:100%">Prototipo · entrar directo como</span>${Object.entries(ROLES).map(([k,v])=>`<button class="btn sm" data-act="login-as" data-r="${k}"><span class="av sm">${avi(P(v.user).name)}</span>${P(v.user).name.split(' ')[0]} · ${v.label}</button>`).join('')}</div>
+  <div class="login-demo"><span class="xs muted" style="width:100%">Prototipo · entrar directo como</span>${[['asistente','lp'],['manager','cg'],['socio','ab'],['socio','jm']].map(([k,u])=>`<button class="btn sm" data-act="login-as" data-r="${k}" data-u="${u}"><span class="av sm">${avi(P(u).name)}</span>${P(u).name.split(' ')[0]} · ${ROLES[k].label}</button>`).join('')}</div>
   <a class="rebl" href="https://www.rebltech.com" target="_blank" rel="noopener" style="color:var(--faint)">Powered by <span class="rebl-logo" role="img" aria-label="REBL"></span></a></div></div>`; }
 
 /* ---------- Avisos (A07.3 / A08.7) ---------- */
@@ -1510,7 +1510,7 @@ document.addEventListener('click', ev => {
    case 'logout': S.login='login'; renderLogin(); break;
    case 'login-rec': S.login='recover'; renderLogin(); break;
    case 'login-back': S.login='login'; renderLogin(); break;
-   case 'login-as': S.role=el.dataset.r; S.view='inicio'; S.login=null; renderLogin(); render(); renderBell(); toast('Sesión iniciada como '+P(me()).name); break;
+   case 'login-as': S.role=el.dataset.r; if(el.dataset.u) ROLES[S.role].user=el.dataset.u; S.view='inicio'; S.login=null; renderLogin(); render(); renderBell(); toast('Sesión iniciada como '+P(me()).name); break;
    case 'bell': ev.stopPropagation(); S.notifOpen=!S.notifOpen; renderBell(); break;
    case 'notif': { READ.add(S.role+el.dataset.i); S.notifOpen=false; renderBell(); if(el.dataset.exp){ S.exp=el.dataset.exp; S.tab='resumen'; goTo('ficha'); } else renderSide(); break; }
    case 'notif-all': NOTIFS[S.role].forEach((_,i)=>READ.add(S.role+i)); renderBell(); renderSide(); break;
@@ -1550,7 +1550,7 @@ document.addEventListener('change', ev => { const el=ev.target;
 });
 document.addEventListener('submit', ev => { const f=ev.target.closest('[data-form]'); if(!f) return; ev.preventDefault(); const d=Object.fromEntries(new FormData(f));
   if(f.dataset.form==='cfg-doc'){ CFG.docs.push(d.d); audit('Tipos documentales',d.d,'—','creado'); render(); }
-  if(f.dataset.form==='login'){ const em=(d.em||'').toLowerCase(); S.role = em.startsWith('carolina')?'manager':em.startsWith('ana')?'socio':'asistente'; S.view='inicio'; S.login=null; renderLogin(); render(); renderBell(); toast('Sesión iniciada como '+P(me()).name); }
+  if(f.dataset.form==='login'){ const em=(d.em||'').toLowerCase(); const hit=PEOPLE.find(p=>em.startsWith(p.name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''))); const rk={Asistente:'asistente',Manager:'manager',Socio:'socio'}; S.role = hit?rk[hit.role]:'asistente'; if(hit) ROLES[S.role].user=hit.id; S.view='inicio'; S.login=null; renderLogin(); render(); renderBell(); toast('Sesión iniciada como '+P(me()).name); }
   if(f.dataset.form==='recover'){ S.login='sent'; renderLogin(); }
 });
 const opState = e => { const late=e.tareas.filter(t=>t.estado!=='completada'&&t.due<TODAY).length, blk=e.tareas.filter(t=>t.estado==='bloqueada').length, rev=REVS.filter(r=>r.exp===e.id&&r.estado==='pendiente').length; return blk?'Bloqueado':late?'Con tareas vencidas':rev?'En revisión':'Al día'; };
