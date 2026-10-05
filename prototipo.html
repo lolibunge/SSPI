@@ -951,7 +951,7 @@ const allowed = v => v==='ficha' || v==='sociedad' || NAV[S.role].some(g=>g.item
 function renderSide(){
   $('#side').innerHTML = `<div class="side-mob"><span class="xs" style="letter-spacing:.1em;text-transform:uppercase;color:rgba(201,211,232,.6)">Ver como</span><div class="role role-side">${Object.entries(ROLES).map(([k,r])=>`<button class="${S.role===k?'on':''}" data-act="role" data-r="${k}">${r.label}</button>`).join('')}</div><button class="nav" data-act="theme">${ic('sun')}<span>Cambiar tema claro / oscuro</span></button></div><div class="brand"><div class="mono">S<i></i>S</div><div><b>SS Proyectos</b><small>SSPI · Admin</small></div></div>
   ${NAV[S.role].map(g=>`<nav class="navgrp" aria-label="${g.g}"><h6>${g.g}</h6>${g.items.map(it=>{ const c = it.cnt?it.cnt():0; return `<button class="nav ${S.view===it.id||((S.view==='ficha'||S.view==='sociedad')&&it.id==='cartera')?'on':''}" data-act="nav" data-v="${it.id}">${ic(it.i)}<span>${it.l}</span>${it.soon||it.b?'<span class="soon">B</span>':c?`<span class="cnt ${it.hot?'hot':''}">${c}</span>`:''}</button>`;}).join('')}</nav>`).join('')}
-  <div class="side-foot"><span>Prototipo navegable · datos ficticios</span><a class="rebl" href="https://www.rebltech.com" target="_blank" rel="noopener">Powered by <span class="rebl-logo" role="img" aria-label="REBL"></span></a></div>`;
+  <div class="side-foot"><button class="nav" data-act="logout" style="padding-inline:0">${ic('back')}<span>Cerrar sesión</span></button><span>Prototipo navegable · datos ficticios</span><a class="rebl" href="https://www.rebltech.com" target="_blank" rel="noopener">Powered by <span class="rebl-logo" role="img" aria-label="REBL"></span></a></div>`;
   $('#role').innerHTML = Object.entries(ROLES).map(([k,r])=>`<button class="${S.role===k?'on':''}" data-act="role" data-r="${k}" role="tab" aria-selected="${S.role===k}">${r.label}</button>`).join('');
   const ex = exceptions().filter(x=>x.sev!=='muted').length, rv = REVS.filter(r=>r.estado==='pendiente').length;
   const BN = BNAV[S.role].map(([v,l,ic_])=>{ const it=NAV[S.role].flatMap(g=>g.items).find(x=>x.id===v); return [v,l,ic_,it&&it.cnt?it.cnt():0]; });
@@ -1452,7 +1452,7 @@ function renderLogin(){ const r=$('#loginRoot'); if(!S.login){ r.innerHTML=''; r
   r.innerHTML = `<div class="login"><div class="login-box"><div class="mono login-mono">S<i></i>S</div><h1>${rec||sent?'Recuperar acceso':'Ingresá a SSPI'}</h1><p class="sub">${sent?'Si el email está registrado, te enviamos un enlace para crear una contraseña nueva. Vence en 30 minutos.':rec?'Te enviamos un enlace para crear una contraseña nueva.':'Gestión de proyectos de inversión · SS Proyectos'}</p>
   ${sent?`<button class="btn pri wide" data-act="login-back">Volver a ingresar</button>`:`<form data-form="${rec?'recover':'login'}" class="lform"><div class="fld"><label for="lem">Email</label><input id="lem" name="em" type="email" required placeholder="nombre@ssproyectos.com.uy" autocomplete="username"></div>${rec?'':`<div class="fld"><label for="lpw">Contraseña</label><input id="lpw" name="pw" type="password" required autocomplete="current-password"></div><label class="small muted" style="display:flex;gap:8px;align-items:center"><input type="checkbox" checked> Mantener la sesión iniciada</label>`}<button class="btn pri wide" type="submit">${rec?'Enviar enlace':'Ingresar'}</button></form>
   <button class="link small" data-act="${rec?'login-back':'login-rec'}">${rec?'Volver':'¿Olvidaste tu contraseña?'}</button>`}
-  <div class="login-demo"><span class="xs muted">Demo: entrar como</span>${Object.entries(ROLES).map(([k,v])=>`<button class="btn sm" data-act="login-as" data-r="${k}">${P(v.user).name.split(' ')[0]} · ${v.label}</button>`).join('')}</div>
+  <div class="login-demo"><span class="xs muted" style="width:100%">Prototipo · entrar directo como</span>${Object.entries(ROLES).map(([k,v])=>`<button class="btn sm" data-act="login-as" data-r="${k}">${P(v.user).name.split(' ')[0]} · ${v.label}</button>`).join('')}</div>
   <a class="rebl" href="https://www.rebltech.com" target="_blank" rel="noopener" style="color:var(--faint)">Powered by <span class="rebl-logo" role="img" aria-label="REBL"></span></a></div></div>`; }
 
 /* ---------- Avisos (A07.3 / A08.7) ---------- */
@@ -1733,6 +1733,7 @@ $('#q').addEventListener('input', ev => { S.q = ev.target.value; if(S.view!=='ca
 $('#menuBtn').onclick = () => { $('#side').classList.add('open'); document.body.classList.add('drawer'); };
 $('#themeBtn').onclick = () => { const r=document.documentElement; const dark = r.dataset.theme ? r.dataset.theme==='dark' : matchMedia('(prefers-color-scheme: dark)').matches; r.dataset.theme = dark?'light':'dark'; };
 document.addEventListener('keydown', ev => { if(ev.key==='Escape') $('#modalRoot').innerHTML=''; });
-render();
+S.login='login';
+render(); renderLogin();
 })();
 </script>
