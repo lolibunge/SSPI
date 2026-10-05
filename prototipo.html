@@ -922,7 +922,7 @@ function homeMgr(){
   const ex = exceptions().filter(x=>x.sev!=='muted');
   const revs = REVS.filter(r=>r.estado==='pendiente' && r.nivel==='Manager');
   const byT = ['Riesgo','Vencido','Dato desactualizado','Información faltante'].map(t=>({t,n:ex.filter(x=>x.tipo===t).length}));
-  return welcome(`Cartera por <em>excepción</em>`,`${ex.length} situaciones fuera de lo normal y ${revs.length} revisiones esperan tu decisión.`,[[ex.length,'excepciones'],[revs.length,'revisiones'],[EXP.filter(e=>e.estado==='En seguimiento').length,'en seguimiento']]) +
+  return welcome(`Buen día, <em>${P(me()).name.split(' ')[0]}</em>`,`Hay ${ex.length} casos que necesitan atención y ${revs.length} revisiones esperan tu decisión.`,[[ex.length,'excepciones'],[revs.length,'revisiones'],[EXP.filter(e=>e.estado==='En seguimiento').length,'en seguimiento']]) +
   `<div class="kstats">${byT.map(b=>`<button class="card kpi" style="text-align:left" data-act="exc-filter" data-t="${b.t}"><span class="lab">${b.t}</span><span class="val">${b.n}</span></button>`).join('')}</div>
   <div class="grid g-main">
     <section class="card"><div class="card-h"><h2>Lo más urgente</h2><button class="link small" data-act="nav" data-v="excepciones">Abrir centro de excepciones</button></div><div class="list">${ex.sort((a,b)=>({crit:0,warn:1,stale:2}[a.sev]-{crit:0,warn:1,stale:2}[b.sev])).slice(0,7).map(excRow).join('')}</div></section>
@@ -941,7 +941,7 @@ function homeSocio(){
   const esc_ = REVS.filter(r=>r.estado==='pendiente'&&r.nivel==='Socio');
   const stale = act.filter(e=>expEval(e).fresh==='vieja');
   const rojos = act.filter(e=>expEval(e).salud==='rojo');
-  return welcome(`La cartera, <em>de un vistazo</em>`,`${act.length} expedientes en seguimiento. ${c.rojo} incumpliendo, ${stale.length} con dato desactualizado y ${esc_.length} casos esperan decisión de socios.`,[[Math.round(c.verde/act.length*100)+'%','cumpliendo'],[esc_.length,'para decidir'],[usd(FACT.filter(f=>f.estado!=='cobrado').reduce((a,f)=>a+(f.saldo||f.monto),0)),'por cobrar']]) +
+  return welcome(`Buen día, <em>${P(me()).name.split(' ')[0]}</em>`,`${esc_.length===1?'Hay 1 caso que espera':`Hay ${esc_.length} casos que esperan`} tu decisión. De ${act.length} expedientes en seguimiento, ${c.rojo} no cumplen sus compromisos.`,[[Math.round(c.verde/act.length*100)+'%','cumpliendo'],[esc_.length,'para decidir'],[usd(FACT.filter(f=>f.estado!=='cobrado').reduce((a,f)=>a+(f.saldo||f.monto),0)),'por cobrar']]) +
   `<div class="grid g2">
     <section class="sec"><div class="card-h"><h2>Salud de la cartera</h2><span class="hint">Expedientes en seguimiento</span></div><div class="card-b">${healthStack(c)}
       <div style="margin-top:18px"><h3 style="margin-bottom:10px">Qué arrastra los rojos</h3>${hbars(Object.keys(TLAB).map(k=>({l:TLAB[k],v:rojos.filter(e=>expEval(e).drag?.tipo===k).length,c:'var(--crit)'})),{fmt:v=>v+' exp.'})}</div></div></section>
