@@ -99,10 +99,24 @@ h3{font-size:13.5px;font-weight:600;margin:0}
 .card-h .hint{font-size:12.5px;color:var(--muted)}
 .card-b{padding:16px}
 .grid{display:grid;gap:16px}
+.grid.g2,.grid.g-main{align-items:start}
 .g2{grid-template-columns:repeat(2,minmax(0,1fr))}
 .g3{grid-template-columns:repeat(3,minmax(0,1fr))}
 .g4{grid-template-columns:repeat(4,minmax(0,1fr))}
 .g-main{grid-template-columns:minmax(0,1.7fr) minmax(0,1fr)}
+/* Secciones sin caja */
+.sec{min-width:0}
+.sec>.card-h{padding:0 0 10px;border-bottom:1px solid var(--line)}
+.sec>.card-b{padding:14px 0 0}
+.sec>.list .li{padding-inline:0}
+.sec>.timeline{padding-inline:0}
+.sec .grp{padding-inline:0}
+.kstats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-block:1px solid var(--line)}
+.kstats.s3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.kstats>.card{background:none;border:0;border-radius:0;border-left:1px solid var(--line);padding:12px 18px}
+.kstats>.card:first-child{border-left:0;padding-left:0}
+button.card.kpi{cursor:pointer}
+button.card.kpi:hover .val{color:var(--accent)}
 /* KPI */
 .kpi{padding:14px 16px;display:flex;flex-direction:column;gap:2px}
 .kpi .lab{font-size:12.5px;color:var(--muted)}
@@ -199,9 +213,9 @@ tr.row:hover td{background:var(--surface-2)}
 .empty{padding:28px 16px;text-align:center;color:var(--muted)}
 /* Ficha */
 .ficha-h{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:start}
-.signals3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow:hidden}
-.signals3>div{padding:14px 16px;border-right:1px solid var(--line-2);display:flex;flex-direction:column;gap:6px}
-.signals3>div:last-child{border-right:0}
+.signals3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-block:1px solid var(--line)}
+.signals3>div{padding:14px 18px;border-left:1px solid var(--line);display:flex;flex-direction:column;gap:6px}
+.signals3>div:first-child{border-left:0;padding-left:0}
 .signals3 .lab{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
 .signals3 .big{font-size:15px;font-weight:600}
 .meta{display:flex;gap:18px;flex-wrap:wrap;color:var(--muted);font-size:13px;margin-top:10px}
@@ -298,7 +312,12 @@ tr.row:hover td{background:var(--surface-2)}
 @media (max-width:640px){
   .g4{grid-template-columns:repeat(2,minmax(0,1fr))}
   .signals3{grid-template-columns:minmax(0,1fr)}
-  .signals3>div{border-right:0;border-bottom:1px solid var(--line-2)}
+  .signals3>div{border-left:0;padding-left:0;border-bottom:1px solid var(--line-2)}
+  .signals3>div:last-child{border-bottom:0}
+  .kstats,.kstats.s3{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .kstats>.card{padding:10px 12px}
+  .kstats>.card:nth-child(odd){border-left:0;padding-left:0}
+  .kstats>.card:nth-child(n+3){border-top:1px solid var(--line)}
   .search{order:3;max-width:none;flex-basis:100%}
   .role{margin-left:0}
   h1{font-size:25px}
@@ -746,39 +765,69 @@ function healthStack(counts){
 }
 
 /* ---------- Navegación ---------- */
-const NAV = [
- {g:'Operación',items:[
-  {id:'inicio',l:'Inicio',i:'home'},
-  {id:'cartera',l:'Cartera',i:'folder'},
-  {id:'excepciones',l:'Excepciones',i:'alert',cnt:()=>exceptions().filter(x=>x.sev!=='muted').length,hot:true},
-  {id:'calendario',l:'Vencimientos',i:'cal'},
-  {id:'revisiones',l:'Revisiones',i:'check',cnt:()=>REVS.filter(r=>r.estado==='pendiente').length},
-  {id:'solicitudes',l:'Solicitudes',i:'inbox',cnt:()=>SOLS.filter(s=>s.items.some(x=>x[1]!=='validado')).length}
- ]},
- {g:'Salidas',items:[
-  {id:'informes',l:'Informes al cliente',i:'doc'},
-  {id:'facturacion',l:'Facturación',i:'money'}
- ]},
- {g:'Gestión',items:[
-  {id:'tablero',l:'Tablero de socios',i:'chart'},
-  {id:'equipo',l:'Carga del equipo',i:'team'},
-  {id:'portal',l:'Vista del cliente',i:'portal'},
-  {id:'config',l:'Configuración',i:'gear'}
- ]},
- {g:'Próximamente',items:[
-  {id:'soon-mayores',l:'Conciliación de mayores',i:'ledger',soon:true},
-  {id:'soon-normativa',l:'Asistente normativo',i:'book',soon:true},
-  {id:'soon-nominas',l:'Importar nóminas',i:'upload',soon:true}
- ]}
-];
+const NAV = {
+ asistente:[
+  {g:'Mi trabajo',items:[
+   {id:'inicio',l:'Mi día',i:'home'},
+   {id:'cartera',l:'Mis expedientes',i:'folder'},
+   {id:'calendario',l:'Vencimientos',i:'cal'},
+   {id:'solicitudes',l:'Solicitudes',i:'inbox',cnt:()=>SOLS.filter(x=>EXP.find(e=>e.id===x.exp).resp===me()&&x.items.some(y=>y[1]!=='validado')).length},
+   {id:'informes',l:'Informes al cliente',i:'doc'},
+   {id:'revisiones',l:'Enviadas a revisión',i:'check'}
+  ]},
+  {g:'Próximamente',items:[
+   {id:'soon-mayores',l:'Conciliación de mayores',i:'ledger',soon:true},
+   {id:'soon-nominas',l:'Importar nóminas',i:'upload',soon:true},
+   {id:'soon-normativa',l:'Asistente normativo',i:'book',soon:true}
+  ]}
+ ],
+ manager:[
+  {g:'Supervisión',items:[
+   {id:'inicio',l:'Inicio',i:'home'},
+   {id:'excepciones',l:'Excepciones',i:'alert',cnt:()=>exceptions().filter(x=>x.sev!=='muted').length,hot:true},
+   {id:'revisiones',l:'Revisiones',i:'check',cnt:()=>REVS.filter(r=>r.estado==='pendiente'&&r.nivel==='Manager').length},
+   {id:'cartera',l:'Cartera',i:'folder'},
+   {id:'calendario',l:'Vencimientos',i:'cal'}
+  ]},
+  {g:'Equipo',items:[
+   {id:'equipo',l:'Carga del equipo',i:'team'},
+   {id:'informes',l:'Informes al cliente',i:'doc'},
+   {id:'solicitudes',l:'Solicitudes',i:'inbox'},
+   {id:'config',l:'Reglas y criterios',i:'gear'}
+  ]},
+  {g:'Próximamente',items:[
+   {id:'soon-normativa',l:'Asistente normativo',i:'book',soon:true}
+  ]}
+ ],
+ socio:[
+  {g:'Dirección',items:[
+   {id:'inicio',l:'Inicio',i:'home'},
+   {id:'revisiones',l:'Para decidir',i:'check',cnt:()=>REVS.filter(r=>r.estado==='pendiente'&&r.nivel==='Socio').length,hot:true},
+   {id:'tablero',l:'Tablero de gestión',i:'chart'},
+   {id:'cartera',l:'Cartera',i:'folder'}
+  ]},
+  {g:'Negocio',items:[
+   {id:'facturacion',l:'Facturación',i:'money'},
+   {id:'equipo',l:'Carga del equipo',i:'team'},
+   {id:'portal',l:'Vista del cliente',i:'portal'},
+   {id:'config',l:'Usuarios y permisos',i:'gear'}
+  ]}
+ ]
+};
+const BNAV = {
+ asistente:[['inicio','Mi día','home'],['cartera','Expedientes','folder'],['calendario','Agenda','cal'],['solicitudes','Solicitudes','inbox']],
+ manager:[['inicio','Inicio','home'],['excepciones','Alertas','alert'],['revisiones','Revisiones','check'],['cartera','Cartera','folder']],
+ socio:[['inicio','Inicio','home'],['revisiones','Decidir','check'],['tablero','Tablero','chart'],['cartera','Cartera','folder']]
+};
+const allowed = v => v==='ficha' || NAV[S.role].some(g=>g.items.some(it=>it.id===v));
 function renderSide(){
   $('#side').innerHTML = `<div class="side-mob"><span class="xs" style="letter-spacing:.1em;text-transform:uppercase;color:rgba(201,211,232,.6)">Ver como</span><div class="role role-side">${Object.entries(ROLES).map(([k,r])=>`<button class="${S.role===k?'on':''}" data-act="role" data-r="${k}">${r.label}</button>`).join('')}</div><button class="nav" data-act="theme">${ic('sun')}<span>Cambiar tema claro / oscuro</span></button></div><div class="brand"><div class="mono">S<i></i>S</div><div><b>SS Proyectos</b><small>SSPI · Admin</small></div></div>
-  ${NAV.map(g=>`<nav class="navgrp" aria-label="${g.g}"><h6>${g.g}</h6>${g.items.map(it=>{ const c = it.cnt?it.cnt():0; return `<button class="nav ${S.view===it.id||(S.view==='ficha'&&it.id==='cartera')?'on':''}" data-act="nav" data-v="${it.id}">${ic(it.i)}<span>${it.l}</span>${it.soon?'<span class="soon">B</span>':c?`<span class="cnt ${it.hot?'hot':''}">${c}</span>`:''}</button>`;}).join('')}</nav>`).join('')}
+  ${NAV[S.role].map(g=>`<nav class="navgrp" aria-label="${g.g}"><h6>${g.g}</h6>${g.items.map(it=>{ const c = it.cnt?it.cnt():0; return `<button class="nav ${S.view===it.id||(S.view==='ficha'&&it.id==='cartera')?'on':''}" data-act="nav" data-v="${it.id}">${ic(it.i)}<span>${it.l}</span>${it.soon?'<span class="soon">B</span>':c?`<span class="cnt ${it.hot?'hot':''}">${c}</span>`:''}</button>`;}).join('')}</nav>`).join('')}
   <div class="side-foot"><span>Prototipo navegable · datos ficticios</span><a class="rebl" href="https://www.rebltech.com" target="_blank" rel="noopener">Powered by <b>REBL</b></a></div>`;
   $('#role').innerHTML = Object.entries(ROLES).map(([k,r])=>`<button class="${S.role===k?'on':''}" data-act="role" data-r="${k}" role="tab" aria-selected="${S.role===k}">${r.label}</button>`).join('');
   const ex = exceptions().filter(x=>x.sev!=='muted').length, rv = REVS.filter(r=>r.estado==='pendiente').length;
-  const BN = [['inicio','Inicio','home'],['cartera','Cartera','folder'],['excepciones','Alertas','alert',ex],['revisiones','Revisiones','check',rv]];
-  $('#bnav').innerHTML = BN.map(([v,l,i,c])=>`<button class="${S.view===v||(S.view==='ficha'&&v==='cartera')?'on':''}" data-act="nav" data-v="${v}">${ic(i)}<span>${l}</span>${c?`<b>${c}</b>`:''}</button>`).join('') + `<button data-act="openside" class="${['inicio','cartera','excepciones','revisiones','ficha'].includes(S.view)?'':'on'}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="5" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="19" cy="12" r="1.3"/></svg><span>Más</span></button>`;
+  const BN = BNAV[S.role].map(([v,l,ic_])=>{ const it=NAV[S.role].flatMap(g=>g.items).find(x=>x.id===v); return [v,l,ic_,it&&it.cnt?it.cnt():0]; });
+  $('#bnav').innerHTML = BN.map(([v,l,i,c])=>`<button class="${S.view===v||(S.view==='ficha'&&v==='cartera')?'on':''}" data-act="nav" data-v="${v}">${ic(i)}<span>${l}</span>${c?`<b>${c}</b>`:''}</button>`).join('') + `<button data-act="openside" class="${BNAV[S.role].some(b=>b[0]===S.view)||S.view==='ficha'?'':'on'}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="5" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="19" cy="12" r="1.3"/></svg><span>Más</span></button>`;
   const u = P(me()); $('#who').innerHTML = `<div class="av">${ini(u.name)}</div><span>${esc(u.name)}<br><span class="xs faint">${u.role}</span></span>`;
 }
 
@@ -812,9 +861,9 @@ function homeAsis(){
   `<div class="grid g-main">
     <section class="card"><div class="card-h"><h2>Mi cola de hoy</h2></div><div class="list">${mine.length?taskGroups(mine):'<div class="empty">No tenés pendientes. Buen trabajo.</div>'}</div></section>
     <div class="grid" style="align-content:start">
-      <section class="card"><div class="card-h"><h2>Datos a actualizar</h2><span class="hint">${stale.length}</span></div><div class="list">${stale.length?stale.map(e=>{const ev=expEval(e);return `<div class="li"><div class="stripe stale"></div><div><div class="t">${expLink(e)}</div><div class="m">${TLAB[ev.fdrag.tipo]} · hace ${ev.freshDays} días</div></div>${ib('medir','plus','Registrar medición',`data-id="${ev.fdrag.id}"`)}</div>`}).join(''):'<div class="empty">Todo al día</div>'}</div></section>
-      <section class="card"><div class="card-h"><h2>Próximos 30 días</h2><button class="link small" data-act="nav" data-v="calendario">Ver calendario</button></div><div class="list">${venc.slice(0,6).map(h=>`<div class="li"><div class="stripe ${days(h.f)<=7?'warn':'info'}"></div><div><div class="t">${esc(h.tipo)}</div><div class="m">${expLink(h.e)}</div></div><span class="small muted">${fd(h.f)}</span></div>`).join('')||'<div class="empty">Sin vencimientos</div>'}</div></section>
-      <section class="card"><div class="card-h"><h2>Solicitudes abiertas</h2><button class="link small" data-act="nav" data-v="solicitudes">Ver todas</button></div><div class="list">${sols.map(s=>solMini(s)).join('')||'<div class="empty">Sin solicitudes abiertas</div>'}</div></section>
+      <section class="sec"><div class="card-h"><h2>Datos a actualizar</h2><span class="hint">${stale.length}</span></div><div class="list">${stale.length?stale.map(e=>{const ev=expEval(e);return `<div class="li"><div class="stripe stale"></div><div><div class="t">${expLink(e)}</div><div class="m">${TLAB[ev.fdrag.tipo]} · hace ${ev.freshDays} días</div></div>${ib('medir','plus','Registrar medición',`data-id="${ev.fdrag.id}"`)}</div>`}).join(''):'<div class="empty">Todo al día</div>'}</div></section>
+      <section class="sec"><div class="card-h"><h2>Próximos 30 días</h2><button class="link small" data-act="nav" data-v="calendario">Ver calendario</button></div><div class="list">${venc.slice(0,6).map(h=>`<div class="li"><div class="stripe ${days(h.f)<=7?'warn':'info'}"></div><div><div class="t">${esc(h.tipo)}</div><div class="m">${expLink(h.e)}</div></div><span class="small muted">${fd(h.f)}</span></div>`).join('')||'<div class="empty">Sin vencimientos</div>'}</div></section>
+      <section class="sec"><div class="card-h"><h2>Solicitudes abiertas</h2><button class="link small" data-act="nav" data-v="solicitudes">Ver todas</button></div><div class="list">${sols.map(s=>solMini(s)).join('')||'<div class="empty">Sin solicitudes abiertas</div>'}</div></section>
     </div>
   </div>`;
 }
@@ -824,12 +873,12 @@ function homeMgr(){
   const revs = REVS.filter(r=>r.estado==='pendiente' && r.nivel==='Manager');
   const byT = ['Riesgo','Vencido','Dato desactualizado','Información faltante'].map(t=>({t,n:ex.filter(x=>x.tipo===t).length}));
   return welcome(`Cartera por <em>excepción</em>`,`${ex.length} situaciones fuera de lo normal y ${revs.length} revisiones esperan tu decisión.`,[[ex.length,'excepciones'],[revs.length,'revisiones'],[EXP.filter(e=>e.estado==='En seguimiento').length,'en seguimiento']]) +
-  `<div class="grid g4">${byT.map(b=>`<button class="card kpi" style="text-align:left" data-act="exc-filter" data-t="${b.t}"><span class="lab">${b.t}</span><span class="val">${b.n}</span></button>`).join('')}</div>
+  `<div class="kstats">${byT.map(b=>`<button class="card kpi" style="text-align:left" data-act="exc-filter" data-t="${b.t}"><span class="lab">${b.t}</span><span class="val">${b.n}</span></button>`).join('')}</div>
   <div class="grid g-main">
     <section class="card"><div class="card-h"><h2>Lo más urgente</h2><button class="link small" data-act="nav" data-v="excepciones">Abrir centro de excepciones</button></div><div class="list">${ex.sort((a,b)=>({crit:0,warn:1,stale:2}[a.sev]-{crit:0,warn:1,stale:2}[b.sev])).slice(0,7).map(excRow).join('')}</div></section>
     <div class="grid" style="align-content:start">
-      <section class="card"><div class="card-h"><h2>Revisiones pendientes</h2><button class="link small" data-act="nav" data-v="revisiones">Ver todas</button></div><div class="list">${revs.map(r=>`<div class="li"><div class="stripe info"></div><div><div class="t">${esc(r.tipo)}</div><div class="m">${expLink(EXP.find(e=>e.id===r.exp))} · de ${P(r.autor).name.split(' ')[0]}</div></div><span class="small muted">${rel(r.desde)}</span></div>`).join('')}</div></section>
-      <section class="card"><div class="card-h"><h2>Carga del equipo</h2><span class="hint">Tareas abiertas</span></div><div class="card-b">${teamBars()}</div></section>
+      <section class="sec"><div class="card-h"><h2>Revisiones pendientes</h2><button class="link small" data-act="nav" data-v="revisiones">Ver todas</button></div><div class="list">${revs.map(r=>`<div class="li"><div class="stripe info"></div><div><div class="t">${esc(r.tipo)}</div><div class="m">${expLink(EXP.find(e=>e.id===r.exp))} · de ${P(r.autor).name.split(' ')[0]}</div></div><span class="small muted">${rel(r.desde)}</span></div>`).join('')}</div></section>
+      <section class="sec"><div class="card-h"><h2>Carga del equipo</h2><span class="hint">Tareas abiertas</span></div><div class="card-b">${teamBars()}</div></section>
     </div>
   </div>`;
 }
@@ -844,7 +893,7 @@ function homeSocio(){
   const rojos = act.filter(e=>expEval(e).salud==='rojo');
   return welcome(`La cartera, <em>de un vistazo</em>`,`${act.length} expedientes en seguimiento. ${c.rojo} incumpliendo, ${stale.length} con dato desactualizado y ${esc_.length} casos esperan decisión de socios.`,[[Math.round(c.verde/act.length*100)+'%','cumpliendo'],[esc_.length,'para decidir'],[usd(FACT.filter(f=>f.estado!=='cobrado').reduce((a,f)=>a+(f.saldo||f.monto),0)),'por cobrar']]) +
   `<div class="grid g2">
-    <section class="card"><div class="card-h"><h2>Salud de la cartera</h2><span class="hint">Expedientes en seguimiento</span></div><div class="card-b">${healthStack(c)}
+    <section class="sec"><div class="card-h"><h2>Salud de la cartera</h2><span class="hint">Expedientes en seguimiento</span></div><div class="card-b">${healthStack(c)}
       <div style="margin-top:18px"><h3 style="margin-bottom:10px">Qué arrastra los rojos</h3>${hbars(Object.keys(TLAB).map(k=>({l:TLAB[k],v:rojos.filter(e=>expEval(e).drag?.tipo===k).length,c:'var(--crit)'})),{fmt:v=>v+' exp.'})}</div></div></section>
     <section class="card"><div class="card-h"><h2>Para decidir</h2><span class="chip crit">${esc_.length} escalados</span></div><div class="list">${esc_.map(r=>revRow(r)).join('')||'<div class="empty">Nada escalado</div>'}</div></section>
   </div>
@@ -855,6 +904,7 @@ function homeSocio(){
 function filtered(){
   const q = S.q.trim().toLowerCase(); const f=S.f;
   return EXP.filter(e=>{ const ev=expEval(e);
+    if(S.role==='asistente' && e.resp!==me()) return false;
     if(q && !(e.soc.toLowerCase().includes(q)||e.num.includes(q)||e.rut.includes(q)||(e.grupo||'').toLowerCase().includes(q))) return false;
     if(f.resp && e.resp!==f.resp) return false; if(f.min && e.min!==f.min) return false;
     if(f.salud && ev.salud!==f.salud) return false; if(f.fresh && ev.fresh!==f.fresh) return false;
@@ -875,8 +925,8 @@ function expTable(list,compact=false){
 V.cartera = () => {
   const list = sorted(filtered()); const c = counts(list.filter(e=>e.estado==='En seguimiento'));
   const opt = (k,arr,l) => `<select class="sel" data-act="filter" data-k="${k}" aria-label="${l}"><option value="">${l}</option>${arr.map(([v,t])=>`<option value="${v}" ${S.f[k]===v?'selected':''}>${t}</option>`).join('')}</select>`;
-  return `<div class="hd"><div><p class="eyebrow">A03 · Cartera</p><h1>Cartera de expedientes</h1><p class="sub">Cada expediente con sus tres señales: si cumple, si el dato está al día y qué toca hacer después.</p></div><div class="btns">${ib('export','copy','Copiar como CSV','','solid')}<button class="btn pri" data-act="nuevo">${ic('plus')}Alta de expediente</button></div></div>
-  <div class="filters">${opt('resp',ASIS.map(id=>[id,P(id).name]),'Responsable')}${opt('min',MIN.map(m=>[m,m]),'Ministerio')}${opt('salud',[['verde','Cumpliendo'],['amarillo','En riesgo'],['rojo','Incumpliendo']],'Salud')}${opt('fresh',[['ok','Al día'],['por','Por vencer'],['vieja','Desactualizado']],'Frescura')}${opt('hz',[['14','Próximas 2 semanas'],['28','Próximas 4 semanas'],['60','Próximos 2 meses']],'Horizonte')}
+  return `<div class="hd"><div><p class="eyebrow">A03 · Cartera</p><h1>${S.role==='asistente'?'Mis expedientes':'Cartera de expedientes'}</h1><p class="sub">Cada expediente con sus tres señales: si cumple, si el dato está al día y qué toca hacer después.</p></div><div class="btns">${ib('export','copy','Copiar como CSV','','solid')}${S.role==='asistente'?'':`<button class="btn pri" data-act="nuevo">${ic('plus')}Alta de expediente</button>`}</div></div>
+  <div class="filters">${S.role==='asistente'?'':opt('resp',ASIS.map(id=>[id,P(id).name]),'Responsable')}${opt('min',MIN.map(m=>[m,m]),'Ministerio')}${opt('salud',[['verde','Cumpliendo'],['amarillo','En riesgo'],['rojo','Incumpliendo']],'Salud')}${opt('fresh',[['ok','Al día'],['por','Por vencer'],['vieja','Desactualizado']],'Frescura')}${opt('hz',[['14','Próximas 2 semanas'],['28','Próximas 4 semanas'],['60','Próximos 2 meses']],'Horizonte')}
   ${Object.values(S.f).some(Boolean)||S.q?`<button class="btn ghost sm" data-act="clear">Limpiar filtros</button>`:''}<span class="small muted" style="margin-left:auto">${list.length} expedientes · <span class="up b">${c.verde}</span> / <span style="color:var(--warn)" class="b">${c.amarillo}</span> / <span class="down b">${c.rojo}</span></span></div>
   <section class="card">${expTable(list)}</section>`;
 };
@@ -902,8 +952,8 @@ FT.resumen = (e,ev) => `<div class="grid g2">
   <section class="card"><div class="card-h"><h2>Compromisos</h2><button class="link small" data-act="tab" data-t="compromisos">Ver detalle</button></div><div class="list">${e.comps.map(c=>{const h=compHealth(c),f=compFresh(c);const pct=c.tipo==='certificacion'?(last(c).v?100:0):Math.min(100,Math.round(last(c).v/c.meta*100));return `<div class="li"><div class="stripe ${h.s==='verde'?'good':h.s==='amarillo'?'warn':'crit'}"></div><div><div class="t">${esc(c.label)}</div><div class="m"><span>${esc(h.why)}</span>${h.atenuada?'<span class="chip stale">alerta atenuada</span>':''}</div><div class="bar ${h.s==='verde'?'good':h.s==='amarillo'?'warn':'crit'}" style="margin-top:6px;max-width:320px"><i style="width:${pct}%"></i></div></div>${fresh(f.s,f.d)}</div>`}).join('')}</div></section>
   <div class="grid" style="align-content:start">
    ${ev.salud!=='verde'&&ev.drag?`<div class="drag">${ic('alert','width="16" height="16"')}<span>El ${SAL[ev.salud].toLowerCase()} viene de <b>${esc(ev.drag.label)}</b>: ${esc(compHealth(ev.drag).why)}</span></div>`:''}
-   <section class="card"><div class="card-h"><h2>Próximos hitos</h2></div><div class="list">${e.hitos.sort((a,b)=>a.f-b.f).map(h=>`<div class="li"><div class="stripe ${days(h.f)<0?'crit':days(h.f)<=21?'warn':'info'}"></div><div><div class="t">${h.tipo}</div><div class="m">${rel(h.f)}</div></div><span class="small b">${fdy(h.f)}</span></div>`).join('')}</div></section>
-   <section class="card"><div class="card-h"><h2>Últimos movimientos</h2><button class="link small" data-act="tab" data-t="bitacora">Bitácora</button></div>${timeline(e.bit.slice(0,3))}</section>
+   <section class="sec"><div class="card-h"><h2>Próximos hitos</h2></div><div class="list">${e.hitos.sort((a,b)=>a.f-b.f).map(h=>`<div class="li"><div class="stripe ${days(h.f)<0?'crit':days(h.f)<=21?'warn':'info'}"></div><div><div class="t">${h.tipo}</div><div class="m">${rel(h.f)}</div></div><span class="small b">${fdy(h.f)}</span></div>`).join('')}</div></section>
+   <section class="sec"><div class="card-h"><h2>Últimos movimientos</h2><button class="link small" data-act="tab" data-t="bitacora">Bitácora</button></div>${timeline(e.bit.slice(0,3))}</section>
   </div></div>`;
 FT.compromisos = (e) => `<section class="card"><div class="card-h"><h2>Compromisos e indicadores</h2><span class="hint">Línea punteada azul: meta. Gris: avance esperado a la fecha.</span></div>${e.comps.map(c=>{const h=compHealth(c),f=compFresh(c),l=last(c);return `<div class="comp"><div style="display:flex;flex-direction:column;gap:8px"><div style="display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap"><h3>${esc(c.label)}</h3>${sig(h.s)}</div>
   <div><span class="num">${c.unidad==='USD'?usd(l.v):c.tipo==='certificacion'?(l.v?'Obtenida':'Pendiente'):num(l.v)}</span> <span class="muted">${c.tipo==='certificacion'?'':`de ${c.unidad==='USD'?usd(c.meta):num(c.meta)+' '+c.unidad}`}</span></div>
@@ -916,9 +966,9 @@ FT.vencimientos = e => `<section class="card"><div class="list">${[...e.hitos,..
 FT.tareas = e => { const ts=e.tareas.filter(t=>t.estado!=='completada'); return `<section class="card"><div class="card-h"><h2>Tareas abiertas</h2><button class="btn sm" data-act="tarea" data-id="${e.id}">${ic('plus')}Nueva tarea</button></div><div class="list">${taskGroups(ts)||'<div class="empty">Sin tareas abiertas</div>'}</div></section>`; };
 FT.documentos = e => `<section class="card"><div class="card-h"><h2>Documentos</h2><span class="hint">Referenciados desde SharePoint, solo lectura</span></div><div class="tw"><table><thead><tr><th>Tipo</th><th>Documento</th><th>Versión</th><th>Fecha</th><th></th></tr></thead><tbody>${e.docs.map(d=>`<tr><td><span class="chip">${d.tipo}</span></td><td>${d.falta?`<span class="down b">Falta: ${esc(d.nombre)}</span>`:esc(d.nombre)}</td><td class="small">${d.ver}${d.tipo==='FIT'?' <span class="chip good">vigente</span>':''}</td><td class="small muted">${d.falta?'—':fdy(d.f)}</td><td style="text-align:right">${d.falta?`<button class="btn sm" data-act="pedir" data-id="${e.id}" data-doc="${esc(d.tipo)}">Pedir al cliente</button>`:`<button class="btn sm ghost" data-act="abrir-doc">Abrir</button>`}</td></tr>`).join('')}</tbody></table></div></section>`;
 FT.irae = e => { const r=e.irae; const saldo=r.rec-r.util; const dif = r.decl!=null && r.decl!==r.rec;
-  return `<div class="grid g4">${[['Recomendado',r.rec,'Cálculo del sistema con topes'],['Declarado (DJ)',r.decl,r.decl==null?'DJ aún no registrada':'Según DJ presentada'],['Utilizado',r.util,'Aplicado en el ejercicio'],['Saldo pendiente',saldo,'Disponible para próximos ejercicios']].map(([l,v,s])=>`<div class="card kpi"><span class="lab">${l}</span><span class="val" style="font-size:24px">${v==null?'—':usd(v)}</span><span class="delta">${s}</span></div>`).join('')}</div>
+  return `<div class="kstats">${[['Recomendado',r.rec,'Cálculo del sistema con topes'],['Declarado (DJ)',r.decl,r.decl==null?'DJ aún no registrada':'Según DJ presentada'],['Utilizado',r.util,'Aplicado en el ejercicio'],['Saldo pendiente',saldo,'Disponible para próximos ejercicios']].map(([l,v,s])=>`<div class="card kpi"><span class="lab">${l}</span><span class="val" style="font-size:24px">${v==null?'—':usd(v)}</span><span class="delta">${s}</span></div>`).join('')}</div>
   ${dif?`<div class="drag">${ic('alert','width="16" height="16"')}<span>Lo declarado (${usd(r.decl)}) no coincide con lo recomendado (${usd(r.rec)}). Diferencia: ${usd(r.rec-r.decl)}.</span></div>`:''}
-  <section class="card"><div class="card-h"><h2>Ciclo IRAE ejercicio ${r.ej}</h2></div><div class="card-b"><div class="steps">${['Cálculo recomendado','Comunicado al estudio contable','DJ registrada','Conciliado','Saldo actualizado'].map((s,i)=>{const done = i<(r.decl==null?2:dif?3:5); const cur = i===(r.decl==null?2:dif?3:5); return `<span class="step ${done?'done':cur?'cur':''}">${done?'✓ ':''}${s}</span>`;}).join('')}</div><p class="small muted" style="margin-top:12px">Tope aplicable: ${usd(r.tope)} (50% de la inversión elegible). Las reglas de tope y proporcionalidad se versionan en Configuración.</p></div></section>`; };
+  <section class="sec"><div class="card-h"><h2>Ciclo IRAE ejercicio ${r.ej}</h2></div><div class="card-b"><div class="steps">${['Cálculo recomendado','Comunicado al estudio contable','DJ registrada','Conciliado','Saldo actualizado'].map((s,i)=>{const done = i<(r.decl==null?2:dif?3:5); const cur = i===(r.decl==null?2:dif?3:5); return `<span class="step ${done?'done':cur?'cur':''}">${done?'✓ ':''}${s}</span>`;}).join('')}</div><p class="small muted" style="margin-top:12px">Tope aplicable: ${usd(r.tope)} (50% de la inversión elegible). Las reglas de tope y proporcionalidad se versionan en Configuración.</p></div></section>`; };
 FT.bitacora = e => `<section class="card"><div class="card-h"><h2>Bitácora</h2><button class="btn sm" data-act="interaccion" data-id="${e.id}">${ic('plus')}Registrar</button></div>${timeline(e.bit)}</section>`;
 function timeline(items){ return `<div class="timeline">${items.map(b=>`<div class="tl"><span class="dt">${fdy(b.f)}</span><span class="dot ${b.tipo}"></span><div><div>${esc(b.t)}</div><div class="xs muted">${esc(b.autor)} · ${{sys:'Sistema',int:'Interacción',dec:'Decisión',exc:'Excepción'}[b.tipo]||''}</div></div></div>`).join('')}</div>`; }
 
@@ -993,8 +1043,8 @@ function informeDet(e){
   <div class="hd"><div><p class="eyebrow">Informe de seguimiento · ${MESL[TODAY.getMonth()]} 2026</p><h1>${esc(e.soc)}</h1></div><div class="steps">${['Datos','Conclusiones','Narrativa','Aprobación','Envío'].map((s,i)=>{const at = st==='Borrador'?2:st==='En revisión'?3:4; return `<span class="step ${i<at?'done':i===at?'cur':''}">${i<at?'✓ ':''}${s}</span>`;}).join('')}</div></div>
   <div class="rep">
    <div class="grid" style="align-content:start">
-    <section class="card"><div class="card-h"><h2>1 · Datos del período</h2><span class="chip">armado automático</span></div><div class="card-b" style="display:flex;flex-direction:column;gap:10px">${e.comps.map(c=>{const l=last(c),h=compHealth(c);return `<div style="display:flex;justify-content:space-between;gap:8px;align-items:center"><div><div class="b small">${esc(c.label)}</div><div class="xs muted">medición ${fd(l.f)} · ${l.origen}</div></div><div style="text-align:right"><div class="small b">${c.unidad==='USD'?usd(l.v):c.tipo==='certificacion'?(l.v?'Sí':'No'):num(l.v)}</div><span class="sig s-${h.s}" style="font-size:11px">${SAL[h.s]}</span></div></div>`;}).join('')}</div></section>
-    <section class="card"><div class="card-h"><h2>2 · Conclusiones por regla</h2><span class="chip">reglas v2.3</span></div><div class="card-b" style="padding-top:4px;padding-bottom:4px">${cs.map(c=>`<div class="rule"><span class="chip info">${c.r}</span><div><div class="small">${esc(c.t)}</div><div class="xs muted">Recomendación base: ${esc(c.rec)}</div></div></div>`).join('')}</div></section>
+    <section class="sec"><div class="card-h"><h2>1 · Datos del período</h2><span class="chip">armado automático</span></div><div class="card-b" style="display:flex;flex-direction:column;gap:10px">${e.comps.map(c=>{const l=last(c),h=compHealth(c);return `<div style="display:flex;justify-content:space-between;gap:8px;align-items:center"><div><div class="b small">${esc(c.label)}</div><div class="xs muted">medición ${fd(l.f)} · ${l.origen}</div></div><div style="text-align:right"><div class="small b">${c.unidad==='USD'?usd(l.v):c.tipo==='certificacion'?(l.v?'Sí':'No'):num(l.v)}</div><span class="sig s-${h.s}" style="font-size:11px">${SAL[h.s]}</span></div></div>`;}).join('')}</div></section>
+    <section class="sec"><div class="card-h"><h2>2 · Conclusiones por regla</h2><span class="chip">reglas v2.3</span></div><div class="card-b" style="padding-top:4px;padding-bottom:4px">${cs.map(c=>`<div class="rule"><span class="chip info">${c.r}</span><div><div class="small">${esc(c.t)}</div><div class="xs muted">Recomendación base: ${esc(c.rec)}</div></div></div>`).join('')}</div></section>
    </div>
    <section class="card"><div class="card-h"><h2>3 · Narrativa</h2><div class="btns"><span class="chip ai">${ic('spark','width="12" height="12"')}Generado por IA · editable</span></div></div>
     <div class="card-b" style="display:flex;flex-direction:column;gap:12px">
@@ -1011,7 +1061,7 @@ function informeDet(e){
 V.facturacion = () => { const cols=[['listo','Listo para facturar','Hito cumplido, sin factura'],['facturado','Facturado','Dentro de plazo'],['vencido','Vencido','Con saldo y fuera de plazo'],['cobrado','Cobrado','Saldo cero']];
   const tot = k => FACT.filter(f=>f.estado===k).reduce((a,f)=>a+(f.saldo||f.monto),0);
   return `<div class="hd"><div><p class="eyebrow">A13 · Facturación y cobranza</p><h1>Presentado → facturado → cobrado</h1><p class="sub">La factura se habilita por un hito real del expediente. Se emite en su sistema de facturación y se registra acá.</p></div><button class="btn" data-act="importar">${ic('upload')}Importar archivo de facturas</button></div>
-  <div class="grid g4">${cols.map(([k,l])=>`<div class="card kpi"><span class="lab">${l}</span><span class="val" style="font-size:24px;${k==='vencido'?'color:var(--crit)':''}">${usd(tot(k))}</span><span class="delta">${FACT.filter(f=>f.estado===k).length} hitos</span></div>`).join('')}</div>
+  <div class="kstats">${cols.map(([k,l])=>`<div class="card kpi"><span class="lab">${l}</span><span class="val" style="font-size:24px;${k==='vencido'?'color:var(--crit)':''}">${usd(tot(k))}</span><span class="delta">${FACT.filter(f=>f.estado===k).length} hitos</span></div>`).join('')}</div>
   <div class="kan">${cols.map(([k,l,s])=>`<div class="col"><div class="col-h"><b>${l}</b><span>${s}</span></div>${FACT.filter(f=>f.estado===k).map(f=>{const e=EXP.find(x=>x.id===f.exp); return `<div class="kc"><div style="display:flex;justify-content:space-between;gap:6px"><span class="amt">${usd(f.saldo||f.monto)}</span>${f.nro?`<span class="xs muted">${f.nro}</span>`:''}</div><div class="small b">${esc(e.soc)}</div><div class="xs muted">${esc(f.hito)} · ${k==='listo'?'habilitado '+rel(f.f):k==='cobrado'?'cobrado':'vence '+fd(f.vence)}</div>${f.saldo?`<span class="chip warn">Pago parcial · saldo ${usd(f.saldo)}</span>`:''}${k==='listo'&&-days(f.f)>14?'<span class="chip crit">Sin facturar hace más de 14 días</span>':''}
    <div class="btns">${k==='listo'?`<button class="btn sm pri" data-act="facturar" data-id="${f.id}">Registrar factura</button>`:k==='facturado'||k==='vencido'?`<button class="btn sm" data-act="cobrar" data-id="${f.id}">Registrar pago</button>${k==='vencido'?ib('reclamo','bell',`Preparar reclamo (${f.reclamos||0} enviados)`,`data-id="${f.id}"`):''}`:''}</div></div>`;}).join('')}</div>`).join('')}</div>`; };
 
@@ -1021,18 +1071,18 @@ V.tablero = () => { const act=EXP.filter(e=>e.estado==='En seguimiento'); const 
   const cumpl = Object.keys(TLAB).map(k=>{const cs=act.flatMap(e=>e.comps.filter(x=>x.tipo===k)); return {l:TLAB[k],v:cs.length?Math.round(cs.filter(x=>compHealth(x).s==='verde').length/cs.length*100):0};});
   const ing = [182,195,176,210,224,231].map((v,i)=>({l:['may','jun','jul','ago','set','oct'][i],v}));
   if(S.role!=='socio') return `<div class="hd"><div><p class="eyebrow">B21 · Business & Operations Analytics</p><h1>Tablero de socios</h1></div></div><div class="soonp"><div class="card">${ic('lock','width="28" height="28" style="color:var(--muted)"')}<h2 style="margin-top:10px">Acceso restringido a socios</h2><p class="sub">Cambiá a la vista Socio en la barra superior para ver este tablero.</p><button class="btn pri" style="margin-top:12px" data-act="role" data-r="socio">Ver como socio</button></div></div>`;
-  return `<div class="hd"><div><p class="eyebrow">B21 · Business & Operations Analytics</p><h1>Tablero de socios</h1><p class="sub">Indicadores de cartera, operación y economía del estudio. Período: setiembre 2026 vs agosto.</p></div><span class="chip crit">${ic('lock','width="11" height="11"')}Solo socios</span></div>
-  <div class="grid g4">
+  return `<div class="hd"><div><p class="eyebrow">B21 · Business & Operations Analytics</p><h1>Tablero de gestión</h1><p class="sub">Indicadores de cartera, operación y economía del estudio. Período: setiembre 2026 vs agosto.</p></div><span class="chip crit">${ic('lock','width="11" height="11"')}Solo socios</span></div>
+  <div class="kstats">
    <div class="card kpi"><span class="lab">Expedientes activos</span><span class="val">${act.length}</span><span class="delta"><b class="up">+3</b> vs mes anterior</span></div>
    <div class="card kpi"><span class="lab">Compromisos cumpliendo</span><span class="val">${Math.round(c.verde/act.length*100)}%</span><span class="delta"><b class="up">+4 pts</b> vs mes anterior</span></div>
    <div class="card kpi"><span class="lab">Alertas atendidas en plazo</span><span class="val">87%</span><span class="delta"><b class="up">+11 pts</b> desde el piloto</span></div>
    <div class="card kpi"><span class="lab">Por cobrar</span><span class="val">${usd(FACT.filter(f=>f.estado!=='cobrado').reduce((a,f)=>a+(f.saldo||f.monto),0))}</span><span class="delta"><b class="down">${usd(FACT.filter(f=>f.estado==='vencido').reduce((a,f)=>a+(f.saldo||f.monto),0))}</b> vencido</span></div>
   </div>
   <div class="grid g2">
-   <section class="card"><div class="card-h"><h2>Evolución de la cartera</h2><span class="hint">Expedientes activos, 2026</span></div><div class="card-b">${lineChart(evo,{fmt:v=>v+' exp.',label:'Evolución de la cartera'})}</div></section>
-   <section class="card"><div class="card-h"><h2>Cumplimiento por tipo de compromiso</h2><span class="hint">% en verde</span></div><div class="card-b">${hbars(cumpl,{max:100,fmt:v=>v+'%'})}<p class="xs muted" style="margin-top:12px">Inversión es el compromiso que más arrastra la salud de la cartera.</p></div></section>
-   <section class="card"><div class="card-h"><h2>Salud por responsable</h2></div><div class="card-b" style="display:flex;flex-direction:column;gap:14px">${ASIS.map(id=>`<div><div class="small b" style="margin-bottom:5px">${P(id).name}</div>${healthStack(counts(act.filter(e=>e.resp===id))).split('<div class="legend"')[0]}</div>`).join('')}<div class="legend"><span><i style="background:var(--good)"></i>Cumpliendo</span><span><i style="background:var(--warn)"></i>En riesgo</span><span><i style="background:var(--crit)"></i>Incumpliendo</span></div></div></section>
-   <section class="card"><div class="card-h"><h2>Ingresos del estudio</h2><span class="hint">miles de USD por mes</span></div><div class="card-b">${lineChart(ing,{fmt:v=>'USD '+v+' k',label:'Ingresos del estudio'})}<p class="xs muted" style="margin-top:8px">Alimentado por facturación (A13) y carga manual de costos.</p></div></section>
+   <section class="sec"><div class="card-h"><h2>Evolución de la cartera</h2><span class="hint">Expedientes activos, 2026</span></div><div class="card-b">${lineChart(evo,{fmt:v=>v+' exp.',label:'Evolución de la cartera'})}</div></section>
+   <section class="sec"><div class="card-h"><h2>Cumplimiento por tipo de compromiso</h2><span class="hint">% en verde</span></div><div class="card-b">${hbars(cumpl,{max:100,fmt:v=>v+'%'})}<p class="xs muted" style="margin-top:12px">Inversión es el compromiso que más arrastra la salud de la cartera.</p></div></section>
+   <section class="sec"><div class="card-h"><h2>Salud por responsable</h2></div><div class="card-b" style="display:flex;flex-direction:column;gap:14px">${ASIS.map(id=>`<div><div class="small b" style="margin-bottom:5px">${P(id).name}</div>${healthStack(counts(act.filter(e=>e.resp===id))).split('<div class="legend"')[0]}</div>`).join('')}<div class="legend"><span><i style="background:var(--good)"></i>Cumpliendo</span><span><i style="background:var(--warn)"></i>En riesgo</span><span><i style="background:var(--crit)"></i>Incumpliendo</span></div></div></section>
+   <section class="sec"><div class="card-h"><h2>Ingresos del estudio</h2><span class="hint">miles de USD por mes</span></div><div class="card-b">${lineChart(ing,{fmt:v=>'USD '+v+' k',label:'Ingresos del estudio'})}<p class="xs muted" style="margin-top:8px">Alimentado por facturación (A13) y carga manual de costos.</p></div></section>
   </div>`; };
 
 /* Equipo (B18) */
@@ -1047,7 +1097,7 @@ V.portal = () => { const e = EXP[0]; const s = SOLS[0];
   return `<div class="hd"><div><p class="eyebrow">B24 · Portal de clientes</p><h1>Lo que ve el cliente</h1><p class="sub">Vista previa del portal externo para ${esc(e.soc)}. Muestra hechos y pendientes, nunca el criterio interno ni las notas del equipo.</p></div></div>
   <div class="portal"><div class="portal-h"><div style="display:flex;gap:14px;align-items:center"><div class="mono">S<i></i>S</div><div><div class="b">Portal de clientes</div><div class="xs" style="opacity:.75">${esc(e.soc)}</div></div></div><span class="xs" style="opacity:.8">Ingresó como Ing. Roberto Lima</span></div>
    <div class="card-b" style="display:flex;flex-direction:column;gap:16px">
-    <div class="grid g3">${e.comps.slice(0,3).map(c=>{const l=last(c),pct=c.tipo==='certificacion'?(l.v?100:0):Math.min(100,Math.round(l.v/c.meta*100));return `<div class="card kpi"><span class="lab">${esc(c.label)}</span><span class="val" style="font-size:22px">${pct}%</span><div class="bar good"><i style="width:${pct}%"></i></div><span class="delta">de lo comprometido</span></div>`;}).join('')}</div>
+    <div class="kstats s3">${e.comps.slice(0,3).map(c=>{const l=last(c),pct=c.tipo==='certificacion'?(l.v?100:0):Math.min(100,Math.round(l.v/c.meta*100));return `<div class="card kpi"><span class="lab">${esc(c.label)}</span><span class="val" style="font-size:22px">${pct}%</span><div class="bar good"><i style="width:${pct}%"></i></div><span class="delta">de lo comprometido</span></div>`;}).join('')}</div>
     <div><h3 style="margin-bottom:8px">Próximos pasos</h3><div class="list card">${e.hitos.slice(0,2).map(h=>`<div class="li"><div class="stripe info"></div><div><div class="t">${h.tipo}</div><div class="m">${rel(h.f)}</div></div><span class="small b">${fdy(h.f)}</span></div>`).join('')}</div></div>
     <div><h3 style="margin-bottom:8px">Lo que necesitamos de ustedes</h3><div class="list card">${s.items.map(it=>`<div class="li"><div class="stripe ${it[1]==='validado'?'good':it[1]==='recibido'?'info':'warn'}"></div><div><div class="t">${esc(it[0])}</div><div class="m">${it[1]==='pendiente'?'Pendiente · pedido el '+fd(s.enviada):it[1]==='recibido'?'Recibido, en revisión por el equipo':'Validado'}</div></div>${it[1]==='pendiente'?`<button class="btn sm pri" data-act="subir">${ic('upload')}Subir</button>`:`<span class="chip ${it[1]==='validado'?'good':'info'}">${it[1]==='validado'?'Validado':'Recibido'}</span>`}</div>`).join('')}</div></div>
    </div><div class="rebl-foot"><a class="rebl" href="https://www.rebltech.com" target="_blank" rel="noopener">Powered by <b>REBL</b></a></div></div>`; };
@@ -1056,7 +1106,7 @@ V.portal = () => { const e = EXP[0]; const s = SOLS[0];
 V.config = () => `<div class="hd"><div><p class="eyebrow">A01 · A06 · Administración</p><h1>Configuración</h1><p class="sub">Usuarios, permisos y reglas versionadas. Cambiar una regla no reescribe el pasado.</p></div></div>
  <div class="grid g2">
   <section class="card"><div class="card-h"><h2>Usuarios y roles</h2><button class="btn sm">${ic('plus')}Usuario</button></div><div class="tw"><table><thead><tr><th>Persona</th><th>Rol</th><th>Ve sensibles</th></tr></thead><tbody>${PEOPLE.map(p=>`<tr><td>${person(p.id)}</td><td><span class="chip">${p.role}</span></td><td>${['Socia','Manager'].includes(p.role)?'<span class="chip good">Sí</span>':'<span class="chip">No</span>'}</td></tr>`).join('')}</tbody></table></div></section>
-  <section class="card"><div class="card-h"><h2>Reglas de salud vigentes</h2><span class="chip">v2.3 · desde 1 set 2026</span></div><div class="card-b" style="padding-top:4px">${[['Empleo','Verde ≥ 100% de la meta · Amarillo ≥ 90% · Rojo por debajo'],['Inversión','Verde si el avance está a menos de 5 pts del esperado · Amarillo hasta 20 pts · Rojo más'],['Capacitación','Igual criterio que inversión, sobre horas acumuladas'],['Certificación','Amarillo si faltan menos de 120 días para el plazo sin certificado'],['Frescura','Empleo 120 días · Inversión 180 · Capacitación 180 · Certificación 365']].map(([k,v])=>`<div class="rule"><span class="chip info">${k}</span><span class="small">${v}</span></div>`).join('')}</div></section>
+  <section class="sec"><div class="card-h"><h2>Reglas de salud vigentes</h2><span class="chip">v2.3 · desde 1 set 2026</span></div><div class="card-b" style="padding-top:4px">${[['Empleo','Verde ≥ 100% de la meta · Amarillo ≥ 90% · Rojo por debajo'],['Inversión','Verde si el avance está a menos de 5 pts del esperado · Amarillo hasta 20 pts · Rojo más'],['Capacitación','Igual criterio que inversión, sobre horas acumuladas'],['Certificación','Amarillo si faltan menos de 120 días para el plazo sin certificado'],['Frescura','Empleo 120 días · Inversión 180 · Capacitación 180 · Certificación 365']].map(([k,v])=>`<div class="rule"><span class="chip info">${k}</span><span class="small">${v}</span></div>`).join('')}</div></section>
  </div>`;
 
 const SOON = {'soon-mayores':['B23 · Mayores contables','Conciliación de inversiones','Carga del libro mayor por sociedad, clasificación asistida de movimientos contra las categorías comprometidas y validación por lote antes de impactar el indicador.'],'soon-normativa':['B19 · Conocimiento normativo','Asistente normativo','Consultas en lenguaje natural sobre normativa vigente, respuestas de COMAP y precedentes propios, siempre citando la fuente y su vigencia.'],'soon-nominas':['B20 · Automatización de inputs','Importar nóminas','Lectura de la salida del procesador de nóminas y propuesta de mediciones de empleo, aplicadas solo tras validación humana.']};
@@ -1084,7 +1134,7 @@ document.addEventListener('click', ev => {
    case 'openside': $('#side').classList.add('open'); document.body.classList.add('drawer'); break;
    case 'closeside': $('#side').classList.remove('open'); document.body.classList.remove('drawer'); break;
    case 'theme': $('#themeBtn').click(); break;
-   case 'role': S.role=el.dataset.r; $('#side').classList.remove('open'); document.body.classList.remove('drawer'); if(S.view==='ficha'||S.view==='informes') {} render(); break;
+   case 'role': S.role=el.dataset.r; if(!allowed(S.view)) { S.view='inicio'; S.informe=null; } $('#side').classList.remove('open'); document.body.classList.remove('drawer'); if(S.view==='ficha'||S.view==='informes') {} render(); break;
    case 'open': ev.stopPropagation(); S.exp=el.dataset.id; S.tab='resumen'; go('ficha'); break;
    case 'tab': S.tab=el.dataset.t; render(); break;
    case 'sort': S.sort = {k:el.dataset.k,d:S.sort.k===el.dataset.k?-S.sort.d:1}; render(); break;
