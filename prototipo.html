@@ -159,6 +159,7 @@ button.card.kpi:hover .val{color:var(--accent)}
 /* Table */
 .tw{overflow-x:auto}
 table{width:100%;border-collapse:collapse}
+th.num,td.num{text-align:center}
 th{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);background:var(--surface-2);white-space:nowrap;position:sticky;top:0}
 th.sortable{cursor:pointer}
 th.sortable:hover{color:var(--ink)}
@@ -262,9 +263,11 @@ table.exp .c-resp,table.exp .c-min{width:1%;white-space:nowrap}
 /* Kanban */
 .kan{display:grid;grid-template-columns:repeat(4,minmax(220px,1fr));gap:12px;overflow-x:auto;padding-bottom:4px}
 .col{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:8px;min-width:0}
-.col-h{display:flex;justify-content:space-between;align-items:baseline;padding:2px 4px 6px}
-.col-h b{font-size:13px}
+.col-h{display:flex;flex-direction:column;gap:2px;padding:4px 4px 8px;min-height:52px;border-bottom:1px solid var(--line);margin-bottom:2px}
+.col-h b{font-size:13px;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.col-h b em{font-style:normal;font-weight:600;color:var(--muted);font-size:12px}
 .col-h span{font-size:12px;color:var(--muted)}
+.kc-top{display:flex;justify-content:space-between;align-items:baseline;gap:6px}
 .kc{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:6px}
 .kc .amt{font-family:var(--f-display);font-size:18px}
 /* Calendar */
@@ -281,7 +284,10 @@ table.exp .c-resp,table.exp .c-min{width:1%;white-space:nowrap}
 .ai-p{background:var(--ai-bg);border-left:3px solid var(--ai);padding:8px 10px;border-radius:0 6px 6px 0;position:relative}
 .ai-p[contenteditable="true"]{outline:1px dashed var(--ai)}
 .ai-tag{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ai);font-weight:700;display:flex;gap:6px;align-items:center;margin-bottom:3px}
-.rule{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;padding:10px 0;border-bottom:1px solid var(--line-2)}
+.rule{display:grid;grid-template-columns:120px minmax(0,1fr);gap:16px;padding:11px 0;border-bottom:1px solid var(--line-2);align-items:baseline}
+.rule>.rk{font-size:13px;font-weight:600}
+.rule.rc{grid-template-columns:72px minmax(0,1fr)}
+.rule>.rk.code{font-size:12px;font-family:ui-monospace,"SF Mono",Menlo,monospace;color:var(--accent)}
 .rule:last-child{border-bottom:0}
 .steps{display:flex;gap:6px;flex-wrap:wrap}
 .step{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--muted);padding:4px 10px;border-radius:999px;border:1px solid var(--line)}
@@ -436,6 +442,7 @@ table.exp .c-resp,table.exp .c-min{width:1%;white-space:nowrap}
   .tl .dt{font-size:11px}
   .rule{grid-template-columns:minmax(0,1fr)}
   .rule .chip{justify-self:start}
+  .tw td.num{text-align:left}
   /* listas */
   .li{padding:12px 14px;flex-wrap:wrap}
   .li>.btns{width:100%}
@@ -1098,7 +1105,7 @@ function informeDet(e){
   <div class="rep">
    <div class="grid" style="align-content:start">
     <section class="sec"><div class="card-h"><h2>1 · Datos del período</h2><span class="chip">armado automático</span></div><div class="card-b" style="display:flex;flex-direction:column;gap:10px">${e.comps.map(c=>{const l=last(c),h=compHealth(c);return `<div style="display:flex;justify-content:space-between;gap:8px;align-items:center"><div><div class="b small">${esc(c.label)}</div><div class="xs muted">medición ${fd(l.f)} · ${l.origen}</div></div><div style="text-align:right"><div class="small b">${c.unidad==='USD'?usd(l.v):c.tipo==='certificacion'?(l.v?'Sí':'No'):num(l.v)}</div><span class="sig s-${h.s}" style="font-size:11px">${SAL[h.s]}</span></div></div>`;}).join('')}</div></section>
-    <section class="sec"><div class="card-h"><h2>2 · Conclusiones por regla</h2><span class="chip">reglas v2.3</span></div><div class="card-b" style="padding-top:4px;padding-bottom:4px">${cs.map(c=>`<div class="rule"><span class="chip info">${c.r}</span><div><div class="small">${esc(c.t)}</div><div class="xs muted">Recomendación base: ${esc(c.rec)}</div></div></div>`).join('')}</div></section>
+    <section class="sec"><div class="card-h"><h2>2 · Conclusiones por regla</h2><span class="chip">reglas v2.3</span></div><div class="card-b" style="padding-top:4px;padding-bottom:4px">${cs.map(c=>`<div class="rule rc"><span class="rk code">${c.r}</span><div><div class="small">${esc(c.t)}</div><div class="xs muted">Recomendación base: ${esc(c.rec)}</div></div></div>`).join('')}</div></section>
    </div>
    <section class="card"><div class="card-h"><h2>3 · Narrativa</h2><div class="btns"><span class="chip ai">${ic('spark','width="12" height="12"')}Generado por IA · editable</span></div></div>
     <div class="card-b" style="display:flex;flex-direction:column;gap:12px">
@@ -1116,7 +1123,7 @@ V.facturacion = () => { const cols=[['listo','Listo para facturar','Hito cumplid
   const tot = k => FACT.filter(f=>f.estado===k).reduce((a,f)=>a+(f.saldo||f.monto),0);
   return `<div class="hd"><div><p class="eyebrow">A13 · Facturación y cobranza</p><h1>Presentado → facturado → cobrado</h1><p class="sub">La factura se habilita por un hito real del expediente. Se emite en su sistema de facturación y se registra acá.</p></div><button class="btn" data-act="importar">${ic('upload')}Importar archivo de facturas</button></div>
   <div class="kstats">${cols.map(([k,l])=>`<div class="card kpi"><span class="lab">${l}</span><span class="val" style="font-size:24px;${k==='vencido'?'color:var(--crit)':''}">${usd(tot(k))}</span><span class="delta">${FACT.filter(f=>f.estado===k).length} hitos</span></div>`).join('')}</div>
-  <div class="kan">${cols.map(([k,l,s])=>`<div class="col"><div class="col-h"><b>${l}</b><span>${s}</span></div>${FACT.filter(f=>f.estado===k).map(f=>{const e=EXP.find(x=>x.id===f.exp); return `<div class="kc"><div style="display:flex;justify-content:space-between;gap:6px"><span class="amt">${usd(f.saldo||f.monto)}</span>${f.nro?`<span class="xs muted">${f.nro}</span>`:''}</div><div class="small b">${esc(e.soc)}</div><div class="xs muted">${esc(f.hito)} · ${k==='listo'?'habilitado '+rel(f.f):k==='cobrado'?'cobrado':'vence '+fd(f.vence)}</div>${f.saldo?`<span class="chip warn">Pago parcial · saldo ${usd(f.saldo)}</span>`:''}${k==='listo'&&-days(f.f)>14?'<span class="chip crit">Sin facturar hace más de 14 días</span>':''}
+  <div class="kan">${cols.map(([k,l,s])=>`<div class="col"><div class="col-h"><b>${l}<em>${FACT.filter(f=>f.estado===k).length}</em></b><span>${s}</span></div>${FACT.filter(f=>f.estado===k).map(f=>{const e=EXP.find(x=>x.id===f.exp); return `<div class="kc"><div class="kc-top"><span class="amt">${usd(f.saldo||f.monto)}</span>${f.nro?`<span class="xs muted">${f.nro}</span>`:''}</div><div class="small b">${esc(e.soc)}</div><div class="xs muted">${esc(f.hito)} · ${k==='listo'?'habilitado '+rel(f.f):k==='cobrado'?'cobrado':'vence '+fd(f.vence)}</div>${f.saldo?`<span class="chip warn">Pago parcial · saldo ${usd(f.saldo)}</span>`:''}${k==='listo'&&-days(f.f)>14?'<span class="chip crit">Sin facturar hace más de 14 días</span>':''}
    <div class="btns">${k==='listo'?`<button class="btn sm pri" data-act="facturar" data-id="${f.id}">Registrar factura</button>`:k==='facturado'||k==='vencido'?`<button class="btn sm" data-act="cobrar" data-id="${f.id}">Registrar pago</button>${k==='vencido'?ib('reclamo','bell',`Preparar reclamo (${f.reclamos||0} enviados)`,`data-id="${f.id}"`):''}`:''}</div></div>`;}).join('')}</div>`).join('')}</div>`; };
 
 /* Tablero socios (B21) */
@@ -1143,7 +1150,7 @@ V.tablero = () => { const act=EXP.filter(e=>e.estado==='En seguimiento'); const 
 V.equipo = () => { const rows = ASIS.map(id=>{ const ts=TASKS().filter(t=>t.resp===id&&t.estado!=='completada'); const ex=EXP.filter(e=>e.resp===id); const w = ex.reduce((a,e)=>a+(e.monto>3e6?2:1),0); const prox = ex.flatMap(e=>e.hitos).filter(h=>days(h.f)>=0&&days(h.f)<=30).length; return {id,ts,ex,w,prox,late:ts.filter(t=>t.due<TODAY).length,blk:ts.filter(t=>t.estado==='bloqueada').length}; });
   const maxW = Math.max(...rows.map(r=>r.w));
   return `<div class="hd"><div><p class="eyebrow">B18 · Carga y capacidad</p><h1>Carga del equipo</h1><p class="sub">Tres formas de medir cuánto tiene cada persona: cartera ponderada, trabajo activo y vencimientos que vienen.</p></div></div>
-  <section class="card"><div class="tw"><table><thead><tr><th>Persona</th><th>Expedientes</th><th>Carga ponderada</th><th>Tareas abiertas</th><th>Vencidas</th><th>Bloqueadas</th><th>Vencimientos 30 días</th><th>Señal</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${person(r.id)}</td><td>${r.ex.length}</td><td style="min-width:160px"><div style="display:flex;gap:8px;align-items:center"><div class="bar" style="flex:1"><i style="width:${r.w/maxW*100}%"></i></div><b class="small">${r.w}</b></div></td><td>${r.ts.length}</td><td class="${r.late?'down b':''}">${r.late}</td><td>${r.blk}</td><td>${r.prox}</td><td>${r.w>=maxW-1&&r.prox>3?'<span class="chip crit">Sobrecarga</span>':r.w<maxW*0.8?'<span class="chip good">Capacidad disponible</span>':'<span class="chip">Normal</span>'}</td></tr>`).join('')}</tbody></table></div></section>
+  <section class="card"><div class="tw"><table><thead><tr><th>Persona</th><th class="num">Expedientes</th><th>Carga ponderada</th><th class="num">Tareas abiertas</th><th class="num">Vencidas</th><th class="num">Bloqueadas</th><th class="num">Vencimientos 30 días</th><th>Señal</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${person(r.id)}</td><td class="num">${r.ex.length}</td><td style="min-width:160px"><div style="display:flex;gap:8px;align-items:center"><div class="bar" style="flex:1"><i style="width:${r.w/maxW*100}%"></i></div><b class="small">${r.w}</b></div></td><td class="num">${r.ts.length}</td><td class="num ${r.late?'down b':''}">${r.late}</td><td class="num">${r.blk}</td><td class="num">${r.prox}</td><td>${r.w>=maxW-1&&r.prox>3?'<span class="chip crit">Sobrecarga</span>':r.w<maxW*0.8?'<span class="chip good">Capacidad disponible</span>':'<span class="chip">Normal</span>'}</td></tr>`).join('')}</tbody></table></div></section>
   <div class="callout">${ic('info')}<div><b>Carga ponderada</b><div class="small muted">Un expediente con más de USD 3 M de inversión pesa el doble. Los criterios de ponderación se ajustan en Configuración.</div></div></div>`; };
 
 /* Portal (B24) */
@@ -1159,8 +1166,8 @@ V.portal = () => { const e = EXP[0]; const s = SOLS[0];
 /* Configuración */
 V.config = () => `<div class="hd"><div><p class="eyebrow">A01 · A06 · Administración</p><h1>Configuración</h1><p class="sub">Usuarios, permisos y reglas versionadas. Cambiar una regla no reescribe el pasado.</p></div></div>
  <div class="grid g2">
-  <section class="card"><div class="card-h"><h2>Usuarios y roles</h2><button class="btn sm">${ic('plus')}Usuario</button></div><div class="tw"><table><thead><tr><th>Persona</th><th>Rol</th><th>Ve sensibles</th></tr></thead><tbody>${PEOPLE.map(p=>`<tr><td>${person(p.id)}</td><td><span class="chip">${p.role}</span></td><td>${['Socia','Manager'].includes(p.role)?'<span class="chip good">Sí</span>':'<span class="chip">No</span>'}</td></tr>`).join('')}</tbody></table></div></section>
-  <section class="sec"><div class="card-h"><h2>Reglas de salud vigentes</h2><span class="chip">v2.3 · desde 1 set 2026</span></div><div class="card-b" style="padding-top:4px">${[['Empleo','Verde ≥ 100% de la meta · Amarillo ≥ 90% · Rojo por debajo'],['Inversión','Verde si el avance está a menos de 5 pts del esperado · Amarillo hasta 20 pts · Rojo más'],['Capacitación','Igual criterio que inversión, sobre horas acumuladas'],['Certificación','Amarillo si faltan menos de 120 días para el plazo sin certificado'],['Frescura','Empleo 120 días · Inversión 180 · Capacitación 180 · Certificación 365']].map(([k,v])=>`<div class="rule"><span class="chip info">${k}</span><span class="small">${v}</span></div>`).join('')}</div></section>
+  <section class="card"><div class="card-h"><h2>Usuarios y roles</h2><button class="btn sm">${ic('plus')}Usuario</button></div><div class="tw"><table><thead><tr><th>Persona</th><th>Rol</th><th class="num">Ve datos sensibles</th></tr></thead><tbody>${PEOPLE.map(p=>`<tr><td>${person(p.id)}</td><td class="small">${p.role}</td><td class="num">${['Socia','Manager'].includes(p.role)?`<span class="stt good" style="justify-content:center">${ic('check','width="15" height="15"')}Sí</span>`:'<span class="small muted">No</span>'}</td></tr>`).join('')}</tbody></table></div></section>
+  <section class="sec"><div class="card-h"><h2>Reglas de salud vigentes</h2><span class="chip">v2.3 · desde 1 set 2026</span></div><div class="card-b" style="padding-top:4px">${[['Empleo','Verde ≥ 100% de la meta · Amarillo ≥ 90% · Rojo por debajo'],['Inversión','Verde si el avance está a menos de 5 pts del esperado · Amarillo hasta 20 pts · Rojo más'],['Capacitación','Igual criterio que inversión, sobre horas acumuladas'],['Certificación','Amarillo si faltan menos de 120 días para el plazo sin certificado'],['Frescura','Empleo 120 días · Inversión 180 · Capacitación 180 · Certificación 365']].map(([k,v])=>`<div class="rule"><span class="rk">${k}</span><span class="small">${v}</span></div>`).join('')}</div></section>
  </div>`;
 
 const SOON = {'soon-mayores':['B23 · Mayores contables','Conciliación de inversiones','Carga del libro mayor por sociedad, clasificación asistida de movimientos contra las categorías comprometidas y validación por lote antes de impactar el indicador.'],'soon-normativa':['B19 · Conocimiento normativo','Asistente normativo','Consultas en lenguaje natural sobre normativa vigente, respuestas de COMAP y precedentes propios, siempre citando la fuente y su vigencia.'],'soon-nominas':['B20 · Automatización de inputs','Importar nóminas','Lectura de la salida del procesador de nóminas y propuesta de mediciones de empleo, aplicadas solo tras validación humana.']};
