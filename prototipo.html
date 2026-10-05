@@ -362,20 +362,81 @@ table.exp .c-resp,table.exp .c-min{width:1%;white-space:nowrap}
   .cal .dc{min-height:64px}
   .cal .ev{font-size:0;padding:0;height:6px}
 }
+/* ---- Extensión ---- */
+.h1link{font:inherit;color:inherit;background:none;border:0;padding:0;text-align:left;cursor:pointer}
+.h1link:hover{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}
+.bnote{border-color:var(--line);background:var(--surface-2)}
+.pipe{display:flex;gap:3px}
+.pipe i{width:22px;height:5px;border-radius:3px;background:var(--line)}
+.pipe i.done{background:var(--good)} .pipe i.cur{background:var(--accent)}
+.seg.sm3 button{padding:4px 8px;font-size:12px}
+.check.on{border-color:var(--good);background:var(--good);color:#fff}
+.check[disabled]{opacity:.4;cursor:not-allowed}
+.sim{display:flex;flex-direction:column;gap:14px}
+.simrow{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) 110px;gap:14px;align-items:center;font-size:13px}
+.simrow span em{display:block;font-style:normal;font-size:11.5px;color:var(--muted)}
+.simrow b{text-align:right;font-variant-numeric:tabular-nums}
+.simrow input[type=range]{width:100%;accent-color:var(--accent)}
+.simk .val{font-size:22px!important;white-space:nowrap}
+.simk .card{padding-inline:12px!important}
+.simk .card:first-child{padding-left:0!important}
+.cin{width:72px;border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:3px 6px;font-size:13px;text-align:center;margin:0 2px}
+.cin.wide{width:260px;text-align:left;padding:6px 10px}
+.tag{display:inline-flex;align-items:center;gap:4px;border:1px solid var(--line);border-radius:999px;padding:3px 4px 3px 10px;font-size:12.5px;background:var(--surface)}
+.tag button{border:0;background:none;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;color:var(--muted)}
+.tag button:hover{background:var(--crit-bg);color:var(--crit)}
+.tag svg{width:12px;height:12px}
+.hand{display:flex;flex-direction:column;gap:10px}
+.hstep{display:flex;gap:10px;align-items:flex-start;font-size:13px}
+.hstep .dot{margin-top:6px}
+.opt{display:flex;gap:10px;align-items:center;padding:8px 10px;border:1px solid var(--line);border-radius:7px;font-weight:400!important;color:var(--ink)!important;font-size:13px}
+.fitq .li,.modal .list .li{padding-inline:0;cursor:pointer}
+.sp-path{display:flex;gap:6px;align-items:center}
+.sol-esc{display:flex;gap:10px;align-items:center;margin:6px 0 0 30px}
+.rcx{grid-template-columns:72px minmax(0,1fr) 34px!important;align-items:start}
+.btn.wide{width:100%;justify-content:center;min-height:42px}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.bellwrap{position:relative}
+.bell{position:relative}
+.bell b{position:absolute;top:-5px;right:-6px;background:var(--crit);color:#fff;font-size:10px;border-radius:9px;padding:0 5px;line-height:16px;min-width:16px;text-align:center}
+.bellpanel{position:absolute;right:0;top:calc(100% + 8px);width:340px;max-width:calc(100vw - 32px);background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);z-index:40;overflow:hidden}
+.np-h{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid var(--line-2)}
+.np-i{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;border:0;background:none;padding:11px 14px;border-bottom:1px solid var(--line-2)}
+.np-i:hover{background:var(--surface-2)}
+.np-i svg{width:16px;height:16px;color:var(--accent);flex:none;margin-top:2px}
+.np-i b{display:block;font-size:13px}
+.np-i span span{font-size:12px;color:var(--muted)}
+.np-i.read b{font-weight:500;color:var(--muted)} .np-i.read svg{color:var(--faint)}
+.np-f{padding:10px 14px}
+button.who{border:0;background:none;padding:0;text-align:left;cursor:pointer;border-radius:8px}
+button.who:hover .av{box-shadow:0 0 0 2px var(--accent)}
+.login{position:fixed;inset:0;z-index:90;background:linear-gradient(150deg,#001C54 0%,#0E3A4E 55%,#285B47 100%);display:grid;place-items:center;padding:16px;overflow:auto}
+.login-box{background:var(--surface);color:var(--ink);border-radius:16px;padding:32px;width:min(400px,100%);display:flex;flex-direction:column;gap:14px;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.login-mono{color:var(--ink)!important;font-size:30px!important}
+.login-mono i{background:var(--faint)!important;height:30px!important}
+.login-box h1{font-size:26px}
+.login-box .sub{margin:0}
+.lform{display:flex;flex-direction:column;gap:12px}
+.login-demo{display:flex;flex-wrap:wrap;gap:6px;align-items:center;border-top:1px solid var(--line-2);padding-top:14px}
+.login .rebl{justify-content:center}
+.login .rebl-logo{color:var(--faint)}
+@media (max-width:440px){.mbrand{display:none!important}.top{grid-template-columns:auto minmax(0,1fr) auto auto!important}.top .role{grid-column:2!important;justify-self:start!important}.bellwrap{grid-column:3!important}.who{grid-column:4!important}}
+@media (max-width:640px){.simrow{grid-template-columns:minmax(0,1fr) 90px}.simrow input{grid-column:1/-1;grid-row:2}.sol-esc{margin-left:0}.bellwrap{grid-column:auto}}
 /* ---- Mobile ---- */
 .mbrand,.bnav,.scrim,.side-mob{display:none}
 @media (max-width:900px){
   body{padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))}
   footer.rebl-foot,.rebl-foot.mob-only{display:flex}
-  .top{display:grid;grid-template-columns:auto auto minmax(0,1fr) auto;row-gap:8px;column-gap:10px;padding:8px 16px}
+  .top{display:grid;grid-template-columns:auto auto minmax(0,1fr) auto auto;row-gap:8px;column-gap:8px;padding:8px 16px}
   .menu-btn{grid-column:1}
   .mbrand{display:flex;align-items:center;grid-column:2}
   .mbrand .mono{color:var(--ink);font-size:21px}
   .mbrand .mono i{background:var(--faint);height:20px}
   .top .role{grid-column:3;justify-self:end;margin:0}
   .top .role button{padding:5px 9px;font-size:12.5px}
-  .who{grid-column:4}
-  .themebtn{display:none}
+  .bellwrap{grid-column:4}
+  .who{grid-column:5}
+  .themebtn:not(.bell){display:none}
   .search{grid-column:1/-1;max-width:none;padding:6px 10px}
   .side{z-index:70}
   .side-mob{display:flex;flex-direction:column;gap:8px;padding:0 4px 14px;border-bottom:1px solid rgba(255,255,255,.1)}
@@ -493,7 +554,8 @@ table.exp .c-resp,table.exp .c-min{width:1%;white-space:nowrap}
       <div class="mbrand" aria-hidden="true"><span class="mono">S<i></i>S</span></div>
       <label class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="q" type="search" placeholder="Buscar sociedad, expediente o RUT" aria-label="Buscar"></label>
       <div class="role" id="role" role="tablist" aria-label="Ver como"></div>
-      <div class="who" id="who"></div>
+      <div id="bellWrap" class="bellwrap"><button class="themebtn bell" id="bellBtn" data-act="bell" aria-label="Avisos"></button><div class="bellpanel" id="bellPanel" hidden></div></div>
+      <button class="who" id="who" data-act="logout" title="Cerrar sesión" aria-label="Cerrar sesión"></button>
       <button class="themebtn" id="themeBtn" aria-label="Cambiar tema"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
     </header>
     <main class="view" id="view"></main>
@@ -502,6 +564,7 @@ table.exp .c-resp,table.exp .c-min{width:1%;white-space:nowrap}
   <div class="scrim" id="scrim" data-act="closeside"></div>
 </div>
 <div id="modalRoot"></div>
+<div id="loginRoot"></div>
 <div id="toastRoot"></div>
 
 <script>
@@ -828,6 +891,7 @@ const NAV = {
   {g:'Mi trabajo',items:[
    {id:'inicio',l:'Mi día',i:'home'},
    {id:'cartera',l:'Mis expedientes',i:'folder'},
+   {id:'alta',l:'Alta y armado',i:'plus',cnt:()=>EXP.filter(e=>e.arm&&ARM_ST.includes(e.estado)&&e.resp===me()).length},
    {id:'calendario',l:'Vencimientos',i:'cal'},
    {id:'solicitudes',l:'Solicitudes',i:'inbox',cnt:()=>SOLS.filter(x=>EXP.find(e=>e.id===x.exp).resp===me()&&x.items.some(y=>y[1]!=='validado')).length},
    {id:'informes',l:'Informes al cliente',i:'doc'},
@@ -845,10 +909,11 @@ const NAV = {
    {id:'excepciones',l:'Excepciones',i:'alert',cnt:()=>exceptions().filter(x=>x.sev!=='muted').length,hot:true},
    {id:'revisiones',l:'Revisiones',i:'check',cnt:()=>REVS.filter(r=>r.estado==='pendiente'&&r.nivel==='Manager').length},
    {id:'cartera',l:'Cartera',i:'folder'},
+   {id:'alta',l:'Alta y armado',i:'plus',cnt:()=>PROPS.filter(p=>p.estado==='Ganada').length},
    {id:'calendario',l:'Vencimientos',i:'cal'}
   ]},
   {g:'Equipo',items:[
-   {id:'equipo',l:'Carga del equipo',i:'team'},
+   {id:'equipo',l:'Carga del equipo',i:'team',b:true},
    {id:'informes',l:'Informes al cliente',i:'doc'},
    {id:'solicitudes',l:'Solicitudes',i:'inbox'},
    {id:'config',l:'Reglas y criterios',i:'gear'}
@@ -861,13 +926,13 @@ const NAV = {
   {g:'Dirección',items:[
    {id:'inicio',l:'Inicio',i:'home'},
    {id:'revisiones',l:'Para decidir',i:'check',cnt:()=>REVS.filter(r=>r.estado==='pendiente'&&r.nivel==='Socio').length,hot:true},
-   {id:'tablero',l:'Tablero de gestión',i:'chart'},
+   {id:'tablero',l:'Tablero de gestión',i:'chart',b:true},
    {id:'cartera',l:'Cartera',i:'folder'}
   ]},
   {g:'Negocio',items:[
    {id:'facturacion',l:'Facturación',i:'money'},
-   {id:'equipo',l:'Carga del equipo',i:'team'},
-   {id:'portal',l:'Vista del cliente',i:'portal'},
+   {id:'equipo',l:'Carga del equipo',i:'team',b:true},
+   {id:'portal',l:'Vista del cliente',i:'portal',b:true},
    {id:'config',l:'Usuarios y permisos',i:'gear'}
   ]}
  ]
@@ -877,10 +942,10 @@ const BNAV = {
  manager:[['inicio','Inicio','home'],['excepciones','Alertas','alert'],['revisiones','Revisiones','check'],['cartera','Cartera','folder']],
  socio:[['inicio','Inicio','home'],['revisiones','Decidir','check'],['tablero','Tablero','chart'],['cartera','Cartera','folder']]
 };
-const allowed = v => v==='ficha' || NAV[S.role].some(g=>g.items.some(it=>it.id===v));
+const allowed = v => v==='ficha' || v==='sociedad' || NAV[S.role].some(g=>g.items.some(it=>it.id===v));
 function renderSide(){
   $('#side').innerHTML = `<div class="side-mob"><span class="xs" style="letter-spacing:.1em;text-transform:uppercase;color:rgba(201,211,232,.6)">Ver como</span><div class="role role-side">${Object.entries(ROLES).map(([k,r])=>`<button class="${S.role===k?'on':''}" data-act="role" data-r="${k}">${r.label}</button>`).join('')}</div><button class="nav" data-act="theme">${ic('sun')}<span>Cambiar tema claro / oscuro</span></button></div><div class="brand"><div class="mono">S<i></i>S</div><div><b>SS Proyectos</b><small>SSPI · Admin</small></div></div>
-  ${NAV[S.role].map(g=>`<nav class="navgrp" aria-label="${g.g}"><h6>${g.g}</h6>${g.items.map(it=>{ const c = it.cnt?it.cnt():0; return `<button class="nav ${S.view===it.id||(S.view==='ficha'&&it.id==='cartera')?'on':''}" data-act="nav" data-v="${it.id}">${ic(it.i)}<span>${it.l}</span>${it.soon?'<span class="soon">B</span>':c?`<span class="cnt ${it.hot?'hot':''}">${c}</span>`:''}</button>`;}).join('')}</nav>`).join('')}
+  ${NAV[S.role].map(g=>`<nav class="navgrp" aria-label="${g.g}"><h6>${g.g}</h6>${g.items.map(it=>{ const c = it.cnt?it.cnt():0; return `<button class="nav ${S.view===it.id||((S.view==='ficha'||S.view==='sociedad')&&it.id==='cartera')?'on':''}" data-act="nav" data-v="${it.id}">${ic(it.i)}<span>${it.l}</span>${it.soon||it.b?'<span class="soon">B</span>':c?`<span class="cnt ${it.hot?'hot':''}">${c}</span>`:''}</button>`;}).join('')}</nav>`).join('')}
   <div class="side-foot"><span>Prototipo navegable · datos ficticios</span><a class="rebl" href="https://www.rebltech.com" target="_blank" rel="noopener">Powered by <span class="rebl-logo" role="img" aria-label="REBL"></span></a></div>`;
   $('#role').innerHTML = Object.entries(ROLES).map(([k,r])=>`<button class="${S.role===k?'on':''}" data-act="role" data-r="${k}" role="tab" aria-selected="${S.role===k}">${r.label}</button>`).join('');
   const ex = exceptions().filter(x=>x.sev!=='muted').length, rv = REVS.filter(r=>r.estado==='pendiente').length;
@@ -902,7 +967,7 @@ function taskRow(t){
   const e = EXP.find(x=>x.id===t.exp); const late = t.due<TODAY; const blk=t.estado==='bloqueada';
   return `<div class="li">${blk?`<span class="check" style="border-style:dashed" aria-hidden="true"></span>`:`<button class="check" data-act="done" data-id="${t.id}" aria-label="Completar tarea" data-tip="Completar">${ic('check')}</button>`}
    <div><div class="t">${esc(t.titulo)}</div><div class="m">${expLink(e)}<span class="sep">·</span>${blk?`<span class="blk">Bloqueada: ${esc(t.bloqueo)}</span>`:`<span class="${late?'down':''}">${late?'venció':''} ${fd(t.due)}</span>`}</div></div>
-   ${more([blk?['unblock','play','Desbloquear',`data-id="${t.id}"`]:['block','pause','Bloquear',`data-id="${t.id}"`],['escalar','up','Escalar a manager',`data-id="${t.id}"`],['open','open','Abrir expediente',`data-id="${e.id}"`]])}</div>`;
+   ${more([blk?['unblock','play','Desbloquear',`data-id="${t.id}"`]:['block','pause','Bloquear',`data-id="${t.id}"`],['escalar','up','Escalar a manager',`data-id="${t.id}"`],S.role!=='asistente'?['reasig-task','swap','Reasignar tarea',`data-id="${t.id}"`]:null,['open','open','Abrir expediente',`data-id="${e.id}"`]])}</div>`;
 }
 function taskGroups(list){
   const g = [['Atrasadas',list.filter(t=>t.estado!=='bloqueada'&&t.due<TODAY),'late'],['Esta semana',list.filter(t=>t.estado!=='bloqueada'&&t.due>=TODAY&&days(t.due)<=7),''],['Más adelante',list.filter(t=>t.estado!=='bloqueada'&&days(t.due)>7),''],['Bloqueadas',list.filter(t=>t.estado==='bloqueada'),'']];
@@ -963,6 +1028,7 @@ function filtered(){
   const q = S.q.trim().toLowerCase(); const f=S.f;
   return EXP.filter(e=>{ const ev=expEval(e);
     if(S.role==='asistente' && e.resp!==me()) return false;
+    if((e.estado==='Cerrado')!==S.showArch) return false;
     if(q && !(e.soc.toLowerCase().includes(q)||e.num.includes(q)||e.rut.includes(q)||(e.grupo||'').toLowerCase().includes(q))) return false;
     if(f.resp && e.resp!==f.resp) return false; if(f.min && e.min!==f.min) return false;
     if(f.salud && ev.salud!==f.salud) return false; if(f.fresh && ev.fresh!==f.fresh) return false;
@@ -985,20 +1051,22 @@ V.cartera = () => {
   const opt = (k,arr,l) => `<select class="sel" data-act="filter" data-k="${k}" aria-label="${l}"><option value="">${l}</option>${arr.map(([v,t])=>`<option value="${v}" ${S.f[k]===v?'selected':''}>${t}</option>`).join('')}</select>`;
   return `<div class="hd"><div><p class="eyebrow">A03 · Cartera</p><h1>${S.role==='asistente'?'Mis expedientes':'Cartera de expedientes'}</h1><p class="sub">Cada expediente con sus tres señales: si cumple, si el dato está al día y qué toca hacer después.</p></div><div class="btns">${ib('export','copy','Copiar como CSV','','solid')}${S.role==='asistente'?'':`<button class="btn pri" data-act="nuevo">${ic('plus')}Alta de expediente</button>`}</div></div>
   <div class="filters">${S.role==='asistente'?'':opt('resp',ASIS.map(id=>[id,P(id).name]),'Responsable')}${opt('min',MIN.map(m=>[m,m]),'Ministerio')}${opt('salud',[['verde','Cumpliendo'],['amarillo','En riesgo'],['rojo','Incumpliendo']],'Salud')}${opt('fresh',[['ok','Al día'],['por','Por vencer'],['vieja','Desactualizado']],'Frescura')}${opt('hz',[['14','Próximas 2 semanas'],['28','Próximas 4 semanas'],['60','Próximos 2 meses']],'Horizonte')}
-  ${Object.values(S.f).some(Boolean)||S.q?`<button class="btn ghost sm" data-act="clear">Limpiar filtros</button>`:''}<span class="small muted" style="margin-left:auto">${list.length} expedientes · <span class="up b">${c.verde}</span> / <span style="color:var(--warn)" class="b">${c.amarillo}</span> / <span class="down b">${c.rojo}</span></span></div>
+  <button class="btn sm ${S.showArch?'pri':''}" data-act="arch">${ic('folder')}${S.showArch?'Viendo archivados':'Archivados'}</button>${Object.values(S.f).some(Boolean)||S.q?`<button class="btn ghost sm" data-act="clear">Limpiar filtros</button>`:''}<span class="small muted" style="margin-left:auto">${list.length} expedientes · <span class="up b">${c.verde}</span> / <span style="color:var(--warn)" class="b">${c.amarillo}</span> / <span class="down b">${c.rojo}</span></span></div>
   <section class="card">${expTable(list)}</section>`;
 };
 
 /* Ficha */
 V.ficha = () => {
   const e = EXP.find(x=>x.id===S.exp); const ev = expEval(e); const n = nextAction(e);
-  const tabs = [['resumen','Resumen'],['compromisos','Compromisos'],['vencimientos','Vencimientos'],['tareas',`Tareas (${e.tareas.filter(t=>t.estado!=='completada').length})`],['documentos','Documentos'],['irae','IRAE'],['bitacora','Bitácora']];
+  const inArm = e.arm && ARM_ST.includes(e.estado);
+  const tabs = [inArm?['armado','Armado']:null,['resumen','Resumen'],['compromisos','Compromisos'],['vencimientos','Vencimientos'],['tareas',`Tareas (${e.tareas.filter(t=>t.estado!=='completada').length})`],['documentos','Documentos'],e.estado==='En seguimiento'?['ciclo','Ciclo anual']:null,['comap','Outputs COMAP'],['irae','IRAE'],['bitacora','Bitácora']].filter(Boolean);
+  if(!tabs.some(t=>t[0]===S.tab)) S.tab=tabs[0][0];
   return `<div><button class="btn ghost sm" data-act="nav" data-v="cartera">${ic('back')}Cartera</button></div>
-  <div class="ficha-h"><div><p class="eyebrow">Expediente ${e.num} · ${e.min} · ${e.sector}</p><h1>${esc(e.soc)}</h1>
-   <div class="meta"><span>RUT <b>${e.rut}</b></span>${e.grupo?`<span>Grupo <b>${esc(e.grupo)}</b></span>`:''}<span>Inversión comprometida <b>${usd(e.monto)}</b></span><span>Responsable <b>${P(e.resp).name}</b></span><span>Estado <b>${e.estado}</b></span>${e.sensible?`<span class="lock">${ic('lock')}Información sensible</span>`:''}</div></div>
-   <div class="btns">${ib('tarea','plus','Nueva tarea',`data-id="${e.id}"`,'solid')}${ib('interaccion','chat','Registrar interacción',`data-id="${e.id}"`,'solid')}<button class="btn pri" data-act="revision" data-id="${e.id}">Enviar a revisión</button></div></div>
+  <div class="ficha-h"><div><p class="eyebrow">Expediente ${e.num} · ${e.min} · ${e.sector}</p><h1><button class="h1link" data-act="soc" data-s="${esc(e.soc)}" title="Ver la sociedad">${esc(e.soc)}</button></h1>
+   <div class="meta"><span>RUT <b>${e.rut}</b></span>${e.grupo?`<span>Grupo <b>${esc(e.grupo)}</b></span>`:''}<span>Inversión comprometida <b>${usd(e.monto)}</b></span><span>Responsable <b>${P(e.resp).name}</b></span><span>Estado <b>${e.estado}</b></span>${e.estado==='En seguimiento'?`<span>Operativo <button class="link" data-act="estado-op" data-id="${e.id}">${opState(e)}</button></span>`:''}${e.cierre?`<span class="down">Cerrado el ${fdy(e.cierre.f)} · ${esc(e.cierre.m)}</span>`:''}${e.sensible?`<span class="lock">${ic('lock')}Información sensible</span>`:''}</div></div>
+   <div class="btns">${ib('tarea','plus','Nueva tarea',`data-id="${e.id}"`,'solid')}${ib('interaccion','chat','Registrar interacción',`data-id="${e.id}"`,'solid')}<button class="btn pri" data-act="revision" data-id="${e.id}">Enviar a revisión</button>${S.role!=='asistente'?more([e.estado==='Cerrado'?['reabrir','undo','Reabrir expediente',`data-id="${e.id}"`]:['cerrar-exp','folder','Cerrar y archivar',`data-id="${e.id}"`]]):''}</div></div>
   <div class="signals3">
-   <div><span class="lab">Salud</span><div>${sig(ev.salud)}</div><span class="small muted">${ev.drag?`Lo arrastra: <b style="color:var(--ink)">${esc(ev.drag.label)}</b>`:'Todos los compromisos en regla'}</span>${e.override&&e.override.hasta>TODAY?`<span class="chip stale">Excepción vigente hasta ${fd(e.override.hasta)}</span>`:''}</div>
+   <div><span class="lab">Salud</span><div>${sig(ev.salud)}</div><span class="small muted">${ev.drag?`Lo arrastra: <b style="color:var(--ink)">${esc(ev.drag.label)}</b>`:'Todos los compromisos en regla'} · <button class="link small" data-act="criterio" data-id="${e.id}">Ver criterio</button></span>${e.override&&e.override.hasta>TODAY?`<span class="chip stale">Excepción vigente hasta ${fd(e.override.hasta)}</span>`:''}</div>
    <div><span class="lab">Frescura del dato</span><div>${fresh(ev.fresh,ev.freshDays)}</div><span class="small muted">${ev.fresh==='ok'?'Todas las mediciones dentro del umbral':`${TLAB[ev.fdrag.tipo]}: umbral ${TH[ev.fdrag.tipo]} días`}</span></div>
    <div><span class="lab">Próxima acción</span><span class="big">${esc(n.t)}</span><span class="small ${n.f<TODAY?'down b':'muted'}">${fdy(n.f)} · ${rel(n.f)} · origen: ${n.src}</span></div>
   </div>
@@ -1013,16 +1081,17 @@ FT.resumen = (e,ev) => `<div class="grid g2">
    <section class="sec"><div class="card-h"><h2>Próximos hitos</h2></div><div class="list">${e.hitos.sort((a,b)=>a.f-b.f).map(h=>`<div class="li"><div class="stripe ${days(h.f)<0?'crit':days(h.f)<=21?'warn':'info'}"></div><div><div class="t">${h.tipo}</div><div class="m">${rel(h.f)}</div></div><span class="small b">${fdy(h.f)}</span></div>`).join('')}</div></section>
    <section class="sec"><div class="card-h"><h2>Últimos movimientos</h2><button class="link small" data-act="tab" data-t="bitacora">Bitácora</button></div>${timeline(e.bit.slice(0,3))}</section>
   </div></div>`;
-FT.compromisos = (e) => `<section class="card"><div class="card-h"><h2>Compromisos e indicadores</h2><span class="hint">Línea punteada azul: meta. Gris: avance esperado a la fecha.</span></div>${e.comps.map(c=>{const h=compHealth(c),f=compFresh(c),l=last(c);return `<div class="comp"><div style="display:flex;flex-direction:column;gap:8px"><div style="display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap"><h3>${esc(c.label)}</h3>${sig(h.s)}</div>
+FT.compromisos = (e) => `<section class="card"><div class="card-h"><div><h2>Compromisos e indicadores</h2><span class="hint">Línea punteada azul: meta. Gris: avance esperado a la fecha.</span></div><button class="btn sm" data-act="fit-extract" data-id="${e.id}">${ic('spark')}Proponer desde el FIT vigente</button></div>${e.comps.map(c=>{const h=compHealth(c),f=compFresh(c),l=last(c);return `<div class="comp"><div style="display:flex;flex-direction:column;gap:8px"><div style="display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap"><h3>${esc(c.label)}</h3>${sig(h.s)}</div>
   <div><span class="num">${c.unidad==='USD'?usd(l.v):c.tipo==='certificacion'?(l.v?'Obtenida':'Pendiente'):num(l.v)}</span> <span class="muted">${c.tipo==='certificacion'?'':`de ${c.unidad==='USD'?usd(c.meta):num(c.meta)+' '+c.unidad}`}</span></div>
   <span class="small muted">${esc(h.why)}</span>
   <div class="btns">${fresh(f.s,f.d)}<span class="chip">Origen: ${l.origen}</span><span class="chip">Ventana ${MES[c.ini.getMonth()]} ${c.ini.getFullYear()} – ${MES[c.fin.getMonth()]} ${c.fin.getFullYear()}</span></div>
   ${c.nota?`<div class="note"><b>Nota de contexto</b> · vigente hasta ${fdy(c.nota.hasta)}<br>${esc(c.nota.texto)}<div class="xs muted" style="margin-top:3px">${esc(c.nota.autor)} · ${fd(c.nota.f)}</div></div>`:''}
-  <div class="btns" style="margin-top:4px"><button class="btn sm pri" data-act="medir" data-id="${c.id}">Registrar medición</button>${ib('nota','note','Nota de contexto',`data-id="${c.id}"`,'solid')}</div></div>
+  <div class="small">${ic('doc','width="13" height="13" style="vertical-align:-2px;color:var(--muted)"')} Evidencia: ${c.ev||(e.docs.find(d=>d.comp===c.id)||{}).nombre||{empleo:'Planilla BPS del período',inversion:'Mayores 2025.xlsx',capacitacion:'Diplomas y listas de asistencia',certificacion:c.cert?c.cert+'.pdf':'—'}[c.tipo]}</div>
+  <div class="btns" style="margin-top:4px"><button class="btn sm pri" data-act="medir" data-id="${c.id}">Registrar medición</button>${ib('nota','note','Nota de contexto',`data-id="${c.id}"`,'solid')}${ib('hist-med','clock','Historial y correcciones',`data-id="${c.id}"`,'solid')}</div></div>
   <div>${c.tipo==='certificacion'?`<div class="callout">${ic('info')}<div><b>${esc(c.cert)}</b><div class="small muted">Plazo comprometido: ${fdy(c.certFin)}. ${l.v?'Certificado vinculado como evidencia.':'Sin certificado cargado.'}</div></div></div>`:compChart(c)}</div></div>`;}).join('')}</section>`;
 FT.vencimientos = e => `<section class="card"><div class="list">${[...e.hitos,...e.tareas.filter(t=>t.estado!=='completada').map(t=>({tipo:'Tarea: '+t.titulo,f:t.due}))].sort((a,b)=>a.f-b.f).map(h=>`<div class="li"><div class="stripe ${days(h.f)<0?'crit':days(h.f)<=14?'warn':'info'}"></div><div><div class="t">${esc(h.tipo)}</div><div class="m">${rel(h.f)}</div></div><span class="small b">${fdy(h.f)}</span></div>`).join('')}</div></section>`;
 FT.tareas = e => { const ts=e.tareas.filter(t=>t.estado!=='completada'); return `<section class="card"><div class="card-h"><h2>Tareas abiertas</h2><button class="btn sm" data-act="tarea" data-id="${e.id}">${ic('plus')}Nueva tarea</button></div><div class="list">${taskGroups(ts)||'<div class="empty">Sin tareas abiertas</div>'}</div></section>`; };
-FT.documentos = e => `<section class="card"><div class="card-h"><h2>Documentos</h2><span class="hint">Referenciados desde SharePoint, solo lectura</span></div><div class="tw"><table><thead><tr><th>Tipo</th><th>Documento</th><th>Versión</th><th>Fecha</th><th></th></tr></thead><tbody>${e.docs.map(d=>`<tr><td><span class="chip">${d.tipo}</span></td><td>${d.falta?`<span class="down b">Falta: ${esc(d.nombre)}</span>`:esc(d.nombre)}</td><td class="small">${d.ver}${d.tipo==='FIT'?' <span class="chip good">vigente</span>':''}</td><td class="small muted">${d.falta?'—':fdy(d.f)}</td><td style="text-align:right">${d.falta?`<button class="btn sm" data-act="pedir" data-id="${e.id}" data-doc="${esc(d.tipo)}">Pedir al cliente</button>`:`<button class="btn sm ghost" data-act="abrir-doc">Abrir</button>`}</td></tr>`).join('')}</tbody></table></div></section>`;
+FT.documentos = e => `<section class="card"><div class="card-h"><div><h2>Documentos</h2><span class="hint">Referenciados desde SharePoint, solo lectura</span></div><button class="btn sm" data-act="sp-pick" data-id="${e.id}">${ic('plus')}Vincular desde SharePoint</button></div><div class="tw"><table><thead><tr><th>Tipo</th><th>Documento</th><th>Versión</th><th>Fecha</th><th></th></tr></thead><tbody>${e.docs.map(d=>`<tr><td class="small b">${d.tipo}</td><td>${d.falta?`<span class="down b">Falta: ${esc(d.nombre)}</span>`:esc(d.nombre)}${d.comp?`<div class="xs muted">Evidencia de ${esc((e.comps.find(c=>c.id===d.comp)||{}).label||'')}</div>`:''}</td><td class="small">${d.ver}${d.tipo==='FIT'?' <span class="chip good">vigente</span>':''}</td><td class="small muted">${d.falta?'—':fdy(d.f)}</td><td style="text-align:right">${d.falta?`<button class="btn sm" data-act="pedir" data-id="${e.id}" data-doc="${esc(d.tipo)}">Pedir al cliente</button>`:`<button class="btn sm ghost" data-act="abrir-doc">Abrir</button>`}</td></tr>`).join('')}</tbody></table></div></section>`;
 FT.irae = e => { const r=e.irae; const saldo=r.rec-r.util; const dif = r.decl!=null && r.decl!==r.rec;
   return `<div class="kstats">${[['Recomendado',r.rec,'Cálculo del sistema con topes'],['Declarado (DJ)',r.decl,r.decl==null?'DJ aún no registrada':'Según DJ presentada'],['Utilizado',r.util,'Aplicado en el ejercicio'],['Saldo pendiente',saldo,'Disponible para próximos ejercicios']].map(([l,v,s])=>`<div class="card kpi"><span class="lab">${l}</span><span class="val" style="font-size:24px">${v==null?'—':usd(v)}</span><span class="delta">${s}</span></div>`).join('')}</div>
   ${dif?`<div class="drag">${ic('alert','width="16" height="16"')}<span>Lo declarado (${usd(r.decl)}) no coincide con lo recomendado (${usd(r.rec)}). Diferencia: ${usd(r.rec-r.decl)}.</span></div>`:''}
@@ -1063,7 +1132,7 @@ function revRow(r){
 }
 V.revisiones = () => { const lvl = S.role==='socio'?'Socio':S.role==='manager'?'Manager':null;
   const pend = REVS.filter(r=>r.estado==='pendiente'&&(!lvl||r.nivel===lvl)), mias = REVS.filter(r=>r.autor===me()), hechas=REVS.filter(r=>r.estado!=='pendiente');
-  return `<div class="hd"><div><p class="eyebrow">A09 · Revisiones y aprobaciones</p><h1>Revisiones</h1><p class="sub">Nada sale sin la aprobación que su nivel exige. Cada resolución queda en el historial del expediente.</p></div></div>
+  return `<div class="hd"><div><p class="eyebrow">A09 · Revisiones y aprobaciones</p><h1>Revisiones</h1><p class="sub">Nada sale sin la aprobación que su nivel exige. Cada resolución queda en el historial del expediente.</p></div>${S.role!=='asistente'?`<button class="btn" data-act="rev-export">${ic('copy')}Exportar historial para auditoría</button>`:''}</div>
   <section class="card"><div class="card-h"><h2>${lvl?`Esperan tu decisión (nivel ${lvl})`:'Enviadas por mí'}</h2><span class="hint">${(lvl?pend:mias).length} ítems</span></div><div class="list">${(lvl?pend:mias).map(revRow).join('')||'<div class="empty">Nada pendiente.</div>'}</div></section>
   ${hechas.length?`<section class="card"><div class="card-h"><h2>Resueltas en esta sesión</h2></div><div class="list">${hechas.map(revRow).join('')}</div></section>`:''}`; };
 
@@ -1080,7 +1149,7 @@ function solBlock(s){
   return `<section class="sol">
    <header class="sol-h"><div class="sol-t"><div class="t">${expLink(e)}</div><div class="m">${esc(s.contacto)}<span class="sep">·</span>enviada ${fd(s.enviada)}${s.recs?`<span class="sep">·</span>${s.recs} ${s.recs===1?'recordatorio':'recordatorios'}`:''}</div></div>
     <div class="sol-st"><span class="prog"><i style="width:${v/s.items.length*100}%"></i></span><span class="small muted">${v}/${s.items.length}</span></div><span class="stt ${SOLCL[st]}"><span class="dot ${SOLCL[st]}"></span>${st}</span><span></span>
-    <div class="sol-a slot">${st!=='Completa'?ib('recordar','bell','Recordar los ítems faltantes',`data-s="${s.id}"`):''}</div></header>
+    <div class="sol-a slot">${st!=='Completa'?ib('recordar','bell','Recordar los ítems faltantes',`data-s="${s.id}"`):''}</div></header>${st!=='Completa'&&s.recs>=3?`<div class="sol-esc">${s.esc?`<span class="stt crit"><span class="dot crit"></span>Escalada a la manager</span>`:`<span class="small down">${s.recs} recordatorios sin respuesta</span><button class="btn sm" data-act="sol-esc" data-s="${s.id}">${ic('up')}Escalar</button>`}</div>`:''}
    <div class="sol-items">${s.items.map((it,k)=>{ const a=`data-s="${s.id}" data-k="${k}"`;
      const main = it[1]==='recibido'?ib('item','check','Validar',a+' data-v="validado"','good'):(it[1]==='pendiente'||it[1]==='rechazado')?ib('item','inbox','Marcar recibido',a+' data-v="recibido"'):'';
      const sec = it[1]==='recibido'?ib('item','x','Rechazar',a+' data-v="rechazado"','crit'):'';
@@ -1119,7 +1188,7 @@ function informeDet(e){
   <div class="rep">
    <div class="grid" style="align-content:start">
     <section class="sec"><div class="card-h"><h2>1 · Datos del período</h2><span class="chip">armado automático</span></div><div class="card-b" style="display:flex;flex-direction:column;gap:10px">${e.comps.map(c=>{const l=last(c),h=compHealth(c);return `<div style="display:flex;justify-content:space-between;gap:8px;align-items:center"><div><div class="b small">${esc(c.label)}</div><div class="xs muted">medición ${fd(l.f)} · ${l.origen}</div></div><div style="text-align:right"><div class="small b">${c.unidad==='USD'?usd(l.v):c.tipo==='certificacion'?(l.v?'Sí':'No'):num(l.v)}</div><span class="sig s-${h.s}" style="font-size:11px">${SAL[h.s]}</span></div></div>`;}).join('')}</div></section>
-    <section class="sec"><div class="card-h"><h2>2 · Conclusiones por regla</h2><span class="chip">reglas v2.3</span></div><div class="card-b" style="padding-top:4px;padding-bottom:4px">${cs.map(c=>`<div class="rule rc"><span class="rk code">${c.r}</span><div><div class="small">${esc(c.t)}</div><div class="xs muted">Recomendación base: ${esc(c.rec)}</div></div></div>`).join('')}</div></section>
+    <section class="sec"><div class="card-h"><h2>2 · Conclusiones por regla</h2><span class="chip">reglas v2.3</span></div><div class="card-b" style="padding-top:4px;padding-bottom:4px">${cs.map(c=>{const fx=e.cfix&&e.cfix[c.r]; return `<div class="rule rc rcx"><span class="rk code">${c.r}</span><div><div class="small">${esc(fx||c.t)}${fx?' <span class="stt warn" style="font-size:11px"><span class="dot warn"></span>corregida</span>':''}</div><div class="xs muted">Recomendación base: ${esc(c.rec)}</div></div>${ib('concl-fix','note','Corregir conclusión',`data-r="${c.r}" data-t="${esc(fx||c.t)}"`)}</div>`;}).join('')}</div></section>
    </div>
    <section class="card"><div class="card-h"><h2>3 · Narrativa</h2><div class="btns"><span class="chip ai">${ic('spark','width="12" height="12"')}Generado por IA · editable</span></div></div>
     <div class="card-b" style="display:flex;flex-direction:column;gap:12px">
@@ -1135,8 +1204,8 @@ function informeDet(e){
 /* Facturación */
 V.facturacion = () => { const cols=[['listo','Listo para facturar','hitos sin factura'],['facturado','Facturado','dentro de plazo'],['vencido','Vencido','requiere seguimiento'],['cobrado','Cobrado','saldo cero']];
   const tot = k => FACT.filter(f=>f.estado===k).reduce((a,f)=>a+(f.saldo||f.monto),0);
-  const ORD={vencido:0,listo:1,facturado:2,cobrado:3};
-  const EST={listo:['Listo para facturar','info'],facturado:['Facturado',''],vencido:['Vencido','crit'],cobrado:['Cobrado','good']};
+  const ORD={vencido:0,listo:1,facturado:2,cobrado:3,anulada:4};
+  const EST={listo:['Listo para facturar','info'],facturado:['Facturado',''],vencido:['Vencido','crit'],cobrado:['Cobrado','good'],anulada:['Anulada','']};
   const list=FACT.filter(f=>S.factF==='todas'||f.estado===S.factF).sort((x,y)=>ORD[x.estado]-ORD[y.estado]||(x.vence||x.f)-(y.vence||y.f));
   const row=f=>{const e=EXP.find(x=>x.id===f.exp); const k=f.estado; const late=k==='listo'&&-days(f.f)>14;
     return `<tr><td><div class="b">${esc(e.soc)}</div><div class="exp-n">${esc(f.hito)}${late?' · <span class="down b">sin facturar hace '+(-days(f.f))+' días</span>':''}</div></td>
@@ -1144,7 +1213,7 @@ V.facturacion = () => { const cols=[['listo','Listo para facturar','hitos sin fa
     <td class="num-r"><div>${usd(f.saldo||f.monto)}</div>${f.saldo?`<div class="xs" style="color:var(--warn)">pago parcial</div>`:''}</td>
     <td class="small ${k==='vencido'?'down':''}">${k==='listo'?'habilitado '+fd(f.f):k==='cobrado'?'—':fd(f.vence)}</td>
     <td><span class="stt ${EST[k][1]}"><span class="dot ${EST[k][1]}"></span>${EST[k][0]}</span></td>
-    <td class="act-c">${k==='listo'?`<button class="btn sm pri" data-act="facturar" data-id="${f.id}">Registrar factura</button>`:k==='facturado'||k==='vencido'?`<div class="acts" style="justify-content:flex-end">${k==='vencido'?ib('reclamo','bell',`Preparar reclamo (${f.reclamos||0} enviados)`,`data-id="${f.id}"`):''}<button class="btn sm" data-act="cobrar" data-id="${f.id}">Registrar pago</button></div>`:''}</td></tr>`;};
+    <td class="act-c"><div class="acts" style="justify-content:flex-end">${k==='listo'?`${late?(f.esc?'<span class="xs down b">escalada a socios</span>':ib('fact-esc','up','Escalar a socios',`data-id="${f.id}"`)):''}<button class="btn sm pri" data-act="facturar" data-id="${f.id}">Registrar factura</button>`:k==='facturado'||k==='vencido'?`${k==='vencido'?ib('reclamo','bell',`Preparar reclamo (${f.reclamos||0} enviados)`,`data-id="${f.id}"`):''}<button class="btn sm" data-act="cobrar" data-id="${f.id}">Registrar pago</button>`:k==='anulada'?`<span class="xs muted">${esc(f.nota||'')}</span>`:''}${['facturado','vencido','cobrado'].includes(k)?more([['fact-anular','x','Anular factura',`data-id="${f.id}"`,'crit'],['fact-anular','undo','Nota de crédito y reemisión',`data-id="${f.id}" data-nc="1"`]]):''}</div></td></tr>`;};
   return `<div class="hd"><div><p class="eyebrow">A13 · Facturación y cobranza</p><h1>Facturación y cobranza</h1><p class="sub">La factura se habilita por un hito real del expediente. Se emite en su sistema de facturación y se registra acá.</p></div>${ib('importar','upload','Importar archivo de facturas','','solid')}</div>
   <div class="kstats">${cols.map(([k,l,sb])=>`<button class="card kpi" style="text-align:left" data-act="fact-f" data-k="${k}"><span class="lab">${l}</span><span class="val" style="font-size:24px;${k==='vencido'?'color:var(--crit)':''}">${usd(tot(k))}</span><span class="delta">${FACT.filter(f=>f.estado===k).length} ${sb}</span></button>`).join('')}</div>
   <section class="card"><div class="card-h"><h2>Facturas</h2><div class="seg">${[['todas','Todas'],...cols.map(c=>[c[0],c[1].replace(' para facturar','')])].map(([k,l])=>`<button class="${S.factF===k?'on':''}" data-act="fact-f" data-k="${k}">${l}</button>`).join('')}</div></div>
@@ -1156,7 +1225,7 @@ V.tablero = () => { const act=EXP.filter(e=>e.estado==='En seguimiento'); const 
   const cumpl = Object.keys(TLAB).map(k=>{const cs=act.flatMap(e=>e.comps.filter(x=>x.tipo===k)); return {l:TLAB[k],v:cs.length?Math.round(cs.filter(x=>compHealth(x).s==='verde').length/cs.length*100):0};});
   const ing = [182,195,176,210,224,231].map((v,i)=>({l:['may','jun','jul','ago','set','oct'][i],v}));
   if(S.role!=='socio') return `<div class="hd"><div><p class="eyebrow">B21 · Business & Operations Analytics</p><h1>Tablero de socios</h1></div></div><div class="soonp"><div class="card">${ic('lock','width="28" height="28" style="color:var(--muted)"')}<h2 style="margin-top:10px">Acceso restringido a socios</h2><p class="sub">Cambiá a la vista Socio en la barra superior para ver este tablero.</p><button class="btn pri" style="margin-top:12px" data-act="role" data-r="socio">Ver como socio</button></div></div>`;
-  return `<div class="hd"><div><p class="eyebrow">B21 · Business & Operations Analytics</p><h1>Tablero de gestión</h1><p class="sub">Indicadores de cartera, operación y economía del estudio. Período: setiembre 2026 vs agosto.</p></div><span class="chip crit">${ic('lock','width="11" height="11"')}Solo socios</span></div>
+  return `<div class="hd"><div><p class="eyebrow">B21 · Business & Operations Analytics</p><h1>Tablero de gestión</h1><p class="sub">Indicadores de cartera, operación y economía del estudio. Período: setiembre 2026 vs agosto.</p></div><span class="chip crit">${ic('lock','width="11" height="11"')}Solo socios</span></div>${bBanner('Business & Operations Analytics (B21)')}
   <div class="kstats">
    <div class="card kpi"><span class="lab">Expedientes activos</span><span class="val">${act.length}</span><span class="delta"><b class="up">+3</b> vs mes anterior</span></div>
    <div class="card kpi"><span class="lab">Compromisos cumpliendo</span><span class="val">${Math.round(c.verde/act.length*100)}%</span><span class="delta"><b class="up">+4 pts</b> vs mes anterior</span></div>
@@ -1173,13 +1242,13 @@ V.tablero = () => { const act=EXP.filter(e=>e.estado==='En seguimiento'); const 
 /* Equipo (B18) */
 V.equipo = () => { const rows = ASIS.map(id=>{ const ts=TASKS().filter(t=>t.resp===id&&t.estado!=='completada'); const ex=EXP.filter(e=>e.resp===id); const w = ex.reduce((a,e)=>a+(e.monto>3e6?2:1),0); const prox = ex.flatMap(e=>e.hitos).filter(h=>days(h.f)>=0&&days(h.f)<=30).length; return {id,ts,ex,w,prox,late:ts.filter(t=>t.due<TODAY).length,blk:ts.filter(t=>t.estado==='bloqueada').length}; });
   const maxW = Math.max(...rows.map(r=>r.w));
-  return `<div class="hd"><div><p class="eyebrow">B18 · Carga y capacidad</p><h1>Carga del equipo</h1><p class="sub">Tres formas de medir cuánto tiene cada persona: cartera ponderada, trabajo activo y vencimientos que vienen.</p></div></div>
+  return `<div class="hd"><div><p class="eyebrow">B18 · Carga y capacidad</p><h1>Carga del equipo</h1><p class="sub">Tres formas de medir cuánto tiene cada persona: cartera ponderada, trabajo activo y vencimientos que vienen.</p></div></div>${bBanner('Carga y capacidad del equipo (B18)')}
   <section class="card"><div class="tw"><table><thead><tr><th>Persona</th><th class="num">Expedientes</th><th>Carga ponderada</th><th class="num">Tareas abiertas</th><th class="num">Vencidas</th><th class="num">Bloqueadas</th><th class="num">Vencimientos 30 días</th><th>Señal</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${person(r.id)}</td><td class="num">${r.ex.length}</td><td style="min-width:160px"><div style="display:flex;gap:8px;align-items:center"><div class="bar" style="flex:1"><i style="width:${r.w/maxW*100}%"></i></div><b class="small">${r.w}</b></div></td><td class="num">${r.ts.length}</td><td class="num ${r.late?'down b':''}">${r.late}</td><td class="num">${r.blk}</td><td class="num">${r.prox}</td><td>${r.w>=maxW-1&&r.prox>3?'<span class="chip crit">Sobrecarga</span>':r.w<maxW*0.8?'<span class="chip good">Capacidad disponible</span>':'<span class="chip">Normal</span>'}</td></tr>`).join('')}</tbody></table></div></section>
   <div class="callout">${ic('info')}<div><b>Carga ponderada</b><div class="small muted">Un expediente con más de USD 3 M de inversión pesa el doble. Los criterios de ponderación se ajustan en Configuración.</div></div></div>`; };
 
 /* Portal (B24) */
 V.portal = () => { const e = EXP[0]; const s = SOLS[0];
-  return `<div class="hd"><div><p class="eyebrow">B24 · Portal de clientes</p><h1>Lo que ve el cliente</h1><p class="sub">Vista previa del portal externo para ${esc(e.soc)}. Muestra hechos y pendientes, nunca el criterio interno ni las notas del equipo.</p></div></div>
+  return `<div class="hd"><div><p class="eyebrow">B24 · Portal de clientes</p><h1>Lo que ve el cliente</h1><p class="sub">Vista previa del portal externo para ${esc(e.soc)}. Muestra hechos y pendientes, nunca el criterio interno ni las notas del equipo.</p></div></div>${bBanner('Portal de clientes (B24)')}
   <div class="portal"><div class="portal-h"><div style="display:flex;gap:14px;align-items:center"><div class="mono">S<i></i>S</div><div><div class="b">Portal de clientes</div><div class="xs" style="opacity:.75">${esc(e.soc)}</div></div></div><span class="xs" style="opacity:.8">Ingresó como Ing. Roberto Lima</span></div>
    <div class="card-b" style="display:flex;flex-direction:column;gap:16px">
     <div class="kstats s3">${e.comps.slice(0,3).map(c=>{const l=last(c),pct=c.tipo==='certificacion'?(l.v?100:0):Math.min(100,Math.round(l.v/c.meta*100));return `<div class="card kpi"><span class="lab">${esc(c.label)}</span><span class="val" style="font-size:22px">${pct}%</span><div class="bar good"><i style="width:${pct}%"></i></div><span class="delta">de lo comprometido</span></div>`;}).join('')}</div>
@@ -1197,8 +1266,291 @@ V.config = () => `<div class="hd"><div><p class="eyebrow">A01 · A06 · Administ
 const SOON = {'soon-mayores':['B23 · Mayores contables','Conciliación de inversiones','Carga del libro mayor por sociedad, clasificación asistida de movimientos contra las categorías comprometidas y validación por lote antes de impactar el indicador.'],'soon-normativa':['B19 · Conocimiento normativo','Asistente normativo','Consultas en lenguaje natural sobre normativa vigente, respuestas de COMAP y precedentes propios, siempre citando la fuente y su vigencia.'],'soon-nominas':['B20 · Automatización de inputs','Importar nóminas','Lectura de la salida del procesador de nóminas y propuesta de mediciones de empleo, aplicadas solo tras validación humana.']};
 Object.keys(SOON).forEach(k=>V[k]=()=>`<div class="soonp"><div class="card"><p class="eyebrow">${SOON[k][0]} · Entrega B</p><h1 style="font-size:26px">${SOON[k][1]}</h1><p class="sub" style="margin-inline:auto">${SOON[k][2]}</p></div></div>`);
 
+/* =====================================================================
+   EXTENSIÓN · cobertura de specs (A01–A17) agregada tras la revisión
+   ===================================================================== */
+Object.assign(S,{altaTab:'propuestas', cfgTab:null, solTab:'solicitudes', showArch:false, soc:null, comapTr:'anual', notifOpen:false, login:null, scen:[]});
+const goTo = v => { S.view=v; S.informe=null; $('#side').classList.remove('open'); document.body.classList.remove('drawer'); render(); window.scrollTo(0,0); };
+const tabsBar = (cur,act,items) => `<div class="tabs" role="tablist">${items.map(([k,l])=>`<button class="${cur===k?'on':''}" data-act="${act}" data-k="${k}" role="tab">${l}</button>`).join('')}</div>`;
+const bBanner = mod => `<div class="callout bnote">${ic('info')}<div><b>Entrega B · ${mod}</b><div class="small muted">Se muestra como referencia de hacia dónde puede crecer el sistema. No forma parte del alcance inicial (entrega A).</div></div></div>`;
+const AUDIT = [];
+const audit = (ent,campo,antes,despues) => AUDIT.unshift({f:new Date(),u:P(me()).name,ent,campo,antes:String(antes??'—'),despues:String(despues??'—')});
+[['Expediente E1004','Responsable','Martín Silva','Lucía Pérez',-3],['Compromiso Empleo · E1013','Medición jun 2026','18','21',-2],['Regla de salud','Versión vigente','v2.2','v2.3',-34],['Usuario Florencia Sosa','Rol','—','Facturación',-40],['Factura A-004779','Saldo','2.200','1.100',-6],['Expediente E1009','Estado calculado','Incumpliendo','En riesgo (excepción)',-3]].forEach(([ent,c,a,b,d])=>AUDIT.push({f:addD(TODAY,d),u:pick(['Carolina Gómez','Ana Bentancor','Lucía Pérez']),ent,campo:c,antes:a,despues:b}));
+
+/* ---------- A14 · Comercial ---------- */
+const PROPS = [
+ {id:'P1',soc:'Vidriería Las Toscas S.A.',rut:'214455660019',proyecto:'Ampliación de planta de templado',monto:1800000,min:'MIEM',estado:'Ganada',f:addD(TODAY,-1),com:'Ana Bentancor',tipo:'Industria'},
+ {id:'P2',soc:'Bodega Los Cerros S.A.',rut:null,proyecto:'Nueva línea de embotellado',monto:950000,min:'MGAP',estado:'Ganada',f:addD(TODAY,-3),com:'Ana Bentancor',tipo:'Agro'},
+ {id:'P3',soc:'Pesquera La Paloma SRL',rut:'217788990011',proyecto:'Cámara de frío y planta de procesamiento',monto:2400000,min:'MGAP',estado:'En negociación',f:addD(TODAY,-9),com:'Ana Bentancor',tipo:'Agro'},
+ {id:'P4',soc:'Hostería Laguna Garzón SRL',rut:'215566770014',proyecto:'Ampliación de habitaciones',monto:700000,min:'MINTUR',estado:'Propuesta enviada',f:addD(TODAY,-15),com:'Ana Bentancor',tipo:'Turismo'}
+];
+PROPS[1].rut = (EXP.find(e=>e.soc===PROPS[1].soc)||{}).rut || '212233440019';
+const HANDOFFS = [{f:addD(TODAY,-20),prop:'Cervecería Minas SRL · Planta de malteado',res:'Expediente creado y asignado a Valentina Ríos',ok:true},{f:addD(TODAY,-41),prop:'Clínica Pocitos S.A. · Equipamiento',res:'Vinculado a sociedad existente (RUT coincide)',ok:true}];
+
+/* ---------- A04 · Armado ---------- */
+const ARM_ST = ['En armado','Revisión interna','Firma','Presentado','Con observaciones','Aprobado'];
+const CHECK_TPL = ['Formulario FIT completo','Estados contables de los últimos 2 ejercicios','Cronograma de inversiones','Cotizaciones de los bienes','Planilla de empleo actual (BPS)','Certificados DGI y BPS vigentes','Plan de capacitación','Delegación firmada'];
+function initArm(e,stage){
+  const st = stage || e.estado; const idx = Math.max(0,ARM_ST.indexOf(st));
+  e.arm = { check: CHECK_TPL.map((it,k)=>({it,st: idx>0?'recibido':(k<3||rnd()>0.5?'recibido':(k===6&&rnd()>0.5?'na':'pendiente'))})), obs:[], hist:[{st:'En armado',f:addD(TODAY,-ri(20,40))}] };
+  for(let i=1;i<=Math.min(idx,3);i++) e.arm.hist.push({st:ARM_ST[i],f:addD(TODAY,-ri(2,18))});
+  if(st==='Con observaciones'){ e.arm.hist.push({st:'Con observaciones',f:addD(TODAY,-4)}); e.arm.obs=[{f:addD(TODAY,-4),t:'Aclarar el cronograma de incorporación de personal del año 2',st:'abierta'},{f:addD(TODAY,-4),t:'Presentar cotización actualizada de la línea de envasado',st:'levantada'}]; }
+  if(idx>=3) e.arm.presentado = addD(TODAY,-ri(5,25));
+  e.estado = st;
+}
+EXP.filter(e=>['En armado','Presentado','Con observaciones'].includes(e.estado)).forEach((e,i)=>initArm(e, i===1?'Revisión interna':i===2?'Firma':null));
+const armPct = e => { const c=e.arm.check.filter(x=>x.st!=='na'); return c.length?Math.round(c.filter(x=>x.st==='recibido').length/c.length*100):100; };
+
+/* ---------- A08.1 · Ciclo anual ---------- */
+const CICLO = [['Abrir ciclo anual','Sistema'],['Pedir mayores, DJ, EECC y certificados','Asistente'],['Calcular IRAE recomendado','Sistema'],['Comunicar cálculo al estudio contable','Asistente'],['Registrar DJ presentada','Asistente'],['Conciliar recomendado, declarado y utilizado','Asistente'],['Prevalidar y corregir faltantes','Asistente'],['Generar entregables COMAP','Asistente'],['Aprobar entregables','Manager'],['Firmar','Socio'],['Presentar ante COMAP','Asistente'],['Registrar constancia y cerrar ciclo','Asistente']];
+EXP.forEach((e,i)=>{ e.ciclo = CICLO.map((_,k)=>k < (i<3?7:ri(1,9))); e.exports = i%3===0?[{v:1,f:addD(TODAY,-ri(200,330)),u:P(e.resp).name,tr:'Seguimiento anual 2024',file:`SeguimientoAnual_2024_${e.num}_v1.xlsx`}]:[]; });
+
+/* ---------- A17 · Contactos y entrantes ---------- */
+const CONTACTS = [];
+const ROLESC = [['Contador/a (estudio contable)','Mayores, DJ, EECC'],['RRHH','Planillas BPS, constancias de capacitación'],['Gerencia general','Firmas, decisiones, cronograma'],['Administración','Facturas de inversión']];
+const NOMS = ['Pablo Díaz','Sofía Acosta','Marcelo Vidal','Laura Ferreira','Diego Castro','Natalia Rey','Gonzalo Pereira','Carla Núñez','Andrés Suárez','Mariana Lima'];
+[...new Set(EXP.map(e=>e.soc))].forEach((soc,i)=>{ const n = 1+(i%3); for(let k=0;k<n;k++){ const r=ROLESC[(i+k)%4]; CONTACTS.push({id:'C'+CONTACTS.length,soc,nombre:NOMS[(i*3+k)%NOMS.length],rol:r[0],info:r[1],email:NOMS[(i*3+k)%NOMS.length].toLowerCase().replace(/ /g,'.').normalize('NFD').replace(/[̀-ͯ]/g,'')+'@'+soc.split(' ')[0].toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'')+'.com.uy'}); } });
+const ENTR = [
+ {id:'M1',de:CONTACTS[0].email,asunto:'RE: Pedido de información · Mayores 2025',f:addD(TODAY,0),sug:'E1000',conf:96,cuerpo:'Adjunto mayores 2025. La DJ la envío la semana próxima.'},
+ {id:'M2',de:'rrhh@molinos.com.uy',asunto:'Planillas BPS',f:addD(TODAY,-1),sug:'E1001',conf:88,cuerpo:'Les paso las planillas de julio y agosto. Setiembre todavía no cerró.'},
+ {id:'M3',de:'info@gmail.com',asunto:'Consulta proyecto',f:addD(TODAY,-1),sug:null,conf:0,cuerpo:'Hola, ¿pueden confirmarme cuándo vence la próxima presentación?'},
+ {id:'M4',de:'gerencia@termoplasticos.com.uy',asunto:'Certificado ISO 9001',f:addD(TODAY,-2),sug:'E1002',conf:71,cuerpo:'Les adjunto el certificado obtenido en setiembre.'}
+];
+
+/* ---------- A07 · Avisos ---------- */
+const NOTIFS = {
+ asistente:[['Vence en 5 días: entregables del seguimiento anual','Frigorífico Del Este S.A.','E1000','alert'],['Nueva tarea asignada: Validar planillas BPS','Asignada por Carolina Gómez','E1003','task'],['Respuesta del cliente recibida','Mayores 2025 · Frigorífico Del Este S.A.','E1000','inbox'],['Revisión devuelta con observaciones','Informe semestral · Hotel Punta Brava S.A.','E1004','undo']],
+ manager:[['3 alertas de riesgo nuevas','Centro de excepciones',null,'alert'],['Revisión pendiente hace 6 días','Entregables · Turismo Cabo Polonio SRL','E1022','check'],['Solicitud escalada tras 3 recordatorios','Termoplásticos Uruguay S.A.','E1002','up']],
+ socio:[['2 casos escalados esperan tu decisión','Para decidir',null,'up'],['Factura sin emitir hace más de 14 días','Arrocera Treinta y Tres S.A.',null,'money'],['Excepción al estado pendiente de aprobación','Software Ciudad Vieja SAS','E1009','shield']]
+};
+const READ = new Set();
+
+/* ---------- Configuración (A01, A05, A06, A07, A11, A13, A16) ---------- */
+const CFG = {
+ rules:{v:'2.3',desde:'1 set 2026',emp:[100,90],inv:[5,20],cap:[5,20],cert:120,hist:[['2.3','1 set 2026','Carolina Gómez','Amarillo de empleo pasa de 85% a 90%'],['2.2','1 mar 2026','Ana Bentancor','Se agrega umbral de frescura por tipo'],['2.1','15 nov 2025','Ana Bentancor','Versión inicial acordada en sesiones de criterio']]},
+ tipos:[['Empleo','puestos','Trimestral',120,'Planilla BPS'],['Inversión','USD','Semestral',180,'Comprobantes / mayores'],['Capacitación','horas','Cuatrimestral',180,'Diplomas y listas de asistencia'],['Certificación','certificación','Anual',365,'Certificado vigente'],['Exportaciones','% de ventas','Anual',365,'Declaración de exportaciones']],
+ docs:['FIT','Resolución COMAP','DJ IRAE','EECC','Mayores','Planilla BPS','Certificado','Constancia de presentación','Delegación','Cotización','Propuesta','Contrato'],
+ fact:[['Proyecto nuevo','Presentación ante COMAP',4500,'30 días'],['Proyecto nuevo','Aprobación COMAP',6000,'30 días'],['Seguimiento anual','Seguimiento presentado',2200,'30 días'],['Informes','Informe semestral emitido',900,'15 días']],
+ map:[['Personal ocupado promedio','Empleo · última medición del período','Promedio de los 12 meses'],['Inversión ejecutada (USD)','Inversión · acumulado al cierre','Pesos → USD al tipo de cambio de cierre'],['Horas de capacitación','Capacitación · acumulado','Sin transformación'],['IRAE exonerado del ejercicio','IRAE · declarado (DJ)','Redondeo a pesos'],['RUT de la empresa','Sociedad · RUT','Sin guiones'],['N.º de expediente','Expediente · número','Formato AAAA-MM-N-NNNN']],
+ avisos:[['Seguimiento anual COMAP',30,'Responsable','Manager a 7 días'],['Informe al cliente',14,'Responsable','—'],['Cierre de ventana de cumplimiento',90,'Responsable','Socio a 30 días'],['Dato desactualizado','al superar umbral','Responsable','Manager a 15 días'],['Factura sin emitir',7,'Facturación','Socio a 14 días']],
+ acciones:['Ver','Crear','Editar','Aprobar','Reasignar','Administrar'],
+ perm:{Asistente:[1,1,1,0,0,0],Manager:[1,1,1,1,1,0],Socio:[1,1,1,1,1,1],Facturación:[1,1,1,0,0,0]},
+ datos:[['Sociedad','RUT, razón social, domicilio','Contrato de servicio','10 años desde el cierre'],['Contacto','Nombre, email, teléfono, rol','Contrato de servicio','Mientras dure la relación + 2 años'],['Usuario interno','Nombre, email, rol, accesos','Relación laboral','Hasta la baja + 1 año'],['Mediciones de empleo','Cantidad de personal (agregado)','Obligación ante COMAP','10 años'],['Documentos','Archivos referenciados en SharePoint','Obligación ante COMAP','Según política del documento']]
+};
+
+/* ---------- Vistas nuevas ---------- */
+V.alta = () => {
+  const t=S.altaTab;
+  const head = `<div class="hd"><div><p class="eyebrow">A04 · A14 · Alta y presentación</p><h1>Alta y armado de proyectos</h1><p class="sub">De la propuesta ganada al proyecto presentado ante COMAP y aprobado.</p></div></div>`;
+  return head + tabsBar(t,'alta-t',[['propuestas',`Propuestas ganadas (${PROPS.filter(p=>p.estado==='Ganada').length})`],['armado',`En armado (${EXP.filter(e=>e.arm&&ARM_ST.includes(e.estado)).length})`],['simulador','Simulador 329/025']]) + ALTA[t]();
+};
+const ALTA = {};
+ALTA.propuestas = () => `<section class="card"><div class="tw"><table><thead><tr><th>Sociedad / proyecto</th><th>Ministerio</th><th class="num-r">Monto</th><th>Etapa comercial</th><th></th></tr></thead><tbody>${PROPS.map(p=>`<tr><td><div class="b">${esc(p.soc)}</div><div class="exp-n">${esc(p.proyecto)}</div></td><td class="small muted">${p.min}</td><td class="num-r">${usd(p.monto)}</td><td><span class="stt ${p.estado==='Ganada'?'good':p.estado==='Expediente creado'?'info':''}"><span class="dot ${p.estado==='Ganada'?'good':p.estado==='Expediente creado'?'info':''}"></span>${p.estado}</span></td><td class="act-c">${p.estado==='Ganada'?`<button class="btn sm pri" data-act="handoff" data-id="${p.id}">Crear expediente</button>`:p.estado==='Expediente creado'?`<button class="btn sm" data-act="open" data-id="${p.exp}">Abrir expediente</button>`:`<button class="btn sm" data-act="ganar" data-id="${p.id}">Marcar ganada</button>`}</td></tr>`).join('')}</tbody></table></div></section>
+ <section class="sec"><div class="card-h"><h2>Registro de traspasos</h2><span class="hint">Sin la opción HubSpot, la marca de "ganada" se hace acá</span></div><div class="list">${HANDOFFS.map(h=>`<div class="li"><div><div class="t">${esc(h.prop)}</div><div class="m">${esc(h.res)}</div></div><span class="small muted">${fd(h.f)}</span></div>`).join('')}</div></section>`;
+ALTA.armado = () => { const list = EXP.filter(e=>e.arm&&ARM_ST.includes(e.estado));
+  return `<section class="card"><div class="tw"><table><thead><tr><th>Sociedad / expediente</th><th>Etapa</th><th class="num">Checklist</th><th class="num">Observaciones</th><th>Resp.</th><th></th></tr></thead><tbody>${list.map(e=>{const idx=ARM_ST.indexOf(e.estado); const ob=e.arm.obs.filter(o=>o.st==='abierta').length; return `<tr class="row" data-act="open-arm" data-id="${e.id}"><td><div class="b">${esc(e.soc)}</div><div class="exp-n">Exp. ${e.num}</div></td><td><div class="pipe">${ARM_ST.slice(0,4).map((s,i)=>`<i class="${i<idx||(idx>=3&&i<=3)?'done':i===idx?'cur':''}" title="${s}"></i>`).join('')}</div><div class="xs ${e.estado==='Con observaciones'?'down':'muted'}" style="margin-top:3px">${e.estado}</div></td><td class="num"><span class="small ${armPct(e)<100?'':'up'}">${armPct(e)}%</span></td><td class="num">${ob?`<span class="down b small">${ob} abierta${ob>1?'s':''}</span>`:'<span class="faint small">—</span>'}</td><td><span class="av sm tip-b" data-tip="${esc(P(e.resp).name)}">${ini(P(e.resp).name)}</span></td><td class="act-c">${ic('arrow','width="16" height="16" style="color:var(--faint)"')}</td></tr>`;}).join('')}</tbody></table></div></section>`; };
+const SIM_SHORT = {emp:'Empleo',desc:'Descentr.',exp:'Export.',limpia:'T. limpias',idi:'I+D+i'};
+const SIM_IND = [['emp','Generación de empleo','puestos nuevos',0,60,12,0.35],['desc','Descentralización','índice del departamento (0–10)',0,10,6,0.15],['exp','Aumento de exportaciones','% de ventas',0,100,20,0.2],['limpia','Tecnologías limpias','% de la inversión',0,50,10,0.15],['idi','Investigación e innovación','% de la inversión',0,30,4,0.15]];
+const simVals = {emp:12,desc:6,exp:20,limpia:10,idi:4,inv:1500000};
+function simCalc(v){ const sc = SIM_IND.map(([k,,,mn,mx,,w])=>({k,s:Math.min(10,(v[k]-mn)/(mx-mn)*10),w})); const p = sc.reduce((a,x)=>a+x.s*x.w,0); const pct = Math.min(100, 20 + p*7); return {p:Math.round(p*100)/100, pct:Math.round(pct), irae:Math.round(v.inv*pct/100), sc}; }
+ALTA.simulador = () => { const r=simCalc(simVals);
+  return `<div class="callout">${ic('info')}<div><b>Matriz de ejemplo</b><div class="small muted">Ponderaciones y escalas ilustrativas. En el sistema se carga la matriz vigente del Decreto 329/025, versionada.</div></div></div>
+  <div class="grid g-main"><section class="card"><div class="card-h"><h2>Escenario</h2><button class="btn sm" data-act="sim-save">${ic('plus')}Guardar escenario</button></div><div class="card-b sim">
+   <label class="simrow"><span>Inversión elegible</span><input type="range" min="200000" max="5000000" step="50000" value="${simVals.inv}" data-sim="inv"><b>${usd(simVals.inv)}</b></label>
+   ${SIM_IND.map(([k,l,u,mn,mx,,w])=>`<label class="simrow"><span>${l}<em>${u} · peso ${Math.round(w*100)}%</em></span><input type="range" min="${mn}" max="${mx}" step="1" value="${simVals[k]}" data-sim="${k}"><b>${simVals[k]}</b></label>`).join('')}
+  </div></section>
+  <section class="sec"><div class="card-h"><h2>Resultado</h2></div><div class="card-b"><div class="kstats s3 simk" style="grid-template-columns:repeat(3,minmax(0,1fr))"><div class="card kpi"><span class="lab">Puntaje</span><span class="val">${r.p.toFixed(2)}</span><span class="delta">sobre 10</span></div><div class="card kpi"><span class="lab">Exoneración IRAE</span><span class="val">${r.pct}%</span><span class="delta">de la inversión</span></div><div class="card kpi"><span class="lab">Beneficio estimado</span><span class="val">${usd(r.irae)}</span><span class="delta">a utilizar en el plazo</span></div></div>
+   <div style="margin-top:14px">${hbars(r.sc.map(x=>({l:SIM_IND.find(i=>i[0]===x.k)[1],v:Math.round(x.s*10)/10})),{max:10,fmt:v=>v.toFixed(1)})}</div></div></section></div>
+  ${S.scen.length?`<section class="card"><div class="card-h"><h2>Escenarios guardados</h2><span class="hint">Comparalos antes de presentar</span></div><div class="tw"><table><thead><tr><th>Escenario</th><th class="num-r">Inversión</th>${SIM_IND.map(i=>`<th class="num">${SIM_SHORT[i[0]]}</th>`).join('')}<th class="num">Puntaje</th><th class="num">Exoneración</th><th class="num-r">Beneficio</th></tr></thead><tbody>${S.scen.map((s,i)=>{const x=simCalc(s); const best = Math.max(...S.scen.map(z=>simCalc(z).irae))===x.irae; return `<tr><td class="b">Escenario ${String.fromCharCode(65+i)}${best&&S.scen.length>1?' <span class="stt good"><span class="dot good"></span>mejor</span>':''}</td><td class="num-r">${usd(s.inv)}</td>${SIM_IND.map(ind=>`<td class="num">${s[ind[0]]}</td>`).join('')}<td class="num">${x.p.toFixed(2)}</td><td class="num">${x.pct}%</td><td class="num-r b">${usd(x.irae)}</td></tr>`;}).join('')}</tbody></table></div></section>`:''}`; };
+
+/* Ficha · pestaña Armado (A04) */
+FT.armado = e => { const idx=ARM_ST.indexOf(e.estado); const pct=armPct(e); const obsA=e.arm.obs.filter(o=>o.st==='abierta').length;
+  const next = {0:['Enviar a revisión interna',pct<100?'Completá el checklist para avanzar':''],1:['Aprobar y pasar a firma',S.role==='asistente'?'Lo aprueba la manager':''],2:['Registrar firma y presentación',''],3:['Registrar aprobación de COMAP',''],4:['Volver a presentar',obsA?'Levantá todas las observaciones para volver a presentar':''],5:['Pasar a seguimiento','']}[idx];
+  return `<section class="sec"><div class="card-h"><h2>Etapas del armado</h2><span class="hint">Las transiciones validan que no se saltee ningún paso</span></div><div class="card-b"><div class="steps">${ARM_ST.map((s,i)=>`<span class="step ${i<idx?'done':i===idx?'cur':''}">${i<idx?'✓ ':''}${s}</span>`).join('')}</div>
+   <div class="btns" style="margin-top:14px"><button class="btn pri" data-act="arm-next" data-id="${e.id}" ${next[1]?'disabled':''}>${next[0]}</button>${idx===3?`<button class="btn" data-act="arm-obs" data-id="${e.id}">${ic('plus')}Cargar observación de COMAP</button>`:''}${next[1]?`<span class="small muted">${next[1]}</span>`:''}</div></div></section>
+  <div class="grid g2"><section class="card"><div class="card-h"><h2>Checklist de información</h2><span class="hint">${pct}% completo</span></div><div class="list">${e.arm.check.map((c,k)=>`<div class="li"><div><div class="t" style="font-weight:500;${c.st==='na'?'color:var(--faint);text-decoration:line-through':''}">${esc(c.it)}</div></div><div class="seg sm3">${[['recibido','Recibido'],['pendiente','Pendiente'],['na','No aplica']].map(([v,l])=>`<button class="${c.st===v?'on':''}" data-act="arm-chk" data-id="${e.id}" data-k="${k}" data-v="${v}">${l}</button>`).join('')}</div></div>`).join('')}</div>
+   ${e.arm.check.some(c=>c.st==='pendiente')?`<div class="card-b" style="border-top:1px solid var(--line-2)"><button class="btn sm" data-act="arm-pedir" data-id="${e.id}">${ic('inbox')}Pedir faltantes al cliente</button></div>`:''}</section>
+  <div class="grid" style="align-content:start"><section class="sec"><div class="card-h"><h2>Observaciones de COMAP</h2><span class="hint">${obsA} abiertas</span></div><div class="list">${e.arm.obs.map((o,k)=>`<div class="li"><div><div class="t" style="font-weight:500">${esc(o.t)}</div><div class="m">recibida ${fd(o.f)}${o.st==='levantada'?' · <span class="up">levantada</span>':''}</div></div>${o.st==='abierta'?ib('arm-lev','check','Marcar como levantada',`data-id="${e.id}" data-k="${k}"`,'good solid'):''}</div>`).join('')||'<div class="empty">Sin observaciones</div>'}</div></section>
+   <section class="sec"><div class="card-h"><h2>Historial de etapas</h2></div><div class="list">${e.arm.hist.slice().reverse().map(h=>`<div class="li"><div><div class="t" style="font-weight:500">${h.st}</div></div><span class="small muted">${fdy(h.f)}</span></div>`).join('')}${e.arm.presentado?`<div class="li"><div><div class="t" style="font-weight:500">Fecha de presentación</div></div><span class="small b">${fdy(e.arm.presentado)}</span></div>`:''}</div></section></div></div>`; };
+
+/* Ficha · Ciclo anual (A08.1) */
+FT.ciclo = e => { const done=e.ciclo.filter(Boolean).length; const allBefore = e.ciclo.slice(0,-1).every(Boolean);
+  return `<section class="card"><div class="card-h"><h2>Seguimiento anual COMAP · ejercicio 2025</h2><span class="hint">${done} de ${CICLO.length} pasos</span></div><div class="card-b" style="padding-bottom:4px"><div class="prog" style="width:100%;height:8px"><i style="width:${done/CICLO.length*100}%"></i></div></div>
+  <div class="list">${CICLO.map(([s,r],k)=>{const ok=e.ciclo[k]; const can = k===CICLO.length-1 ? allBefore : (k===0||e.ciclo[k-1]); return `<div class="li">${ok?`<span class="check on" aria-label="Hecho">${ic('check')}</span>`:`<button class="check" data-act="ciclo" data-id="${e.id}" data-k="${k}" ${can?'':'disabled'} aria-label="Marcar hecho" data-tip="${can?'Marcar hecho':'Primero el paso anterior'}">${ic('check')}</button>`}<div><div class="t" style="font-weight:500;${ok?'color:var(--muted)':''}">${k+1}. ${s}</div><div class="m">${r}${k===6?' · <button class="link small" data-act="tab" data-t="comap">ir a la prevalidación</button>':''}${k===2||k===5?' · <button class="link small" data-act="tab" data-t="irae">ver IRAE</button>':''}</div></div></div>`;}).join('')}</div></section>
+  <p class="small muted" style="margin:0">Cerrar el ciclo anual no cierra el expediente: sigue activo mientras tenga obligaciones.</p>`; };
+
+/* Ficha · Outputs COMAP (A16) */
+function prevalidar(e){ const out=[]; const ev=expEval(e);
+  e.comps.forEach(c=>{ const f=compFresh(c); if(f.s==='vieja') out.push({sev:'crit',campo:TLAB[c.tipo],msg:`La última medición es de hace ${f.d} días; el trámite pide el período cerrado`,tab:'compromisos'}); });
+  e.docs.filter(d=>d.falta).forEach(d=>out.push({sev:'crit',campo:d.tipo,msg:`Falta el documento ${d.nombre}`,tab:'documentos'}));
+  if(e.irae.decl==null) out.push({sev:'crit',campo:'IRAE exonerado',msg:'No hay DJ registrada para el ejercicio',tab:'irae'});
+  else if(e.irae.decl!==e.irae.rec) out.push({sev:'warn',campo:'IRAE exonerado',msg:`Lo declarado (${usd(e.irae.decl)}) difiere de lo recomendado (${usd(e.irae.rec)})`,tab:'irae'});
+  const cap=e.comps.find(c=>c.tipo==='capacitacion'); if(cap && compHealth(cap).s!=='verde') out.push({sev:'warn',campo:'Horas de capacitación',msg:'El avance está por debajo de lo esperado; revisar antes de presentar',tab:'compromisos'});
+  if(ev.salud==='rojo') out.push({sev:'warn',campo:'Consistencia',msg:'El expediente está incumpliendo: COMAP puede pedir justificación',tab:'resumen'});
+  return out; }
+FT.comap = e => { const tr = S.comapTr; const pv = e.prev; const crit = pv?pv.r.filter(x=>x.sev==='crit').length:null;
+  const fields = [['RUT de la empresa',e.rut],['N.º de expediente',e.num],['Personal ocupado promedio',num(last(e.comps.find(c=>c.tipo==='empleo')).v)],['Inversión ejecutada (USD)',num(last(e.comps.find(c=>c.tipo==='inversion')).v)],['Horas de capacitación',(e.comps.find(c=>c.tipo==='capacitacion')?num(last(e.comps.find(c=>c.tipo==='capacitacion')).v):'No aplica')],['IRAE exonerado del ejercicio',e.irae.decl!=null?num(e.irae.decl):'—']];
+  return `<div class="filters"><div class="seg">${[['anual','Seguimiento anual 2025'],['alta','FIT de alta']].map(([k,l])=>`<button class="${tr===k?'on':''}" data-act="comap-tr" data-k="${k}">${l}</button>`).join('')}</div><span class="small muted">Mapping ${tr==='anual'?'Seguimiento anual v4':'FIT de alta v2'} · vigente desde mar 2026</span></div>
+  <section class="card"><div class="card-h"><h2>1 · Prevalidación</h2><button class="btn sm" data-act="prevalidar" data-id="${e.id}">${ic('check')}${pv?'Volver a prevalidar':'Ejecutar prevalidación'}</button></div>
+   ${pv?`<div class="list">${pv.r.length?pv.r.map(x=>`<div class="li"><span class="dot ${x.sev}"></span><div><div class="t" style="font-weight:500">${esc(x.campo)}</div><div class="m">${esc(x.msg)}</div></div><button class="btn sm ghost" data-act="tab" data-t="${x.tab}">Ir al campo ${ic('arrow')}</button></div>`).join(''):'<div class="empty">Sin faltantes ni inválidos. Listo para generar.</div>'}</div><div class="card-b xs muted" style="border-top:1px solid var(--line-2)">Ejecutada ${pv.t} · ${crit} críticos · ${pv.r.length-crit} advertencias</div>`:'<div class="empty">Ejecutá la prevalidación para ver qué falta antes de generar el archivo.</div>'}</section>
+  <div class="grid g2"><section class="sec"><div class="card-h"><h2>2 · Generar archivo</h2></div><div class="card-b"><p class="small muted" style="margin:0 0 12px">${tr==='anual'?'Excel del seguimiento anual con el formato vigente de COMAP.':'Datos del FIT de alta listos para la carga web.'}</p><button class="btn pri" data-act="comap-gen" data-id="${e.id}" ${!pv||crit?'disabled':''}>${ic('doc')}Generar ${tr==='anual'?'Excel COMAP':'archivo del FIT'}</button>${!pv?'<span class="small muted" style="margin-left:10px">Primero prevalidá</span>':crit?`<span class="small down" style="margin-left:10px">Bloqueado: ${crit} faltantes críticos</span>`:''}<p class="xs muted" style="margin:12px 0 0">La presentación ante COMAP sigue siendo manual.</p></div></section>
+  <section class="sec"><div class="card-h"><h2>Historial de exportaciones</h2></div><div class="list">${e.exports.slice().reverse().map(x=>`<div class="li"><div><div class="t" style="font-weight:500">${esc(x.file)}</div><div class="m">${x.tr} · v${x.v} · ${esc(x.u)} · ${fdy(x.f)}</div></div>${ib('abrir-doc','open','Recuperar este archivo','')}</div>`).join('')||'<div class="empty">Todavía no se generó ningún archivo</div>'}</div></section></div>
+  <section class="sec"><div class="card-h"><h2>3 · Datos para la carga en el FIT web</h2><span class="hint">En el orden del formulario web</span></div><div class="list">${fields.map(([k,v])=>`<div class="li"><div><div class="m" style="margin:0">${k}</div><div class="t" style="font-weight:500">${esc(v)}</div></div>${ib('copy-val','copy','Copiar valor',`data-v="${esc(v)}"`)}</div>`).join('')}</div></section>`; };
+
+/* Ficha de sociedad (A03.3) */
+V.sociedad = () => { const soc=S.soc; const exps=EXP.filter(e=>e.soc===soc); const e0=exps[0]; const grupo=e0&&e0.grupo; const otras = grupo?[...new Set(EXP.filter(e=>e.grupo===grupo&&e.soc!==soc).map(e=>e.soc))]:[];
+  const bit = exps.flatMap(e=>e.bit.map(b=>({...b,t:b.t}))).sort((a,b)=>b.f-a.f).slice(0,6);
+  return `<div><button class="btn ghost sm" data-act="nav" data-v="cartera">${ic('back')}Cartera</button></div>
+  <div class="hd"><div><p class="eyebrow">Sociedad${grupo?' · '+esc(grupo):''}</p><h1>${esc(soc)}</h1><div class="meta"><span>RUT <b>${e0?e0.rut:'—'}</b></span><span>Expedientes <b>${exps.length}</b></span>${otras.length?`<span>Mismo grupo: ${otras.map(o=>`<button class="link" data-act="soc" data-s="${esc(o)}">${esc(o)}</button>`).join(', ')}</span>`:''}</div></div></div>
+  <section class="card"><div class="card-h"><h2>Expedientes</h2></div>${expTable(exps)}</section>
+  <div class="grid g2"><section class="sec"><div class="card-h"><h2>Contactos</h2><button class="link small" data-act="nueva-contacto" data-s="${esc(soc)}">Agregar</button></div><div class="list">${CONTACTS.filter(c=>c.soc===soc).map(c=>`<div class="li"><span class="av sm">${ini(c.nombre)}</span><div><div class="t" style="font-weight:500">${esc(c.nombre)}</div><div class="m">${esc(c.rol)} · le pedimos: ${esc(c.info)}</div></div></div>`).join('')}</div></section>
+  <section class="sec"><div class="card-h"><h2>Actividad reciente</h2></div>${timeline(bit)}</section></div>`; };
+
+/* Configuración editable */
+V.config = () => { const t = S.cfgTab || (S.role==='socio'?'usuarios':'reglas');
+  const T = S.role==='socio' ? [['usuarios','Usuarios'],['permisos','Permisos'],['datos','Datos personales'],['audit','Auditoría'],['factura','Reglas de facturación'],['reglas','Reglas de salud']] : [['reglas','Reglas de salud'],['tipos','Tipos de compromiso'],['docs','Tipos documentales'],['mapping','Mapping COMAP'],['avisos','Avisos'],['factura','Reglas de facturación']];
+  return `<div class="hd"><div><p class="eyebrow">A01 · A05 · A06 · A11 · A13 · A16</p><h1>Configuración</h1><p class="sub">Todo lo que cambia el comportamiento del sistema se ajusta acá, sin desarrollo. Los cambios de criterio quedan versionados y en la auditoría.</p></div></div>` + tabsBar(t,'cfg-t',T) + (CFGV[t]||CFGV.reglas)(); };
+const CFGV = {};
+CFGV.reglas = () => { const r=CFG.rules; const inp=(k,i,suf)=>`<input class="cin" type="number" value="${Array.isArray(r[k])?r[k][i]:r[k]}" data-cfg="${k}" data-i="${i}" aria-label="${k}">${suf}`;
+  return `<section class="card"><div class="card-h"><h2>Reglas de salud</h2><span class="hint">Vigente: v${r.v} · desde ${r.desde}</span></div><div class="card-b" style="padding-top:4px">
+   <div class="rule"><span class="rk">Empleo</span><span class="small">Verde desde ${inp('emp',0,'%')} de la meta · Amarillo desde ${inp('emp',1,'%')} · Rojo por debajo</span></div>
+   <div class="rule"><span class="rk">Inversión</span><span class="small">Verde si el desvío es menor a ${inp('inv',0,' pts')} · Amarillo hasta ${inp('inv',1,' pts')} · Rojo más</span></div>
+   <div class="rule"><span class="rk">Capacitación</span><span class="small">Verde si el desvío es menor a ${inp('cap',0,' pts')} · Amarillo hasta ${inp('cap',1,' pts')} · Rojo más</span></div>
+   <div class="rule"><span class="rk">Certificación</span><span class="small">Amarillo si faltan menos de ${inp('cert',0,' días')} para el plazo sin certificado</span></div>
+   <div class="btns" style="margin-top:12px"><button class="btn pri" data-act="cfg-publish">Publicar como v${(+r.v+0.1).toFixed(1)}</button><span class="small muted">La versión nueva aplica a evaluaciones futuras; el pasado conserva la regla con que se evaluó.</span></div></div></section>
+  <section class="sec"><div class="card-h"><h2>Versiones</h2></div><div class="tw"><table><thead><tr><th>Versión</th><th>Vigente desde</th><th>Publicó</th><th>Cambio</th></tr></thead><tbody>${r.hist.map(h=>`<tr><td class="b">v${h[0]}</td><td class="small">${h[1]}</td><td class="small">${h[2]}</td><td class="small muted">${h[3]}</td></tr>`).join('')}</tbody></table></div></section>`; };
+CFGV.tipos = () => `<section class="card"><div class="card-h"><h2>Tipos de compromiso</h2><button class="btn sm" data-act="cfg-tipo">${ic('plus')}Nuevo tipo</button></div><div class="tw"><table><thead><tr><th>Tipo</th><th>Unidad</th><th>Medición</th><th class="num">Frescura (días)</th><th>Evidencia requerida</th></tr></thead><tbody>${CFG.tipos.map((t,i)=>`<tr><td class="b">${esc(t[0])}</td><td class="small">${esc(t[1])}</td><td class="small">${esc(t[2])}</td><td class="num"><input class="cin" type="number" value="${t[3]}" data-cfg="tipo" data-i="${i}" aria-label="Frescura ${esc(t[0])}"></td><td class="small muted">${esc(t[4])}</td></tr>`).join('')}</tbody></table></div></section>`;
+CFGV.docs = () => `<section class="card"><div class="card-h"><h2>Tipos documentales</h2><span class="hint">Con estos tipos se clasifica cada documento vinculado</span></div><div class="card-b"><div class="btns">${CFG.docs.map((d,i)=>`<span class="tag">${esc(d)}<button data-act="cfg-doc-del" data-i="${i}" aria-label="Quitar ${esc(d)}">${ic('x')}</button></span>`).join('')}</div><form class="btns" style="margin-top:14px" data-form="cfg-doc"><input class="cin wide" name="d" placeholder="Nuevo tipo documental" aria-label="Nuevo tipo documental" required><button class="btn sm" type="submit">${ic('plus')}Agregar</button></form></div></section>`;
+CFGV.factura = () => `<section class="card"><div class="card-h"><h2>Reglas de facturación</h2><span class="hint">Qué hito habilita cada factura y con qué importe</span></div><div class="tw"><table><thead><tr><th>Tipo de proyecto</th><th>Hito que habilita</th><th class="num-r">Importe (USD)</th><th>Plazo de pago</th></tr></thead><tbody>${CFG.fact.map((f,i)=>`<tr><td class="b">${f[0]}</td><td class="small">${f[1]}</td><td class="num-r"><input class="cin" type="number" value="${f[2]}" data-cfg="fact" data-i="${i}" aria-label="Importe ${f[1]}"></td><td class="small">${f[3]}</td></tr>`).join('')}</tbody></table></div></section><p class="small muted" style="margin:0">Si una factura no se emite a los 7 días se avisa a facturación; a los 14 días escala a un socio.</p>`;
+CFGV.mapping = () => `<section class="card"><div class="card-h"><h2>Mapping COMAP · Seguimiento anual</h2><span class="hint">v4 · vigente desde mar 2026 · v3 consultable</span></div><div class="tw"><table><thead><tr><th>Campo del formulario COMAP</th><th>Dato del sistema</th><th>Transformación</th></tr></thead><tbody>${CFG.map.map(m=>`<tr><td class="b">${m[0]}</td><td class="small">${m[1]}</td><td class="small muted">${m[2]}</td></tr>`).join('')}</tbody></table></div></section><p class="small muted" style="margin:0">Un cambio de formato de COMAP se resuelve editando el mapping, no tocando código.</p>`;
+CFGV.avisos = () => `<section class="card"><div class="card-h"><h2>Horizontes de aviso</h2><span class="hint">Con cuánta anticipación avisar y a quién escala</span></div><div class="tw"><table><thead><tr><th>Obligación</th><th class="num">Avisar (días antes)</th><th>A quién</th><th>Escala a</th></tr></thead><tbody>${CFG.avisos.map((a,i)=>`<tr><td class="b">${a[0]}</td><td class="num">${typeof a[1]==='number'?`<input class="cin" type="number" value="${a[1]}" data-cfg="aviso" data-i="${i}" aria-label="Días ${a[0]}">`:`<span class="small">${a[1]}</span>`}</td><td class="small">${a[2]}</td><td class="small muted">${a[3]}</td></tr>`).join('')}</tbody></table></div></section>`;
+CFGV.usuarios = () => `<section class="card"><div class="card-h"><h2>Usuarios</h2><button class="btn sm" data-act="cfg-user">${ic('plus')}Invitar usuario</button></div><div class="tw"><table><thead><tr><th>Persona</th><th>Rol</th><th class="num">Ve datos sensibles</th><th>Último acceso</th></tr></thead><tbody>${PEOPLE.map((p,i)=>`<tr><td>${person(p.id)}</td><td class="small">${p.role}</td><td class="num">${['Socia','Manager'].includes(p.role)?`<span class="stt good" style="justify-content:center">${ic('check','width="15" height="15"')}Sí</span>`:'<span class="small muted">No</span>'}</td><td class="small muted">${i<3?'hoy':i<5?'ayer':'hace 3 días'}</td></tr>`).join('')}</tbody></table></div></section>`;
+CFGV.permisos = () => `<section class="card"><div class="card-h"><h2>Matriz de permisos</h2><span class="hint">El permiso se valida en el servidor, no solo ocultando botones</span></div><div class="tw"><table><thead><tr><th>Rol</th>${CFG.acciones.map(a=>`<th class="num">${a}</th>`).join('')}</tr></thead><tbody>${Object.entries(CFG.perm).map(([r,v])=>`<tr><td class="b">${r}</td>${v.map((x,i)=>`<td class="num"><input type="checkbox" ${x?'checked':''} data-cfg="perm" data-r="${r}" data-i="${i}" aria-label="${r} puede ${CFG.acciones[i]}"></td>`).join('')}</tr>`).join('')}</tbody></table></div></section><p class="small muted" style="margin:0">Expedientes y documentos marcados como sensibles solo los ven los roles con ese permiso.</p>`;
+CFGV.datos = () => `<section class="card"><div class="card-h"><h2>Registro de datos personales</h2><span class="hint">Ley 18.331 · qué se trata, por qué y cuánto se guarda</span></div><div class="tw"><table><thead><tr><th>Entidad</th><th>Datos tratados</th><th>Base</th><th>Retención</th></tr></thead><tbody>${CFG.datos.map(d=>`<tr><td class="b">${d[0]}</td><td class="small">${d[1]}</td><td class="small muted">${d[2]}</td><td class="small">${d[3]}</td></tr>`).join('')}</tbody></table></div></section><p class="small muted" style="margin:0">Al vencer la retención, el sistema propone el borrado y lo deja registrado en la auditoría.</p>`;
+CFGV.audit = () => { const ents=[...new Set(AUDIT.map(a=>a.ent.split(' ')[0]))]; const fe=S.audF||''; const list=AUDIT.filter(a=>!fe||a.ent.startsWith(fe));
+  return `<div class="filters"><select class="sel" data-act="audf" aria-label="Entidad"><option value="">Todas las entidades</option>${ents.map(x=>`<option ${fe===x?'selected':''}>${x}</option>`).join('')}</select><span class="small muted">Últimos 60 días · ${list.length} cambios</span>${ib('audit-exp','copy','Copiar como CSV','','solid')}</div>
+  <section class="card"><div class="tw"><table><thead><tr><th>Fecha</th><th>Usuario</th><th>Entidad</th><th>Campo</th><th>Antes</th><th>Después</th></tr></thead><tbody>${list.map(a=>`<tr><td class="small">${fdy(a.f)}</td><td class="small">${esc(a.u)}</td><td class="small b">${esc(a.ent)}</td><td class="small">${esc(a.campo)}</td><td class="small muted" style="text-decoration:line-through">${esc(a.antes)}</td><td class="small">${esc(a.despues)}</td></tr>`).join('')}</tbody></table></div></section>`; };
+
+/* Solicitudes: pestañas, entrantes y contactos (A17) */
+const _solV = V.solicitudes;
+V.solicitudes = () => { const t=S.solTab; const pend=ENTR.filter(m=>!m.done).length;
+  const tb = tabsBar(t,'sol-t',[['solicitudes','Solicitudes'],['entrantes',`Entrantes${pend?' ('+pend+')':''}`],['contactos','Contactos']]);
+  if(t==='solicitudes'){ const h=_solV(); const i=h.indexOf('<p class="small muted"'); return h.slice(0,i)+tb+h.slice(i); }
+  const head = `<div class="hd"><div><p class="eyebrow">A17 · Solicitudes de información</p><h1>Solicitudes al cliente</h1><p class="sub">${t==='entrantes'?'Los emails entrantes se asocian solos al expediente cuando la coincidencia es confiable; el resto espera clasificación.':'A quién pedirle cada tipo de información, por sociedad.'}</p></div></div>`;
+  if(t==='entrantes') return head+tb+`<section class="card"><div class="list">${ENTR.map(m=>{const e=m.sug&&EXP.find(x=>x.id===m.sug); return `<div class="li" style="align-items:flex-start"><div><div class="t">${esc(m.asunto)}</div><div class="m">${esc(m.de)}<span class="sep">·</span>${rel(m.f)}</div><div class="small" style="margin-top:4px">${esc(m.cuerpo)}</div><div class="m" style="margin-top:6px">${m.done?`<span class="stt good"><span class="dot good"></span>${esc(m.done)}</span>`:e?`<span class="stt ${m.conf>=85?'good':'warn'}"><span class="dot ${m.conf>=85?'good':'warn'}"></span>${m.conf>=85?'Asociado':'Sugerido'}: ${esc(e.soc)} · confianza ${m.conf}%</span>`:'<span class="stt warn"><span class="dot warn"></span>Sin coincidencia: requiere clasificación</span>'}</div></div>${m.done?'':`<div class="acts">${e?ib('entr-bit','doc','Registrar en la bitácora',`data-id="${m.id}"`)+ib('entr-task','task','Convertir en tarea',`data-id="${m.id}"`):''}${ib('entr-class','folder','Clasificar en otro expediente',`data-id="${m.id}"`)}</div>`}</div>`;}).join('')}</div></section>`;
+  const socs=[...new Set(CONTACTS.map(c=>c.soc))];
+  return head+tb+`<section class="card"><div class="tw"><table><thead><tr><th>Contacto</th><th>Sociedad</th><th>Rol</th><th>Le pedimos</th><th class="num">Solicitudes abiertas</th></tr></thead><tbody>${CONTACTS.slice(0,24).map(c=>{const n=SOLS.filter(s=>s.contacto.includes(c.nombre)&&solState(s)!=='Completa').length; return `<tr><td><div class="b">${esc(c.nombre)}</div><div class="exp-n">${esc(c.email)}</div></td><td class="small"><button class="link" data-act="soc" data-s="${esc(c.soc)}">${esc(c.soc)}</button></td><td class="small">${esc(c.rol)}</td><td class="small muted">${esc(c.info)}</td><td class="num">${n||'<span class="faint">—</span>'}</td></tr>`;}).join('')}</tbody></table></div></section><p class="small muted" style="margin:0">${socs.length} sociedades · ${CONTACTS.length} contactos</p>`; };
+
+/* ---------- Login (A01.1) ---------- */
+function renderLogin(){ const r=$('#loginRoot'); if(!S.login){ r.innerHTML=''; return; }
+  const rec = S.login==='recover', sent = S.login==='sent';
+  r.innerHTML = `<div class="login"><div class="login-box"><div class="mono login-mono">S<i></i>S</div><h1>${rec||sent?'Recuperar acceso':'Ingresá a SSPI'}</h1><p class="sub">${sent?'Si el email está registrado, te enviamos un enlace para crear una contraseña nueva. Vence en 30 minutos.':rec?'Te enviamos un enlace para crear una contraseña nueva.':'Gestión de proyectos de inversión · SS Proyectos'}</p>
+  ${sent?`<button class="btn pri wide" data-act="login-back">Volver a ingresar</button>`:`<form data-form="${rec?'recover':'login'}" class="lform"><div class="fld"><label for="lem">Email</label><input id="lem" name="em" type="email" required placeholder="nombre@ssproyectos.com.uy" autocomplete="username"></div>${rec?'':`<div class="fld"><label for="lpw">Contraseña</label><input id="lpw" name="pw" type="password" required autocomplete="current-password"></div><label class="small muted" style="display:flex;gap:8px;align-items:center"><input type="checkbox" checked> Mantener la sesión iniciada</label>`}<button class="btn pri wide" type="submit">${rec?'Enviar enlace':'Ingresar'}</button></form>
+  <button class="link small" data-act="${rec?'login-back':'login-rec'}">${rec?'Volver':'¿Olvidaste tu contraseña?'}</button>`}
+  <div class="login-demo"><span class="xs muted">Demo: entrar como</span>${Object.entries(ROLES).map(([k,v])=>`<button class="btn sm" data-act="login-as" data-r="${k}">${P(v.user).name.split(' ')[0]} · ${v.label}</button>`).join('')}</div>
+  <a class="rebl" href="https://www.rebltech.com" target="_blank" rel="noopener" style="color:var(--faint)">Powered by <span class="rebl-logo" role="img" aria-label="REBL"></span></a></div></div>`; }
+
+/* ---------- Avisos (A07.3 / A08.7) ---------- */
+function renderBell(){ const b=$('#bellBtn'); if(!b) return; const list=NOTIFS[S.role]; const n=list.filter((_,i)=>!READ.has(S.role+i)).length;
+  b.innerHTML = `${ic('bell')}${n?`<b>${n}</b>`:''}`;
+  const p=$('#bellPanel'); p.hidden=!S.notifOpen;
+  p.innerHTML = `<div class="np-h"><b>Avisos</b>${n?`<button class="link small" data-act="notif-all">Marcar todo como leído</button>`:''}</div>${list.map(([t,s,exp,icn],i)=>`<button class="np-i ${READ.has(S.role+i)?'read':''}" data-act="notif" data-i="${i}" ${exp?`data-exp="${exp}"`:''}>${ic(icn)}<span><b>${esc(t)}</b><span>${esc(s)}</span></span></button>`).join('')}<div class="np-f xs muted">También llegan por email según Configuración → Avisos</div>`; }
+
+/* ---------- Acciones nuevas ---------- */
+document.addEventListener('click', ev => {
+  if(S.notifOpen && !ev.target.closest('#bellWrap')){ S.notifOpen=false; renderBell(); }
+  const el = ev.target.closest('[data-act]'); if(!el) return; const a=el.dataset.act; const E = id => EXP.find(x=>x.id===id);
+  switch(a){
+   case 'alta-t': S.altaTab=el.dataset.k; render(); break;
+   case 'cfg-t': S.cfgTab=el.dataset.k; render(); break;
+   case 'sol-t': S.solTab=el.dataset.k; render(); break;
+   case 'comap-tr': S.comapTr=el.dataset.k; render(); break;
+   case 'soc': ev.stopPropagation(); S.soc=el.dataset.s; goTo('sociedad'); break;
+   case 'open-arm': S.exp=el.dataset.id; S.tab='armado'; goTo('ficha'); break;
+   case 'ganar': { const p=PROPS.find(x=>x.id===el.dataset.id); p.estado='Ganada'; HANDOFFS.unshift({f:TODAY,prop:`${p.soc} · ${p.proyecto}`,res:'Marcada como ganada',ok:true}); toast('Propuesta marcada como ganada'); render(); break; }
+   case 'handoff': { const p=PROPS.find(x=>x.id===el.dataset.id); const ex=EXP.find(e=>e.soc===p.soc); const load=id=>TASKS().filter(t=>t.resp===id&&t.estado!=='completada').length; const resp=[...ASIS].sort((x,y)=>load(x)-load(y))[0];
+     modal('Crear expediente desde la propuesta',`<div class="hand"><div class="hstep ${ex?'warn':'good'}"><span class="dot ${ex?'warn':'good'}"></span><div><b>${ex?'La sociedad ya existe':'Sociedad nueva'}</b><div class="small muted">${ex?`Coincide el RUT ${ex.rut} con ${esc(ex.soc)}. Se vincula, no se duplica.`:`Se crea ${esc(p.soc)} · RUT ${p.rut}`}</div></div></div>
+     <div class="hstep good"><span class="dot good"></span><div><b>Datos del proyecto</b><div class="small muted">${esc(p.proyecto)} · ${usd(p.monto)} · ${p.min}</div></div></div>
+     <div class="hstep good"><span class="dot good"></span><div><b>Documentos transferidos</b><div class="small muted">Propuesta aceptada, contrato, datos del cliente</div></div></div>
+     <div class="hstep good"><span class="dot good"></span><div><b>Checklist de armado</b><div class="small muted">${CHECK_TPL.length} ítems según el tipo de proyecto (${p.tipo})</div></div></div></div>
+     <div class="fld"><label for="hr">Responsable (asignado por regla: menor carga)</label><select id="hr" name="r">${ASIS.map(id=>`<option value="${id}" ${id===resp?'selected':''}>${P(id).name} · ${load(id)} tareas</option>`).join('')}</select></div>`,fd=>{
+       const base=EXP[30]; const e={...base,id:'E'+(3000+EXP.length),soc:p.soc,rut:ex?ex.rut:p.rut,grupo:ex?ex.grupo:null,min:p.min,sector:SECT[p.min],resp:fd.r,monto:p.monto,num:'2026-10-1-'+ri(1000,9999),tareas:[],bit:[{f:TODAY,tipo:'sys',t:'Expediente creado desde la propuesta aceptada',autor:P(me()).name}],docs:[{tipo:'Propuesta',nombre:'Propuesta aceptada.pdf',ver:'v1',f:TODAY},{tipo:'Contrato',nombre:'Contrato de servicios.pdf',ver:'v1',f:TODAY}],exports:[],ciclo:CICLO.map(()=>false),comps:base.comps,hitos:base.hitos,irae:base.irae};
+       initArm(e,'En armado'); e.arm.check.forEach((c,k)=>c.st=k<1?'recibido':'pendiente'); EXP.push(e); p.estado='Expediente creado'; p.exp=e.id;
+       HANDOFFS.unshift({f:TODAY,prop:`${p.soc} · ${p.proyecto}`,res:`${ex?'Vinculado a la sociedad existente. ':''}Expediente creado y asignado a ${P(fd.r).name}`,ok:true}); audit('Expediente '+e.id,'Alta','—','Creado desde propuesta'); toast(`Expediente creado y asignado a ${P(fd.r).name.split(' ')[0]}`);
+     },'Crear expediente'); break; }
+   case 'arm-chk': { const e=E(el.dataset.id); e.arm.check[+el.dataset.k].st=el.dataset.v; render(); break; }
+   case 'arm-pedir': { const e=E(el.dataset.id); const items=e.arm.check.filter(c=>c.st==='pendiente').map(c=>[c.it,'pendiente']); const c=CONTACTS.find(x=>x.soc===e.soc); SOLS.unshift({id:'S'+Date.now(),exp:e.id,contacto:c?`${c.nombre} (${c.rol})`:'Contacto principal',enviada:TODAY,recs:0,items}); addBit(e,'Solicitud de faltantes del armado registrada'); toast(`Solicitud creada con ${items.length} ítems`); break; }
+   case 'arm-next': { const e=E(el.dataset.id); const idx=ARM_ST.indexOf(e.estado);
+     const adv = st => { e.estado=st; e.arm.hist.push({st,f:TODAY}); addBit(e,'Etapa del armado: '+st); audit('Expediente '+e.id,'Etapa',ARM_ST[idx],st); };
+     if(idx===2){ modal('Registrar presentación ante COMAP',`<div class="fld"><label for="pf">Fecha de presentación</label><input id="pf" name="f" type="date" required value="${iso(TODAY)}"></div><p class="small muted" style="margin:0">La presentación queda como hito del expediente.</p>`,fd=>{ e.arm.presentado=new Date(fd.f+'T12:00:00'); adv('Presentado'); toast('Presentación registrada'); },'Registrar'); break; }
+     if(idx===4){ adv('Presentado'); toast('Observaciones levantadas: vuelve a Presentado'); render(); break; }
+     if(idx===5){ e.estado='En seguimiento'; addBit(e,'Proyecto aprobado: pasa a seguimiento'); toast('Pasa a seguimiento: se cargan compromisos e hitos'); S.tab='resumen'; render(); break; }
+     adv(ARM_ST[idx+1]); toast('Avanza a '+ARM_ST[idx+1]); render(); break; }
+   case 'arm-obs': { const e=E(el.dataset.id); modal('Observación recibida de COMAP',`<div class="fld"><label for="ot">Qué pide el organismo</label><textarea id="ot" name="t" required></textarea></div>`,fd=>{ e.arm.obs.push({f:TODAY,t:fd.t,st:'abierta'}); if(e.estado==='Presentado'){ e.estado='Con observaciones'; e.arm.hist.push({st:'Con observaciones',f:TODAY}); } addBit(e,'Observación de COMAP: '+fd.t); toast('Observación cargada: el expediente pasa a Con observaciones'); },'Cargar'); break; }
+   case 'arm-lev': { const e=E(el.dataset.id); e.arm.obs[+el.dataset.k].st='levantada'; addBit(e,'Observación de COMAP levantada'); toast('Observación levantada'); render(); break; }
+   case 'ciclo': { if(el.disabled) break; const e=E(el.dataset.id); const k=+el.dataset.k; e.ciclo[k]=true; addBit(e,'Ciclo anual: '+CICLO[k][0]); toast(k===CICLO.length-1?'Ciclo anual cerrado con su constancia':'Paso completado'); render(); break; }
+   case 'prevalidar': { const e=E(el.dataset.id); e.prev={r:prevalidar(e),t:'hoy '+new Date().toTimeString().slice(0,5)}; render(); break; }
+   case 'comap-gen': { if(el.disabled) break; const e=E(el.dataset.id); const v=(e.exports.filter(x=>x.tr.startsWith(S.comapTr==='anual'?'Seguimiento':'FIT')).length)+1; const file=S.comapTr==='anual'?`SeguimientoAnual_2025_${e.num}_v${v}.xlsx`:`FIT_alta_${e.num}_v${v}.xlsx`; e.exports.push({v,f:TODAY,u:P(me()).name,tr:S.comapTr==='anual'?'Seguimiento anual 2025':'FIT de alta',file}); addBit(e,'Archivo COMAP generado: '+file); toast('Archivo generado: '+file); render(); break; }
+   case 'copy-val': navigator.clipboard?.writeText(el.dataset.v).then(()=>toast('Valor copiado'),()=>toast('No se pudo copiar')); break;
+   case 'sim-save': S.scen.push({...simVals}); if(S.scen.length>3) S.scen.shift(); toast('Escenario guardado'); render(); break;
+   case 'cfg-publish': { const r=CFG.rules; const nv=(+r.v+0.1).toFixed(1); r.hist.unshift([nv,'hoy',P(me()).name,'Ajuste de umbrales desde Configuración']); audit('Regla de salud','Versión vigente','v'+r.v,'v'+nv); r.v=nv; r.desde='hoy'; toast('Publicada la v'+nv+': aplica a evaluaciones futuras'); render(); break; }
+   case 'cfg-tipo': modal('Nuevo tipo de compromiso',`<div class="fld"><label for="tn">Nombre</label><input id="tn" name="n" required placeholder="Ej.: Producción más limpia"></div><div class="grid g2"><div class="fld"><label for="tu">Unidad</label><input id="tu" name="u" required placeholder="% de la inversión"></div><div class="fld"><label for="tp">Medición</label><select id="tp" name="p"><option>Trimestral</option><option>Semestral</option><option>Anual</option></select></div></div><div class="grid g2"><div class="fld"><label for="tf">Frescura (días)</label><input id="tf" name="f" type="number" value="180"></div><div class="fld"><label for="te">Evidencia</label><input id="te" name="e" placeholder="Documento que lo respalda"></div></div>`,fd=>{ CFG.tipos.push([fd.n,fd.u,fd.p,+fd.f,fd.e||'—']); audit('Tipo de compromiso',fd.n,'—','Creado'); toast('Tipo de compromiso creado'); },'Crear'); break;
+   case 'cfg-doc-del': { const d=CFG.docs.splice(+el.dataset.i,1)[0]; audit('Tipos documentales',d,'activo','eliminado'); render(); break; }
+   case 'cfg-user': modal('Invitar usuario',`<div class="fld"><label for="un">Nombre</label><input id="un" name="n" required></div><div class="fld"><label for="ue">Email</label><input id="ue" name="e" type="email" required></div><div class="fld"><label for="ur">Rol</label><select id="ur" name="r"><option>Asistente</option><option>Manager</option><option>Socia</option><option>Facturación</option></select></div><p class="small muted" style="margin:0">Recibe un email para definir su contraseña.</p>`,fd=>{ PEOPLE.push({id:'u'+Date.now(),name:fd.n,role:fd.r}); audit('Usuario '+fd.n,'Alta','—',fd.r); toast('Invitación enviada a '+fd.e); },'Invitar'); break;
+   case 'audit-exp': { const csv=['Fecha,Usuario,Entidad,Campo,Antes,Después',...AUDIT.map(a=>[fdy(a.f),a.u,a.ent,a.campo,a.antes,a.despues].map(x=>`"${x}"`).join(','))].join('\n'); navigator.clipboard?.writeText(csv).then(()=>toast('Auditoría copiada como CSV'),()=>toast('No se pudo copiar')); break; }
+   case 'entr-bit': case 'entr-task': { const m=ENTR.find(x=>x.id===el.dataset.id); const e=E(m.sug); if(a==='entr-bit'){ addBit(e,`Email de ${m.de}: ${m.asunto}`,'int'); m.done='Registrado en la bitácora de '+e.soc; } else { e.tareas.push({id:'T'+Date.now(),exp:e.id,titulo:'Responder: '+m.asunto,resp:e.resp,due:addD(TODAY,2),estado:'abierta',origen:'Email'}); m.done='Tarea creada para '+P(e.resp).name.split(' ')[0]; } toast(m.done); render(); break; }
+   case 'entr-class': { const m=ENTR.find(x=>x.id===el.dataset.id); modal('Clasificar email',`<p class="small muted" style="margin:0">${esc(m.asunto)} · ${esc(m.de)}</p><div class="fld"><label for="ce">Expediente</label><select id="ce" name="e">${EXP.map(x=>`<option value="${x.id}" ${x.id===m.sug?'selected':''}>${esc(x.soc)} · ${x.num}</option>`).join('')}</select></div><div class="fld"><label for="ca">Qué hacer</label><select id="ca" name="a"><option value="bit">Registrar en la bitácora</option><option value="task">Convertir en tarea</option></select></div>`,fd=>{ const e=E(fd.e); m.sug=fd.e; m.conf=100; if(fd.a==='bit'){ addBit(e,`Email de ${m.de}: ${m.asunto}`,'int'); m.done='Registrado en la bitácora de '+e.soc; } else { e.tareas.push({id:'T'+Date.now(),exp:e.id,titulo:'Responder: '+m.asunto,resp:e.resp,due:addD(TODAY,2),estado:'abierta',origen:'Email'}); m.done='Tarea creada en '+e.soc; } toast(m.done); },'Clasificar'); break; }
+   case 'nueva-contacto': { const soc=el.dataset.s; modal('Nuevo contacto · '+soc,`<div class="fld"><label for="cn">Nombre</label><input id="cn" name="n" required></div><div class="fld"><label for="cr">Rol</label><select id="cr" name="r">${ROLESC.map(r=>`<option>${r[0]}</option>`).join('')}</select></div><div class="fld"><label for="cm">Email</label><input id="cm" name="m" type="email" required></div>`,fd=>{ const r=ROLESC.find(x=>x[0]===fd.r); CONTACTS.push({id:'C'+Date.now(),soc,nombre:fd.n,rol:fd.r,info:r[1],email:fd.m}); toast('Contacto agregado'); },'Agregar'); break; }
+   case 'logout': S.login='login'; renderLogin(); break;
+   case 'login-rec': S.login='recover'; renderLogin(); break;
+   case 'login-back': S.login='login'; renderLogin(); break;
+   case 'login-as': S.role=el.dataset.r; S.view='inicio'; S.login=null; renderLogin(); render(); renderBell(); toast('Sesión iniciada como '+P(me()).name); break;
+   case 'bell': ev.stopPropagation(); S.notifOpen=!S.notifOpen; renderBell(); break;
+   case 'notif': { READ.add(S.role+el.dataset.i); S.notifOpen=false; renderBell(); if(el.dataset.exp){ S.exp=el.dataset.exp; S.tab='resumen'; goTo('ficha'); } else renderSide(); break; }
+   case 'notif-all': NOTIFS[S.role].forEach((_,i)=>READ.add(S.role+i)); renderBell(); renderSide(); break;
+   case 'role': setTimeout(renderBell,0); break;
+   /* Ficha: criterio, estado operativo, cerrar */
+   case 'criterio': { const e=E(el.dataset.id); const ev2=expEval(e); const r=CFG.rules; modal('Criterio aplicado',`<p class="small" style="margin:0">Salud evaluada con <b>reglas v${r.v}</b> (vigentes desde ${r.desde}).</p>${e.comps.map(c=>{const h=compHealth(c); return `<div class="rule"><span class="rk">${TLAB[c.tipo]}</span><span class="small"><span class="sig s-${h.atenuada?'amarillo':h.s}" style="font-size:11px">${SAL[h.atenuada?'amarillo':h.s]}</span> ${esc(h.why)}${h.atenuada?' · atenuada por nota de contexto':''}</span></div>`;}).join('')}<p class="small muted" style="margin:0">El expediente toma el peor estado de sus compromisos${e.override&&e.override.hasta>TODAY?', salvo la excepción vigente aprobada por socios':''}. Lo arrastra: ${ev2.drag?esc(ev2.drag.label):'ninguno'}.</p>`,()=>{},'Entendido'); break; }
+   case 'estado-op': { const e=E(el.dataset.id); const h=[['Al día',addD(TODAY,-60)],['Con tareas por vencer',addD(TODAY,-20)],[opState(e),addD(TODAY,-4)]]; modal('Historial del estado operativo',`<p class="small muted" style="margin:0">El estado operativo se deriva de tareas vencidas, bloqueos y revisiones pendientes.</p>${h.reverse().map(([s,f])=>`<div class="rule"><span class="rk" style="font-weight:500;font-size:12.5px">${fdy(f)}</span><span class="small">${s}</span></div>`).join('')}`,()=>{},'Cerrar'); break; }
+   case 'cerrar-exp': { const e=E(el.dataset.id); modal('Cerrar y archivar expediente',`<p class="small muted" style="margin:0">Deja de generar alertas y sale de la cartera activa. Su historia queda consultable en Archivados.</p><div class="fld"><label for="cm2">Motivo</label><select id="cm2" name="m"><option>Obligaciones cumplidas</option><option>Proyecto desistido</option><option>Revocación de la resolución</option></select></div><div class="fld"><label for="cf2">Fecha de cierre</label><input id="cf2" name="f" type="date" value="${iso(TODAY)}" required></div>`,fd=>{ audit('Expediente '+e.id,'Estado',e.estado,'Cerrado'); e.estado='Cerrado'; e.cierre={m:fd.m,f:new Date(fd.f+'T12:00:00')}; addBit(e,'Expediente cerrado: '+fd.m,'dec'); toast('Expediente cerrado y archivado'); },'Cerrar expediente'); break; }
+   case 'reabrir': { const e=E(el.dataset.id); e.estado='En seguimiento'; delete e.cierre; addBit(e,'Expediente reabierto','dec'); toast('Expediente reabierto'); render(); break; }
+   case 'arch': S.showArch=!S.showArch; render(); break;
+   /* Compromisos: corrección, extracción FIT, evidencia */
+   case 'hist-med': { const [e,c]=findComp(el.dataset.id); modal('Historial de mediciones · '+c.label,`<div class="tw"><table><thead><tr><th>Fecha</th><th class="num-r">Valor</th><th>Origen</th><th>Autor</th><th></th></tr></thead><tbody>${c.med.slice().reverse().map((m,ri2)=>{const k=c.med.length-1-ri2; return `<tr><td class="small">${fdy(m.f)}</td><td class="num-r">${m.corr?`<span class="faint" style="text-decoration:line-through">${num(m.corr.old)}</span> `:''}<b>${c.unidad==='USD'?usd(m.v):num(m.v)}</b>${m.corr?`<div class="xs muted">${esc(m.corr.motivo)}</div>`:''}</td><td class="small muted">${m.origen}</td><td class="small">${esc(m.autor)}</td><td class="act-c"><button type="button" class="btn sm ghost" data-act="corr-med" data-id="${c.id}" data-k="${k}">Corregir</button></td></tr>`;}).join('')}</tbody></table></div>`,()=>{},'Cerrar'); break; }
+   case 'corr-med': { const [e,c]=findComp(el.dataset.id); const m=c.med[+el.dataset.k]; modal('Corregir medición',`<p class="small muted" style="margin:0">${esc(c.label)} · ${fdy(m.f)} · valor actual ${num(m.v)}. Se corrige sin borrar: el valor anterior queda registrado.</p><div class="fld"><label for="cv">Valor corregido</label><input id="cv" name="v" type="number" required value="${m.v}"></div><div class="fld"><label for="cmo">Motivo (obligatorio)</label><input id="cmo" name="m" required placeholder="Ej.: faltaban altas de BPS"></div>`,fd=>{ audit(`Compromiso ${TLAB[c.tipo]} · ${e.id}`,'Medición '+fd.v,m.v,fd.v); m.corr={old:m.v,motivo:fd.m}; m.v=+fd.v; addBit(e,`Medición corregida (${c.label}): ${fd.m}`); toast('Medición corregida; salud y frescura recalculadas'); },'Corregir'); break; }
+   case 'fit-extract': { const e=E(el.dataset.id); const props=[['Empleo · meta','Incremento de empleo',e.comps.find(c=>c.tipo==='empleo').meta+' puestos','Hoja 4 · C12',97],['Empleo · período','Ventana de cumplimiento',`${MES[e.inicio.getMonth()]} ${e.inicio.getFullYear()} – ${MES[e.fin.getMonth()]} ${e.fin.getFullYear()}`,'Hoja 4 · C14',92],['Inversión · monto','Inversión comprometida',usd(e.monto),'Hoja 3 · total',99],['Capacitación · meta','Horas de capacitación','160 horas','Hoja 6 · D8',74],['Exportaciones','Aumento de exportaciones','15% de las ventas','Hoja 5 · B20',61]];
+     modal('Proponer compromisos desde el FIT vigente',`<p class="small muted" style="margin:0">Leído de <b>FIT ${e.num} v3 · vigente</b>. Nada se aplica sin tu aprobación.</p><div class="list fitq">${props.map((p,i)=>`<label class="li"><input type="checkbox" name="p${i}" ${p[4]>=85?'checked':''}><div><div class="t" style="font-weight:500">${p[1]}: ${esc(p[2])}</div><div class="m">${p[3]}<span class="sep">·</span><span class="${p[4]>=85?'up':p[4]>=70?'':'down'}">confianza ${p[4]}%</span></div></div></label>`).join('')}</div>`,fd=>{ const n=Object.keys(fd).length; addBit(e,`${n} compromisos aplicados desde el FIT vigente (revisión humana)`); audit('Expediente '+e.id,'Compromisos','—',n+' aplicados desde FIT'); toast(`${n} compromisos aplicados y trazados`); },'Aplicar seleccionados'); break; }
+   case 'sp-pick': { const e=E(el.dataset.id); const files=['Planilla BPS setiembre 2026.pdf','Mayores 2025 v2.xlsx','Certificado ISO 9001.pdf','Constancia de presentación 2025.pdf','Diplomas capacitación UTEC.pdf'];
+     modal('Vincular desde SharePoint',`<div class="sp-path xs muted">${ic('folder','width="13" height="13"')} SS Proyectos › Clientes › ${esc(e.soc)} › Exp. ${e.num}</div><div class="list">${files.map((f,i)=>`<label class="li"><input type="radio" name="f" value="${i}" ${i===0?'checked':''}><div><div class="t" style="font-weight:500">${f}</div><div class="m">modificado ${fd(addD(TODAY,-i*5-1))}</div></div></label>`).join('')}</div><div class="grid g2"><div class="fld"><label for="spt">Tipo documental</label><select id="spt" name="t">${CFG.docs.map(d=>`<option>${d}</option>`).join('')}</select></div><div class="fld"><label for="spc">Evidencia de</label><select id="spc" name="c"><option value="">Solo el expediente</option>${e.comps.map(c=>`<option value="${c.id}">${esc(c.label)}</option>`).join('')}</select></div></div>`,fd=>{ const f=files[+fd.f]; e.docs.unshift({tipo:fd.t,nombre:f,ver:'v1',f:TODAY,comp:fd.c||null}); if(fd.c){ const c=e.comps.find(x=>x.id===fd.c); c.ev=f; } addBit(e,'Documento vinculado: '+f); toast('Documento vinculado'+(fd.c?' como evidencia':'')); },'Vincular'); break; }
+   /* Tareas, revisiones, informes, facturas, solicitudes */
+   case 'reasig-task': { const t=TASKS().find(x=>x.id===el.dataset.id); const load=id=>TASKS().filter(x=>x.resp===id&&x.estado!=='completada').length; modal('Reasignar tarea',`<p class="small muted" style="margin:0">${esc(t.titulo)}</p><div class="fld"><label>Quién la recibe</label>${ASIS.filter(id=>id!==t.resp).map(id=>`<label class="opt"><input type="radio" name="r" value="${id}" required> ${P(id).name}<span class="small muted" style="margin-left:auto">${load(id)} tareas · ${TASKS().filter(x=>x.resp===id&&x.estado!=='completada'&&days(x.due)<=7).length} vencen esta semana</span></label>`).join('')}</div><div class="fld"><label for="trm">Motivo</label><input id="trm" name="m" required></div>`,fd=>{ const prev=P(t.resp).name; t.resp=fd.r; const e=E(t.exp); addBit(e,`Tarea reasignada de ${prev} a ${P(fd.r).name}: ${fd.m}`); audit('Tarea '+t.id,'Responsable',prev,P(fd.r).name); toast('Tarea reasignada'); },'Reasignar'); break; }
+   case 'rev-export': { const rows=['Fecha,Tipo,Expediente,Autor,Nivel,Estado,Detalle',...REVS.map(r=>[fdy(r.desde),r.tipo,(E(r.exp)||{}).soc,P(r.autor)?P(r.autor).name:'',r.nivel,r.estado,r.detalle].map(x=>`"${String(x).replace(/"/g,'""')}"`).join(','))].join('\n'); navigator.clipboard?.writeText(rows).then(()=>toast('Historial de revisiones copiado para auditoría'),()=>toast('No se pudo copiar')); break; }
+   case 'concl-fix': { const e=E(S.informe); const r=el.dataset.r; modal('Corregir conclusión · '+r,`<div class="fld"><label for="ct">Conclusión corregida</label><textarea id="ct" name="t" required>${esc(el.dataset.t)}</textarea></div><div class="fld"><label for="cmo2">Motivo de la corrección</label><input id="cmo2" name="m" required></div><label class="opt"><input type="checkbox" name="rule" checked> Proponer ajuste de la regla ${r} para próximos informes</label>`,fd=>{ e.cfix=e.cfix||{}; e.cfix[r]=fd.t; addBit(e,`Conclusión ${r} corregida: ${fd.m}`); if(fd.rule){ REVS.unshift({id:'R'+Date.now(),tipo:'Ajuste de regla '+r,exp:e.id,autor:me(),nivel:'Manager',desde:TODAY,detalle:`Propuesto desde una corrección: ${fd.m}`,estado:'pendiente'}); } toast(fd.rule?'Corrección guardada y ajuste de regla enviado a aprobación':'Corrección guardada'); },'Guardar'); break; }
+   case 'fact-anular': { const f=FACT.find(x=>x.id===el.dataset.id); const nc=el.dataset.nc==='1'; modal(nc?'Nota de crédito y reemisión':'Anular factura',`<p class="small muted" style="margin:0">Factura ${f.nro} · ${usd(f.monto)}. ${nc?'Se registra la nota de crédito y el hito vuelve a quedar listo para facturar.':'La anulación conserva la trazabilidad con el hito.'}</p><div class="fld"><label for="fam">Motivo</label><input id="fam" name="m" required></div>`,fd=>{ audit('Factura '+f.nro,'Estado',f.estado,nc?'Nota de crédito':'Anulada'); FACT.push({...f,id:'F'+Date.now(),estado:'anulada',nota:fd.m}); f.estado='listo'; delete f.nro; delete f.saldo; f.f=TODAY; toast(nc?'Nota de crédito registrada: el hito vuelve a listo para facturar':'Factura anulada'); },nc?'Registrar':'Anular'); break; }
+   case 'fact-esc': { const f=FACT.find(x=>x.id===el.dataset.id); f.esc=true; const e=E(f.exp); REVS.unshift({id:'R'+Date.now(),tipo:'Factura sin emitir',exp:f.exp,autor:'fs',nivel:'Socio',desde:TODAY,detalle:`${f.hito} habilitado hace ${-days(f.f)} días sin facturar (${usd(f.monto)})`,estado:'pendiente'}); toast('Escalado a socios'); render(); break; }
+   case 'sol-esc': { const s=SOLS.find(x=>x.id===el.dataset.s); s.esc=true; REVS.unshift({id:'R'+Date.now(),tipo:'Solicitud sin respuesta',exp:s.exp,autor:me(),nivel:'Manager',desde:TODAY,detalle:`${s.recs} recordatorios sin respuesta de ${s.contacto}`,estado:'pendiente'}); toast('Solicitud escalada a la manager'); render(); break; }
+  }
+});
+document.addEventListener('change', ev => { const el=ev.target;
+  if(el.dataset.sim){ simVals[el.dataset.sim]=+el.value; const y=window.scrollY; render(); window.scrollTo(0,y); }
+  if(el.dataset.cfg){ const k=el.dataset.cfg, i=+el.dataset.i; const v=el.type==='checkbox'?(el.checked?1:0):+el.value;
+    if(k==='tipo'){ audit('Tipo '+CFG.tipos[i][0],'Frescura (días)',CFG.tipos[i][3],v); CFG.tipos[i][3]=v; if(TH[['empleo','inversion','capacitacion','certificacion'][i]]!=null) TH[['empleo','inversion','capacitacion','certificacion'][i]]=v; }
+    else if(k==='fact'){ audit('Regla de facturación '+CFG.fact[i][1],'Importe',CFG.fact[i][2],v); CFG.fact[i][2]=v; }
+    else if(k==='aviso'){ audit('Aviso '+CFG.avisos[i][0],'Días',CFG.avisos[i][1],v); CFG.avisos[i][1]=v; }
+    else if(k==='perm'){ CFG.perm[el.dataset.r][i]=v; audit('Permisos '+el.dataset.r,CFG.acciones[i],v?'no':'sí',v?'sí':'no'); }
+    else { CFG.rules[k][Array.isArray(CFG.rules[k])?i:0]=v; if(!Array.isArray(CFG.rules[k])) CFG.rules[k]=v; }
+    toast('Cambio guardado y registrado en la auditoría'); }
+  if(el.dataset.act==='audf'){ S.audF=el.value; render(); }
+});
+document.addEventListener('submit', ev => { const f=ev.target.closest('[data-form]'); if(!f) return; ev.preventDefault(); const d=Object.fromEntries(new FormData(f));
+  if(f.dataset.form==='cfg-doc'){ CFG.docs.push(d.d); audit('Tipos documentales',d.d,'—','creado'); render(); }
+  if(f.dataset.form==='login'){ const em=(d.em||'').toLowerCase(); S.role = em.startsWith('carolina')?'manager':em.startsWith('ana')?'socio':'asistente'; S.view='inicio'; S.login=null; renderLogin(); render(); renderBell(); toast('Sesión iniciada como '+P(me()).name); }
+  if(f.dataset.form==='recover'){ S.login='sent'; renderLogin(); }
+});
+const opState = e => { const late=e.tareas.filter(t=>t.estado!=='completada'&&t.due<TODAY).length, blk=e.tareas.filter(t=>t.estado==='bloqueada').length, rev=REVS.filter(r=>r.exp===e.id&&r.estado==='pendiente').length; return blk?'Bloqueado':late?'Con tareas vencidas':rev?'En revisión':'Al día'; };
+
 /* ---------- Render ---------- */
-function render(){ renderSide(); $('#view').innerHTML = (V[S.view]||V.inicio)() + (S.view==='portal'?'':'<footer class="rebl-foot"><a class="rebl" href="https://www.rebltech.com" target="_blank" rel="noopener">Powered by <span class="rebl-logo" role="img" aria-label="REBL"></span></a></footer>');
+function render(){ renderSide(); renderBell(); $('#view').innerHTML = (V[S.view]||V.inicio)() + (S.view==='portal'?'':'<footer class="rebl-foot"><a class="rebl" href="https://www.rebltech.com" target="_blank" rel="noopener">Powered by <span class="rebl-logo" role="img" aria-label="REBL"></span></a></footer>');
   document.querySelectorAll('#view table').forEach(t=>{ const hs=[...t.querySelectorAll('thead th')].map(th=>th.textContent.replace(/[↑↓]/g,'').trim()); t.querySelectorAll('tbody tr').forEach(tr=>[...tr.children].forEach((td,i)=>{ if(hs[i]) td.dataset.label=hs[i]; })); });
 }
 
@@ -1246,7 +1598,7 @@ document.addEventListener('click', ev => {
    case 'override': { const e=EXP.find(x=>x.id===el.dataset.id); modal('Aplicar excepción al estado',`<p class="small muted">El estado calculado de ${esc(e.soc)} es <b>Incumpliendo</b>. Una excepción requiere motivo, vigencia y aprobación de socios.</p><div class="fld"><label for="oe">Nuevo estado</label><select id="oe" name="s"><option value="amarillo">En riesgo</option><option value="verde">Cumpliendo</option></select></div><div class="fld"><label for="om">Motivo</label><textarea id="om" name="m" required></textarea></div><div class="fld"><label for="oh">Vence</label><input id="oh" name="h" type="date" required value="${iso(addD(TODAY,60))}"></div>`,fd=>{REVS.unshift({id:'R'+Date.now(),tipo:'Excepción al estado calculado',exp:e.id,autor:me(),nivel:'Socio',desde:TODAY,detalle:`${SAL[fd.s]} hasta ${fd.h}: ${fd.m}`,estado:'pendiente',ov:{estado:fd.s,hasta:new Date(fd.h+'T12:00:00')}}); addBit(e,'Excepción solicitada: '+fd.m,'exc'); toast('Excepción enviada a aprobación de socios');},'Enviar a aprobación'); break; }
    case 'item': { const s=SOLS.find(x=>x.id===el.dataset.s); s.items[+el.dataset.k][1]=el.dataset.v; const e=EXP.find(x=>x.id===s.exp); addBit(e,`Solicitud: ${s.items[+el.dataset.k][0]} → ${el.dataset.v}`); toast(s.items.every(x=>x[1]==='validado')?'Todos los ítems validados: solicitud cerrada':'Ítem '+el.dataset.v); render(); break; }
    case 'recordar': { const s=SOLS.find(x=>x.id===el.dataset.s); s.recs++; const e=EXP.find(x=>x.id===s.exp); e.tareas.push({id:'T'+(tid++),exp:e.id,titulo:'Reiterar pedido: '+s.items.filter(x=>x[1]!=='validado').map(x=>x[0]).join(', '),resp:e.resp,due:addD(TODAY,2),estado:'abierta',origen:'Alerta'}); toast('Recordatorio creado como tarea, solo por los ítems faltantes'); render(); break; }
-   case 'nueva-sol': case 'pedir': { const e = el.dataset.id?EXP.find(x=>x.id===el.dataset.id):null; modal('Nueva solicitud',`<div class="fld"><label for="se">Expediente</label><select id="se" name="e">${EXP.map(x=>`<option value="${x.id}" ${e&&e.id===x.id?'selected':''}>${esc(x.soc)}</option>`).join('')}</select></div><div class="fld"><label for="sc">Contacto</label><input id="sc" name="c" required placeholder="Nombre y rol"></div><div class="fld"><label for="si">Ítems (uno por línea)</label><textarea id="si" name="i" required>${el.dataset.doc||''}</textarea></div>`,fd=>{SOLS.unshift({id:'S'+Date.now(),exp:fd.e,contacto:fd.c,enviada:TODAY,recs:0,items:fd.i.split('\n').filter(Boolean).map(x=>[x.trim(),'pendiente'])}); toast('Solicitud registrada. Enviala desde tu correo y quedará trazada'); if(S.view!=='solicitudes'){S.view='solicitudes';}},'Registrar'); break; }
+   case 'nueva-sol': case 'pedir': { const e = el.dataset.id?EXP.find(x=>x.id===el.dataset.id):null; modal('Nueva solicitud',`<div class="fld"><label for="se">Expediente</label><select id="se" name="e">${EXP.map(x=>`<option value="${x.id}" ${e&&e.id===x.id?'selected':''}>${esc(x.soc)}</option>`).join('')}</select></div><div class="fld"><label for="sc">Contacto</label><input id="sc" name="c" required placeholder="Elegí un contacto o escribí uno nuevo" list="contactsDL"><datalist id="contactsDL">${CONTACTS.filter(c=>!e||c.soc===e.soc).map(c=>`<option value="${esc(c.nombre)} (${esc(c.rol)})"></option>`).join('')}</datalist></div><div class="fld"><label for="si">Ítems (uno por línea)</label><textarea id="si" name="i" required>${el.dataset.doc||''}</textarea></div>`,fd=>{SOLS.unshift({id:'S'+Date.now(),exp:fd.e,contacto:fd.c,enviada:TODAY,recs:0,items:fd.i.split('\n').filter(Boolean).map(x=>[x.trim(),'pendiente'])}); toast('Solicitud registrada. Enviala desde tu correo y quedará trazada'); if(S.view!=='solicitudes'){S.view='solicitudes';}},'Registrar'); break; }
    case 'informe': S.informe=el.dataset.id; render(); window.scrollTo(0,0); break;
    case 'informe-back': S.informe=null; render(); break;
    case 'regen': { const e=EXP.find(x=>x.id===S.informe); e.narr[0] = `En el período analizado, la empresa ${e.soc} ${expEval(e).salud==='verde'?'muestra una evolución favorable en el cumplimiento de sus compromisos':'registra avances, aunque persisten desvíos que conviene atender antes del próximo seguimiento anual'}.`; toast('Párrafo 1 regenerado'); render(); break; }
