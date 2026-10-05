@@ -422,6 +422,10 @@ button.who:hover .av{box-shadow:0 0 0 2px var(--accent)}
 .login .rebl-logo{color:var(--faint)}
 @media (max-width:440px){.mbrand{display:none!important}.top{grid-template-columns:auto minmax(0,1fr) auto auto!important}.top .role{grid-column:2!important;justify-self:start!important}.bellwrap{grid-column:3!important}.who{grid-column:4!important}}
 @media (max-width:640px){.simrow{grid-template-columns:minmax(0,1fr) 90px}.simrow input{grid-column:1/-1;grid-row:2}.sol-esc{margin-left:0}.bellwrap{grid-column:auto}}
+.drop{display:flex;flex-direction:column;align-items:center;gap:8px;padding:36px 16px;border:1.5px dashed var(--line);border-radius:10px;margin:16px;cursor:pointer;text-align:center;color:var(--muted)}
+.drop:hover{border-color:var(--accent);color:var(--ink)}
+.drop b{color:var(--ink)}
+.btn .soon{border:1px solid var(--line);border-radius:4px;padding:0 4px;font-size:10px;color:var(--muted)}
 /* ---- Mobile ---- */
 .mbrand,.bnav,.scrim,.side-mob{display:none}
 @media (max-width:900px){
@@ -897,10 +901,10 @@ const NAV = {
    {id:'informes',l:'Informes al cliente',i:'doc'},
    {id:'revisiones',l:'Enviadas a revisión',i:'check'}
   ]},
-  {g:'Próximamente',items:[
-   {id:'soon-mayores',l:'Conciliación de mayores',i:'ledger',soon:true},
-   {id:'soon-nominas',l:'Importar nóminas',i:'upload',soon:true},
-   {id:'soon-normativa',l:'Asistente normativo',i:'book',soon:true}
+  {g:'Entrega B',items:[
+   {id:'mayores',l:'Conciliación de mayores',i:'ledger',b:true},
+   {id:'nominas',l:'Importar nóminas',i:'upload',b:true},
+   {id:'normativa',l:'Asistente normativo',i:'book',b:true}
   ]}
  ],
  manager:[
@@ -918,8 +922,9 @@ const NAV = {
    {id:'solicitudes',l:'Solicitudes',i:'inbox'},
    {id:'config',l:'Reglas y criterios',i:'gear'}
   ]},
-  {g:'Próximamente',items:[
-   {id:'soon-normativa',l:'Asistente normativo',i:'book',soon:true}
+  {g:'Entrega B',items:[
+   {id:'mayores',l:'Conciliación de mayores',i:'ledger',b:true},
+   {id:'normativa',l:'Asistente normativo',i:'book',b:true}
   ]}
  ],
  socio:[
@@ -1148,7 +1153,7 @@ function solBlock(s){
   const slot = (html) => `<span class="slot">${html||''}</span>`;
   return `<section class="sol">
    <header class="sol-h"><div class="sol-t"><div class="t">${expLink(e)}</div><div class="m">${esc(s.contacto)}<span class="sep">·</span>enviada ${fd(s.enviada)}${s.recs?`<span class="sep">·</span>${s.recs} ${s.recs===1?'recordatorio':'recordatorios'}`:''}</div></div>
-    <div class="sol-st"><span class="prog"><i style="width:${v/s.items.length*100}%"></i></span><span class="small muted">${v}/${s.items.length}</span></div><span class="stt ${SOLCL[st]}"><span class="dot ${SOLCL[st]}"></span>${st}</span><span></span>
+    <div class="sol-st"><span class="prog"><i style="width:${v/s.items.length*100}%"></i></span><span class="small muted">${v}/${s.items.length}</span></div><span class="stt ${SOLCL[st]}"><span class="dot ${SOLCL[st]}"></span>${st}</span><span class="slot">${st!=='Completa'?ib('sol-draft','mail','Borrador de email (entrega B)',`data-s="${s.id}"`):''}</span>
     <div class="sol-a slot">${st!=='Completa'?ib('recordar','bell','Recordar los ítems faltantes',`data-s="${s.id}"`):''}</div></header>${st!=='Completa'&&s.recs>=3?`<div class="sol-esc">${s.esc?`<span class="stt crit"><span class="dot crit"></span>Escalada a la manager</span>`:`<span class="small down">${s.recs} recordatorios sin respuesta</span><button class="btn sm" data-act="sol-esc" data-s="${s.id}">${ic('up')}Escalar</button>`}</div>`:''}
    <div class="sol-items">${s.items.map((it,k)=>{ const a=`data-s="${s.id}" data-k="${k}"`;
      const main = it[1]==='recibido'?ib('item','check','Validar',a+' data-v="validado"','good'):(it[1]==='pendiente'||it[1]==='rechazado')?ib('item','inbox','Marcar recibido',a+' data-v="recibido"'):'';
@@ -1367,7 +1372,7 @@ ALTA.simulador = () => { const r=simCalc(simVals);
 FT.armado = e => { const idx=ARM_ST.indexOf(e.estado); const pct=armPct(e); const obsA=e.arm.obs.filter(o=>o.st==='abierta').length;
   const next = {0:['Enviar a revisión interna',pct<100?'Completá el checklist para avanzar':''],1:['Aprobar y pasar a firma',S.role==='asistente'?'Lo aprueba la manager':''],2:['Registrar firma y presentación',''],3:['Registrar aprobación de COMAP',''],4:['Volver a presentar',obsA?'Levantá todas las observaciones para volver a presentar':''],5:['Pasar a seguimiento','']}[idx];
   return `<section class="sec"><div class="card-h"><h2>Etapas del armado</h2><span class="hint">Las transiciones validan que no se saltee ningún paso</span></div><div class="card-b"><div class="steps">${ARM_ST.map((s,i)=>`<span class="step ${i<idx?'done':i===idx?'cur':''}">${i<idx?'✓ ':''}${s}</span>`).join('')}</div>
-   <div class="btns" style="margin-top:14px"><button class="btn pri" data-act="arm-next" data-id="${e.id}" ${next[1]?'disabled':''}>${next[0]}</button>${idx===3?`<button class="btn" data-act="arm-obs" data-id="${e.id}">${ic('plus')}Cargar observación de COMAP</button>`:''}${next[1]?`<span class="small muted">${next[1]}</span>`:''}</div></div></section>
+   <div class="btns" style="margin-top:14px"><button class="btn pri" data-act="arm-next" data-id="${e.id}" ${next[1]?'disabled':''}>${next[0]}</button>${idx===3?`<button class="btn" data-act="arm-obs" data-id="${e.id}">${ic('plus')}Cargar observación de COMAP</button>`:''}${idx===2?(e.firma==='firmado'?`<span class="stt good"><span class="dot good"></span>Delegación firmada</span>`:e.firma==='enviado'?`<button class="btn" data-act="firma-ok" data-id="${e.id}">${ic('check')}Registrar firma recibida</button><span class="small muted">Enviado a firma electrónica</span>`:`<button class="btn" data-act="firma-send" data-id="${e.id}">${ic('pen')}Enviar a firma electrónica <span class="soon" style="margin-left:4px">B</span></button>`):''}${next[1]?`<span class="small muted">${next[1]}</span>`:''}</div></div></section>
   <div class="grid g2"><section class="card"><div class="card-h"><h2>Checklist de información</h2><span class="hint">${pct}% completo</span></div><div class="list">${e.arm.check.map((c,k)=>`<div class="li"><div><div class="t" style="font-weight:500;${c.st==='na'?'color:var(--faint);text-decoration:line-through':''}">${esc(c.it)}</div></div><div class="seg sm3">${[['recibido','Recibido'],['pendiente','Pendiente'],['na','No aplica']].map(([v,l])=>`<button class="${c.st===v?'on':''}" data-act="arm-chk" data-id="${e.id}" data-k="${k}" data-v="${v}">${l}</button>`).join('')}</div></div>`).join('')}</div>
    ${e.arm.check.some(c=>c.st==='pendiente')?`<div class="card-b" style="border-top:1px solid var(--line-2)"><button class="btn sm" data-act="arm-pedir" data-id="${e.id}">${ic('inbox')}Pedir faltantes al cliente</button></div>`:''}</section>
   <div class="grid" style="align-content:start"><section class="sec"><div class="card-h"><h2>Observaciones de COMAP</h2><span class="hint">${obsA} abiertas</span></div><div class="list">${e.arm.obs.map((o,k)=>`<div class="li"><div><div class="t" style="font-weight:500">${esc(o.t)}</div><div class="m">recibida ${fd(o.f)}${o.st==='levantada'?' · <span class="up">levantada</span>':''}</div></div>${o.st==='abierta'?ib('arm-lev','check','Marcar como levantada',`data-id="${e.id}" data-k="${k}"`,'good solid'):''}</div>`).join('')||'<div class="empty">Sin observaciones</div>'}</div></section>
@@ -1408,7 +1413,7 @@ V.sociedad = () => { const soc=S.soc; const exps=EXP.filter(e=>e.soc===soc); con
 
 /* Configuración editable */
 V.config = () => { const t = S.cfgTab || (S.role==='socio'?'usuarios':'reglas');
-  const T = S.role==='socio' ? [['usuarios','Usuarios'],['permisos','Permisos'],['datos','Datos personales'],['audit','Auditoría'],['factura','Reglas de facturación'],['reglas','Reglas de salud']] : [['reglas','Reglas de salud'],['tipos','Tipos de compromiso'],['docs','Tipos documentales'],['mapping','Mapping COMAP'],['avisos','Avisos'],['factura','Reglas de facturación']];
+  const T = S.role==='socio' ? [['usuarios','Usuarios'],['permisos','Permisos'],['datos','Datos personales'],['audit','Auditoría'],['factura','Reglas de facturación'],['reglas','Reglas de salud'],['integraciones','Integraciones']] : [['reglas','Reglas de salud'],['tipos','Tipos de compromiso'],['docs','Tipos documentales'],['mapping','Mapping COMAP'],['avisos','Avisos'],['factura','Reglas de facturación'],['integraciones','Integraciones']];
   return `<div class="hd"><div><p class="eyebrow">A01 · A05 · A06 · A11 · A13 · A16</p><h1>Configuración</h1><p class="sub">Todo lo que cambia el comportamiento del sistema se ajusta acá, sin desarrollo. Los cambios de criterio quedan versionados y en la auditoría.</p></div></div>` + tabsBar(t,'cfg-t',T) + (CFGV[t]||CFGV.reglas)(); };
 const CFGV = {};
 CFGV.reglas = () => { const r=CFG.rules; const inp=(k,i,suf)=>`<input class="cin" type="number" value="${Array.isArray(r[k])?r[k][i]:r[k]}" data-cfg="${k}" data-i="${i}" aria-label="${k}">${suf}`;
@@ -1548,6 +1553,113 @@ document.addEventListener('submit', ev => { const f=ev.target.closest('[data-for
   if(f.dataset.form==='recover'){ S.login='sent'; renderLogin(); }
 });
 const opState = e => { const late=e.tareas.filter(t=>t.estado!=='completada'&&t.due<TODAY).length, blk=e.tareas.filter(t=>t.estado==='bloqueada').length, rev=REVS.filter(r=>r.exp===e.id&&r.estado==='pendiente').length; return blk?'Bloqueado':late?'Con tareas vencidas':rev?'En revisión':'Al día'; };
+
+/* =====================================================================
+   ENTREGA B · módulos completados desde el blueprint (marcados como B)
+   ===================================================================== */
+ICON.mail = '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>';
+ICON.pen = '<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13 7 4 4"/>';
+ICON.link = '<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>';
+Object.assign(S,{nrmTab:'consultar', nrmQ:null, mayExp:null, mayStep:0});
+const bHead = (code,title,sub) => `<div class="hd"><div><p class="eyebrow">${code} · Entrega B</p><h1>${title}</h1><p class="sub">${sub}</p></div></div>`;
+
+/* ---------- B19 · Normativa, Q&A COMAP y precedentes ---------- */
+const NORMAS = [['Ley 16.906','Ley de Promoción y Protección de Inversiones','vigente desde 1998'],['Decreto 329/025','Reglamentación y matriz de indicadores','vigente desde 2025'],['Decreto 268/020','Reglamentación anterior (proyectos presentados hasta 2025)','vigente para proyectos previos'],['Resolución COMAP 1/2026','Instructivo de seguimiento anual','vigente desde ene 2026']];
+const QA = [['¿Se puede computar inversión en software desarrollado internamente?','Sí, si se activa contablemente y se identifica en el cronograma comprometido.','mar 2026','E1007'],['¿Cómo se calcula el personal promedio si hay altas a mitad de año?','Promedio mensual de los 12 meses del ejercicio, según planillas BPS.','nov 2025','E1012'],['¿Plazo para levantar observaciones?','30 días hábiles desde la notificación, prorrogables a pedido fundado.','ago 2025',null]];
+const PRECS = [['Inversión diferida por importación demorada','Se pidió reformulación del cronograma con documentación del proveedor; COMAP la aceptó.','Ana Bentancor','may 2026'],['Empleo por debajo con cursos en proceso','Se dejó nota de contexto y se informó en el seguimiento anual con constancias; sin observaciones.','Carolina Gómez','feb 2026']];
+const ANSWERS = [
+ {k:['software','informatic','sistema'],a:'La inversión en software desarrollado internamente puede computarse si está activada contablemente y forma parte del cronograma comprometido.',src:[['Q&A COMAP','respuesta de mar 2026 (expediente E1007)'],['Decreto 329/025','art. 10 · vigente']]},
+ {k:['promedio','personal','empleo','altas'],a:'El personal ocupado se calcula como promedio mensual de los 12 meses del ejercicio, con las planillas de BPS como respaldo.',src:[['Q&A COMAP','respuesta de nov 2025'],['Resolución COMAP 1/2026','instructivo · vigente']]},
+ {k:['observacion','plazo','levantar'],a:'Las observaciones se levantan dentro de 30 días hábiles desde la notificación; puede pedirse prórroga fundada.',src:[['Q&A COMAP','respuesta de ago 2025'],['Precedente interno','Inversión diferida · may 2026']]}
+];
+const PRESETS = ['¿Puedo computar inversión en software propio?','¿Cómo calculo el personal promedio con altas a mitad de año?','¿Cuánto plazo hay para levantar observaciones?'];
+const CORRS = [{q:'¿Las horas de capacitación online computan?',fb:'La respuesta citaba una norma derogada',u:'Martín Silva',st:'pendiente'}];
+V.normativa = () => { const t=S.nrmTab;
+  return bHead('B19','Asistente normativo','Respuestas sobre normativa, respuestas de COMAP y precedentes propios, siempre con su fuente y vigencia.') + bBanner('Conocimiento normativo, Q&A y precedentes (B19)') +
+  tabsBar(t,'nrm-t',[['consultar','Consultar'],['normativa','Normativa'],['qa','Q&A COMAP'],['precedentes','Precedentes'],['correcciones',`Correcciones (${CORRS.filter(c=>c.st==='pendiente').length})`]]) + NRM[t](); };
+const NRM = {};
+NRM.consultar = () => { const q=S.nrmQ; const n=q&&q.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,''); const ans=q&&ANSWERS.find(a=>a.k.some(k=>n.includes(k)));
+  return `<section class="card"><div class="card-b"><form data-form="nrm" class="btns" style="flex-wrap:nowrap"><input class="cin wide" style="flex:1;width:auto" name="q" placeholder="Preguntá como le preguntarías a una colega con más años" aria-label="Consulta" value="${q?esc(q):''}" required><button class="btn pri" type="submit">Consultar</button></form>
+   <div class="btns" style="margin-top:10px">${PRESETS.map(p=>`<button class="chip" data-act="nrm-pre" data-q="${esc(p)}">${esc(p)}</button>`).join('')}</div></div>
+   ${q?`<div class="card-b" style="border-top:1px solid var(--line-2)"><p class="eyebrow">Respuesta</p>${ans?`<p style="margin:0 0 10px">${esc(ans.a)}</p><div class="list">${ans.src.map(s=>`<div class="li" style="padding-inline:0"><span class="dot good"></span><div><div class="t" style="font-weight:500">${s[0]}</div><div class="m">${s[1]}</div></div></div>`).join('')}</div>`:`<p style="margin:0" class="muted">No encontré una fuente autorizada que responda esto. Conviene consultarlo con una socia o registrar la consulta a COMAP.</p>`}
+   <div class="btns" style="margin-top:10px"><span class="xs muted">El asistente informa, no decide: el criterio sigue siendo de la persona.</span><span style="flex:1"></span>${ans?`${ib('nrm-ok','check','La respuesta fue útil','','good')}${ib('nrm-bad','x','Marcar como incorrecta','','crit')}`:`<button class="btn sm" data-act="nrm-reg">Registrar consulta a COMAP</button>`}</div></div>`:''}</section>`; };
+NRM.normativa = () => `<section class="card"><div class="list">${NORMAS.map(n=>`<div class="li"><div><div class="t">${n[0]}</div><div class="m">${n[1]}</div></div><span class="stt ${n[2].startsWith('vigente desde')?'good':''}"><span class="dot ${n[2].startsWith('vigente desde')?'good':''}"></span>${n[2]}</span></div>`).join('')}</div></section>`;
+NRM.qa = () => `<section class="card"><div class="card-h"><h2>Consultas hechas a COMAP</h2><button class="btn sm" data-act="nrm-reg">${ic('plus')}Registrar consulta</button></div><div class="list">${QA.map(x=>`<div class="li"><div><div class="t">${esc(x[0])}</div><div class="small" style="margin-top:2px">${esc(x[1])}</div><div class="m">${x[2]}${x[3]?` · <button class="link small" data-act="open" data-id="${x[3]}">expediente que la originó</button>`:''}</div></div></div>`).join('')}</div></section>`;
+NRM.precedentes = () => `<section class="card"><div class="card-h"><h2>Precedentes internos</h2><button class="btn sm" data-act="nrm-prec">${ic('plus')}Nuevo precedente</button></div><div class="list">${PRECS.map(x=>`<div class="li"><div><div class="t">${esc(x[0])}</div><div class="small" style="margin-top:2px">${esc(x[1])}</div><div class="m">${esc(x[2])} · ${x[3]}</div></div></div>`).join('')}</div></section>`;
+NRM.correcciones = () => `<section class="card"><div class="card-h"><h2>Cola de correcciones</h2><span class="hint">Alguien decide qué se incorpora al corpus</span></div><div class="list">${CORRS.map((c,i)=>`<div class="li"><div><div class="t">${esc(c.q)}</div><div class="m">${esc(c.fb)} · ${esc(c.u)}</div></div>${c.st==='pendiente'?`<div class="acts">${ib('nrm-corr','check','Incorporar al corpus',`data-i="${i}" data-v="incorporada"`,'good solid')}${ib('nrm-corr','x','Descartar',`data-i="${i}" data-v="descartada"`)}</div>`:`<span class="stt ${c.st==='incorporada'?'good':''}"><span class="dot ${c.st==='incorporada'?'good':''}"></span>${c.st}</span>`}</div>`).join('')}</div></section>`;
+
+/* ---------- B20 · Importar nóminas ---------- */
+let NOM = null;
+V.nominas = () => { const mine=EXP.filter(e=>e.estado==='En seguimiento'&&(S.role!=='asistente'||e.resp===me()));
+  return bHead('B20','Importar nóminas','Se lee la salida del procesador de nóminas que ya usan; el sistema propone mediciones de empleo y las aplica solo cuando alguien las valida.') + bBanner('Automatización de inputs (B20)') +
+  (!NOM?`<section class="card"><label class="drop"><input type="file" data-act="nom-file" hidden accept=".csv,.xlsx,.txt">${ic('upload','width="28" height="28"')}<b>Subí el archivo del procesador de nóminas</b><span class="small muted">CSV o Excel con el formato de exportación actual · o usá el de ejemplo</span><button type="button" class="btn sm" data-act="nom-demo">Usar archivo de ejemplo</button></label></section>`:
+  `<div class="kstats s3"><div class="card kpi"><span class="lab">Registros leídos</span><span class="val">${NOM.read}</span><span class="delta">${esc(NOM.file)}</span></div><div class="card kpi"><span class="lab">Rechazados</span><span class="val" style="color:var(--crit)">${NOM.rej.length}</span><span class="delta">con motivo</span></div><div class="card kpi"><span class="lab">Mediciones propuestas</span><span class="val">${NOM.props.length}</span><span class="delta">${NOM.props.filter(p=>p.st==='aplicada').length} aplicadas</span></div></div>
+  <section class="card"><div class="card-h"><h2>Mediciones propuestas</h2><button class="btn sm pri" data-act="nom-all">${ic('check')}Aplicar todas las validadas</button></div><div class="tw"><table><thead><tr><th>Sociedad</th><th class="num">Vigente</th><th class="num">Propuesta</th><th class="num">Diferencia</th><th>Período</th><th></th></tr></thead><tbody>${NOM.props.map((p,i)=>{const e=EXP.find(x=>x.id===p.exp); const d=p.v-p.cur; return `<tr><td class="b">${esc(e.soc)}</td><td class="num">${p.cur}</td><td class="num b">${p.v}</td><td class="num ${d<0?'down':d>0?'up':''}">${d>0?'+':''}${d}</td><td class="small">jul–set 2026</td><td class="act-c">${p.st==='aplicada'?'<span class="stt good"><span class="dot good"></span>Aplicada</span>':p.st==='descartada'?'<span class="small muted">Descartada</span>':`<div class="acts" style="justify-content:flex-end">${ib('nom-ap','check','Validar y aplicar',`data-i="${i}"`,'good solid')}${ib('nom-no','x','Descartar',`data-i="${i}"`)}</div>`}</td></tr>`;}).join('')}</tbody></table></div></section>
+  <section class="sec"><div class="card-h"><h2>Registros rechazados</h2></div><div class="list">${NOM.rej.map(r=>`<div class="li"><span class="dot crit"></span><div><div class="t" style="font-weight:500">${esc(r[0])}</div><div class="m">${esc(r[1])}</div></div></div>`).join('')}</div></section>
+  <div class="btns"><button class="btn" data-act="nom-reset">Importar otro archivo</button>${ib('abrir-doc','doc','Prellenar formulario con datos validados','','solid')}</div>`); };
+
+/* ---------- B23 · Conciliación de mayores ---------- */
+const MAY_STEPS = ['Carga','Normalización','Proveedores','Clasificación','Casos ambiguos','Conciliación'];
+const CATS = ['Maquinaria y equipos','Obra civil','Equipamiento informático','Vehículos utilitarios','No computa'];
+function mayData(e){ if(e.may) return e.may; const prov=[['Metalúrgica Oriental S.A.','METALURGICA ORIENTAL SA','Metalúrgica Oriental'],['Construcciones del Plata SRL','CONST. DEL PLATA'],['Tecno Sur S.A.','TECNOSUR SA'],['Automotora Norte S.A.'],['Papelería Central']];
+  const movs=[]; for(let i=0;i<16;i++){ const p=prov[i%5]; const cat=[0,1,2,3,4][i%5]; const conf = i===3||i===11?58:i===7?66:88+((i*7)%11); movs.push({id:i,f:addD(TODAY,-(250-i*12)),desc:['Torno CNC y accesorios','Avance de obra nave 2','Servidores y switches','Camioneta de reparto','Útiles de oficina'][i%5]+(i>9?' (2.ª cuota)':''),prov:p[i%p.length],provN:p[0],imp:[48000,36500,12800,27900,640][i%5]*(1+(i%3)*0.15),sug:CATS[cat],conf,st:conf>=85?'sugerido':'ambiguo',cat:null}); }
+  e.may={step:3,movs,comp:{'Maquinaria y equipos':e.monto*0.45,'Obra civil':e.monto*0.35,'Equipamiento informático':e.monto*0.12,'Vehículos utilitarios':e.monto*0.08},closed:false}; return e.may; }
+V.mayores = () => { const opts=EXP.filter(e=>e.estado==='En seguimiento'&&(S.role!=='asistente'||e.resp===me())); const e=EXP.find(x=>x.id===S.mayExp)||opts[0]; S.mayExp=e.id; const m=mayData(e);
+  const acc=m.movs.filter(x=>x.st==='aceptado'), amb=m.movs.filter(x=>x.st==='ambiguo'), pend=m.movs.filter(x=>x.st==='sugerido');
+  const byCat=c=>acc.filter(x=>(x.cat||x.sug)===c).reduce((a,x)=>a+x.imp,0);
+  return bHead('B23','Conciliación de mayores','Del libro mayor de cada sociedad a la inversión que efectivamente computa. Nada impacta el indicador sin validación humana.') + bBanner('Mayores contables y conciliación de inversiones (B23)') +
+  `<div class="filters"><select class="sel" data-act="may-exp" aria-label="Expediente">${opts.map(x=>`<option value="${x.id}" ${x.id===e.id?'selected':''}>${esc(x.soc)}</option>`).join('')}</select><span class="small muted">Mayores 2025 v2.xlsx · ${m.movs.length} movimientos leídos · 2 descartados (saldo inicial y cierre)</span></div>
+  <div class="steps">${MAY_STEPS.map((s,i)=>`<span class="step ${i<m.step||m.closed?'done':i===m.step?'cur':''}">${i<m.step||m.closed?'✓ ':''}${s}</span>`).join('')}</div>
+  <section class="card"><div class="card-h"><h2>Clasificación asistida</h2><div class="btns"><span class="hint">${pend.length} sugeridos · ${amb.length} ambiguos · ${acc.length} validados</span><button class="btn sm pri" data-act="may-lote" ${pend.filter(x=>x.conf>=90).length?'':'disabled'}>${ic('check')}Aceptar en lote (confianza ≥ 90%)</button></div></div>
+   <div class="tw"><table><thead><tr><th>Movimiento</th><th>Proveedor</th><th class="num-r">Importe (USD)</th><th>Categoría</th><th class="num">Confianza</th><th></th></tr></thead><tbody>${m.movs.slice().sort((a,b)=>(a.st==='ambiguo'?-1:0)-(b.st==='ambiguo'?-1:0)||b.imp-a.imp).map(x=>`<tr><td><div class="b">${esc(x.desc)}</div><div class="exp-n">${fdy(x.f)}</div></td><td class="small">${esc(x.provN)}${x.prov!==x.provN?`<div class="xs muted">unificado desde "${esc(x.prov)}"</div>`:''}</td><td class="num-r">${num(x.imp)}</td><td>${x.st==='aceptado'?`<span class="small">${esc(x.cat||x.sug)}</span>`:`<select class="sel" data-act="may-cat" data-id="${x.id}" aria-label="Categoría">${CATS.map(c=>`<option ${c===(x.cat||x.sug)?'selected':''}>${c}</option>`).join('')}</select>`}</td><td class="num"><span class="small ${x.conf<70?'down b':x.conf<85?'':'up'}">${x.conf}%</span></td><td class="act-c">${x.st==='aceptado'?'<span class="stt good"><span class="dot good"></span>Validado</span>':ib('may-ok','check',x.st==='ambiguo'?'Resolver con esta categoría':'Aceptar',`data-id="${x.id}"`,'good solid')}</td></tr>`).join('')}</tbody></table></div></section>
+  <section class="sec"><div class="card-h"><h2>Conciliación contra lo comprometido</h2><span class="hint">Solo movimientos validados</span></div><div class="tw"><table><thead><tr><th>Categoría comprometida</th><th class="num-r">Comprometido</th><th class="num-r">Contabilizado</th><th class="num-r">Desvío</th></tr></thead><tbody>${Object.entries(m.comp).map(([c,v])=>{const k=byCat(c); return `<tr><td class="b">${c}</td><td class="num-r">${usd(v)}</td><td class="num-r">${usd(k)}</td><td class="num-r ${k<v*0.5?'down':''}">${usd(k-v)}</td></tr>`;}).join('')}</tbody></table></div>
+   <div class="btns" style="margin-top:12px">${m.closed?`<span class="stt good"><span class="dot good"></span>Período cerrado · indicador de inversión actualizado</span>`:`<button class="btn pri" data-act="may-close" ${amb.length||pend.length?'disabled':''}>Cerrar conciliación y actualizar indicador</button>${amb.length||pend.length?`<span class="small muted">Quedan ${amb.length+pend.length} movimientos por validar</span>`:''}`}</div></section>`; };
+
+/* ---------- B17 · Borrador y envío de email ---------- */
+function solDraft(s){ const e=EXP.find(x=>x.id===s.exp); const falt=s.items.filter(x=>x[1]!=='validado'); const c=CONTACTS.find(x=>x.soc===e.soc&&s.contacto.includes(x.nombre))||CONTACTS.find(x=>x.soc===e.soc);
+  return {to:c?c.email:'', subj:`${e.soc} · Información pendiente para el seguimiento COMAP`, body:`Hola${c?' '+c.nombre.split(' ')[0]:''},\n\nPara avanzar con el seguimiento anual del proyecto ante COMAP nos falta recibir:\n${falt.map(x=>'· '+x[0]+(x[1]==='rechazado'?' (lo recibido no fue válido)':'')).join('\n')}\n\nSi alguno ya lo enviaron, avísennos y lo buscamos.\n\nSaludos,\n${P(me()).name}\nSS Proyectos`}; }
+
+/* ---------- B22 · Integraciones y opciones ---------- */
+const INTEG = {m365:{on:true,last:'hace 12 min',sync:{Vencimientos:true,Tareas:true,Informes:false}},firma:{on:true,prov:'Proveedor de firma electrónica (a definir)'}};
+CFGV.integraciones = () => `${bBanner('Integraciones (B22)')}<div class="grid g2">
+ <section class="card"><div class="card-h"><h2>Calendario de Microsoft 365</h2><span class="stt ${INTEG.m365.on?'good':''}"><span class="dot ${INTEG.m365.on?'good':''}"></span>${INTEG.m365.on?'Conectado':'Desconectado'}</span></div><div class="card-b"><p class="small muted" style="margin:0 0 10px">Los vencimientos aparecen en Outlook. Mover una fecha de un lado actualiza el otro.</p>${Object.entries(INTEG.m365.sync).map(([k,v])=>`<label class="opt" style="margin-bottom:6px"><input type="checkbox" ${v?'checked':''} data-integ="${k}"> Sincronizar ${k.toLowerCase()}</label>`).join('')}<div class="btns" style="margin-top:8px"><span class="xs muted">Última sincronización ${INTEG.m365.last} · sin errores</span><span style="flex:1"></span><button class="btn sm" data-act="integ-m365">${INTEG.m365.on?'Desconectar':'Conectar'}</button></div></div></section>
+ <section class="card"><div class="card-h"><h2>Firma electrónica</h2><span class="stt good"><span class="dot good"></span>Configurada</span></div><div class="card-b"><p class="small muted" style="margin:0 0 10px">Delegaciones y documentos formales salen a firmar desde la ficha del expediente; el firmado vuelve con su fecha y vigencia.</p><span class="small">${esc(INTEG.firma.prov)}</span></div></section>
+</div>
+<section class="sec"><div class="card-h"><h2>Opciones · se cotizan aparte</h2></div><div class="list">
+ <div class="li"><span class="soon" style="border-color:var(--line);color:var(--muted)">Opción</span><div><div class="t">HubSpot</div><div class="m">Dos alternativas excluyentes: integrar el HubSpot actual (deals ↔ expediente) o reemplazar el subset que se usa con un CRM interno (leads, oportunidades, seguimiento).</div></div></div>
+ <div class="li"><span class="soon" style="border-color:var(--line);color:var(--muted)">Opción</span><div><div class="t">Reemplazo de SharePoint</div><div class="m">Los archivos pasan a vivir en la plataforma: migración documental, almacenamiento propio, respaldo y recuperación. Hoy el sistema solo referencia SharePoint.</div></div></div>
+</div></section>`;
+
+/* ---------- Acciones B ---------- */
+document.addEventListener('click', ev => { const el=ev.target.closest('[data-act]'); if(!el) return; const a=el.dataset.act; const E=id=>EXP.find(x=>x.id===id);
+  switch(a){
+   case 'nrm-t': S.nrmTab=el.dataset.k; render(); break;
+   case 'nrm-pre': S.nrmQ=el.dataset.q; render(); break;
+   case 'nrm-ok': toast('Gracias: la respuesta queda marcada como útil'); break;
+   case 'nrm-bad': CORRS.unshift({q:S.nrmQ,fb:'Marcada como incorrecta desde la consulta',u:P(me()).name,st:'pendiente'}); toast('Enviada a la cola de correcciones'); render(); break;
+   case 'nrm-corr': CORRS[+el.dataset.i].st=el.dataset.v; toast(el.dataset.v==='incorporada'?'Corrección incorporada al corpus':'Corrección descartada'); render(); break;
+   case 'nrm-reg': modal('Registrar consulta a COMAP',`<div class="fld"><label for="nq">Consulta</label><textarea id="nq" name="q" required>${S.nrmQ?esc(S.nrmQ):''}</textarea></div><div class="fld"><label for="ne">Expediente que la origina</label><select id="ne" name="e"><option value="">Ninguno</option>${EXP.slice(0,20).map(x=>`<option value="${x.id}">${esc(x.soc)}</option>`).join('')}</select></div>`,fd=>{ QA.unshift([fd.q,'Pendiente de respuesta de COMAP','hoy',fd.e||null]); S.nrmTab='qa'; toast('Consulta registrada'); },'Registrar'); break;
+   case 'nrm-prec': modal('Nuevo precedente',`<div class="fld"><label for="pt">Caso</label><input id="pt" name="t" required></div><div class="fld"><label for="pr">Criterio aplicado y resolución</label><textarea id="pr" name="r" required></textarea></div>`,fd=>{ PRECS.unshift([fd.t,fd.r,P(me()).name,'hoy']); toast('Precedente registrado'); },'Registrar'); break;
+   case 'nom-demo': { const mine=EXP.filter(e=>e.estado==='En seguimiento'&&(S.role!=='asistente'||e.resp===me())).slice(0,6); NOM={file:'nominas_jul-set_2026.csv',read:mine.length*3+2,rej:[['RUT 219988770011','No coincide con ninguna sociedad registrada'],['Fila 41','Período sin cerrar (setiembre incompleto)']],props:mine.map(e=>{const c=e.comps.find(x=>x.tipo==='empleo'); const cur=last(c).v; return {exp:e.id,cur,v:Math.max(0,cur+((e.id.charCodeAt(4)%5)-1)),st:'propuesta'};})}; render(); break; }
+   case 'nom-reset': NOM=null; render(); break;
+   case 'nom-ap': case 'nom-no': { const p=NOM.props[+el.dataset.i]; if(a==='nom-no'){ p.st='descartada'; render(); break; } const e=E(p.exp); const c=e.comps.find(x=>x.tipo==='empleo'); c.med.push({f:TODAY,v:p.v,autor:P(me()).name,origen:'Asistido (nóminas)'}); p.st='aplicada'; addBit(e,`Medición de empleo aplicada desde nóminas: ${p.v} puestos`); audit(`Compromiso Empleo · ${e.id}`,'Medición',p.cur,p.v); toast('Medición aplicada: salud y frescura recalculadas'); render(); break; }
+   case 'nom-all': NOM.props.filter(p=>p.st==='propuesta').forEach(p=>{ const e=E(p.exp); e.comps.find(x=>x.tipo==='empleo').med.push({f:TODAY,v:p.v,autor:P(me()).name,origen:'Asistido (nóminas)'}); p.st='aplicada'; addBit(e,`Medición de empleo aplicada desde nóminas: ${p.v} puestos`); }); toast('Mediciones aplicadas tras validación'); render(); break;
+   case 'may-lote': { const m=E(S.mayExp).may; m.movs.filter(x=>x.st==='sugerido'&&x.conf>=90).forEach(x=>x.st='aceptado'); m.step=Math.max(m.step,4); toast('Movimientos de alta confianza aceptados en lote'); render(); break; }
+   case 'may-ok': { const m=E(S.mayExp).may; const x=m.movs.find(y=>y.id===+el.dataset.id); x.st='aceptado'; m.step=Math.max(m.step, m.movs.some(y=>y.st==='ambiguo')?4:5); render(); break; }
+   case 'may-close': { if(el.disabled) break; const e=E(S.mayExp); const m=e.may; m.closed=true; m.step=6; const tot=m.movs.filter(x=>x.st==='aceptado'&&(x.cat||x.sug)!=='No computa').reduce((s,x)=>s+x.imp,0); const c=e.comps.find(x=>x.tipo==='inversion'); c.med.push({f:TODAY,v:Math.round(Math.max(last(c).v,tot)),autor:P(me()).name,origen:'Conciliación de mayores'}); addBit(e,'Conciliación de mayores cerrada; indicador de inversión actualizado','dec'); toast('Conciliación cerrada: indicador de inversión actualizado y trazable'); render(); break; }
+   case 'sol-draft': { const s=SOLS.find(x=>x.id===el.dataset.s); const d=solDraft(s); modal('Borrador de email · entrega B',`<span class="stt" style="font-size:12px"><span class="dot info"></span>Generado con los ítems faltantes · revisalo antes de enviar</span><div class="fld"><label for="mt">Para</label><input id="mt" name="to" type="email" required value="${esc(d.to)}"></div><div class="fld"><label for="ms">Asunto</label><input id="ms" name="s" required value="${esc(d.subj)}"></div><div class="fld"><label for="mb">Mensaje</label><textarea id="mb" name="b" style="min-height:180px">${esc(d.body)}</textarea></div><label class="opt"><input type="checkbox" name="auto" ${s.auto?'checked':''}> Recordatorios automáticos al cliente por los ítems faltantes</label>`,fd=>{ s.recs++; s.auto=!!fd.auto; const e=E(s.exp); addBit(e,`Email enviado desde el sistema a ${fd.to}: ${fd.s}`,'int'); toast('Email enviado desde el sistema y registrado en la bitácora'); },'Enviar desde el sistema'); break; }
+   case 'firma-send': { const e=E(el.dataset.id); e.firma='enviado'; addBit(e,'Delegación enviada a firma electrónica'); toast('Enviado a firma: te avisamos cuando vuelva firmado'); render(); break; }
+   case 'firma-ok': { const e=E(el.dataset.id); e.firma='firmado'; e.docs.unshift({tipo:'Delegación',nombre:'Delegación firmada.pdf',ver:'v1 · firmada',f:TODAY}); addBit(e,'Delegación firmada recibida y vinculada'); toast('Documento firmado vinculado al expediente'); render(); break; }
+   case 'integ-m365': INTEG.m365.on=!INTEG.m365.on; toast(INTEG.m365.on?'Microsoft 365 conectado':'Microsoft 365 desconectado'); render(); break;
+  }
+});
+document.addEventListener('change', ev => { const el=ev.target;
+  if(el.dataset.act==='may-exp'){ S.mayExp=el.value; render(); }
+  if(el.dataset.act==='may-cat'){ const m=EXP.find(x=>x.id===S.mayExp).may; const x=m.movs.find(y=>y.id===+el.dataset.id); x.cat=el.value; }
+  if(el.dataset.integ){ INTEG.m365.sync[el.dataset.integ]=el.checked; toast('Preferencia de sincronización guardada'); }
+  if(el.dataset.act==='nom-file' && el.files && el.files[0]){ const n=el.files[0].name; document.querySelector('[data-act="nom-demo"]').click(); NOM.file=n; render(); }
+});
+document.addEventListener('submit', ev => { const f=ev.target.closest('[data-form="nrm"]'); if(!f) return; ev.preventDefault(); S.nrmQ=new FormData(f).get('q'); render(); });
 
 /* ---------- Render ---------- */
 function render(){ renderSide(); renderBell(); $('#view').innerHTML = (V[S.view]||V.inicio)() + (S.view==='portal'?'':'<footer class="rebl-foot"><a class="rebl" href="https://www.rebltech.com" target="_blank" rel="noopener">Powered by <span class="rebl-logo" role="img" aria-label="REBL"></span></a></footer>');
