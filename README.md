@@ -3,7 +3,7 @@
 Prototipo navegable del sistema de gestión de expedientes COMAP para SS Proyectos.
 Un solo archivo (`prototipo.html`), sin dependencias: abrilo en el navegador.
 
-**Ver online:** https://lolibunge.github.io/sspi/
+**Ver online:** https://lolibunge.github.io/SSPI/
 
 ## Qué incluye
 - Entrega A: cartera, ficha de expediente, excepciones, vencimientos, revisiones, solicitudes, informes al cliente, facturación, configuración.
