@@ -73,7 +73,7 @@ input,select,textarea{font:inherit;color:var(--ink)}
 .side .rebl{color:rgba(201,211,232,.75);border-top:1px solid rgba(255,255,255,.1);padding-top:10px}
 .side .rebl b{color:#fff}
 .rebl-foot{display:flex;justify-content:center;padding:4px 0 8px;color:var(--faint)}
-footer.rebl-foot{display:none}
+footer.rebl-foot,.rebl-foot.mob-only{display:none}
 .rebl-foot b{color:var(--muted)}
 /* Top */
 .main{min-width:0;display:flex;flex-direction:column}
@@ -363,7 +363,7 @@ table.exp .c-resp,table.exp .c-min{width:1%;white-space:nowrap}
 .mbrand,.bnav,.scrim,.side-mob{display:none}
 @media (max-width:900px){
   body{padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))}
-  footer.rebl-foot{display:flex}
+  footer.rebl-foot,.rebl-foot.mob-only{display:flex}
   .top{display:grid;grid-template-columns:auto auto minmax(0,1fr) auto;row-gap:8px;column-gap:10px;padding:8px 16px}
   .menu-btn{grid-column:1}
   .mbrand{display:flex;align-items:center;grid-column:2}
@@ -1167,7 +1167,7 @@ V.portal = () => { const e = EXP[0]; const s = SOLS[0];
     <div class="kstats s3">${e.comps.slice(0,3).map(c=>{const l=last(c),pct=c.tipo==='certificacion'?(l.v?100:0):Math.min(100,Math.round(l.v/c.meta*100));return `<div class="card kpi"><span class="lab">${esc(c.label)}</span><span class="val" style="font-size:22px">${pct}%</span><div class="bar good"><i style="width:${pct}%"></i></div><span class="delta">de lo comprometido</span></div>`;}).join('')}</div>
     <div><h3 style="margin-bottom:8px">Próximos pasos</h3><div class="list card">${e.hitos.slice(0,2).map(h=>`<div class="li"><div class="stripe info"></div><div><div class="t">${h.tipo}</div><div class="m">${rel(h.f)}</div></div><span class="small b">${fdy(h.f)}</span></div>`).join('')}</div></div>
     <div><h3 style="margin-bottom:8px">Lo que necesitamos de ustedes</h3><div class="list card">${s.items.map(it=>`<div class="li"><div class="stripe ${it[1]==='validado'?'good':it[1]==='recibido'?'info':'warn'}"></div><div><div class="t">${esc(it[0])}</div><div class="m">${it[1]==='pendiente'?'Pendiente · pedido el '+fd(s.enviada):it[1]==='recibido'?'Recibido, en revisión por el equipo':'Validado'}</div></div>${it[1]==='pendiente'?`<button class="btn sm pri" data-act="subir">${ic('upload')}Subir</button>`:`<span class="chip ${it[1]==='validado'?'good':'info'}">${it[1]==='validado'?'Validado':'Recibido'}</span>`}</div>`).join('')}</div></div>
-   </div><div class="rebl-foot"><a class="rebl" href="https://www.rebltech.com" target="_blank" rel="noopener">Powered by <span class="rebl-logo" role="img" aria-label="REBL"></span></a></div></div>`; };
+   </div><div class="rebl-foot mob-only"><a class="rebl" href="https://www.rebltech.com" target="_blank" rel="noopener">Powered by <span class="rebl-logo" role="img" aria-label="REBL"></span></a></div></div>`; };
 
 /* Configuración */
 V.config = () => `<div class="hd"><div><p class="eyebrow">A01 · A06 · Administración</p><h1>Configuración</h1><p class="sub">Usuarios, permisos y reglas versionadas. Cambiar una regla no reescribe el pasado.</p></div></div>
