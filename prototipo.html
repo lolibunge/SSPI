@@ -949,11 +949,24 @@ const NAV = {
    {id:'tablero',l:'Tablero de gestión',i:'chart',b:true},
    {id:'cartera',l:'Cartera',i:'folder'}
   ]},
+  {g:'Seguimiento',items:[
+   {id:'excepciones',l:'Excepciones',i:'alert',cnt:()=>exceptions().filter(x=>x.sev==='crit').length},
+   {id:'calendario',l:'Vencimientos',i:'cal'},
+   {id:'solicitudes',l:'Solicitudes',i:'inbox'},
+   {id:'informes',l:'Informes al cliente',i:'doc'}
+  ]},
   {g:'Negocio',items:[
+   {id:'alta',l:'Propuestas y alta',i:'plus',cnt:()=>PROPS.filter(p=>p.estado==='Ganada').length},
    {id:'facturacion',l:'Facturación',i:'money'},
    {id:'equipo',l:'Carga del equipo',i:'team',b:true},
-   {id:'portal',l:'Vista del cliente',i:'portal',b:true},
-   {id:'config',l:'Usuarios y permisos',i:'gear'}
+   {id:'portal',l:'Vista del cliente',i:'portal',b:true}
+  ]},
+  {g:'Herramientas',items:[
+   {id:'normativa',l:'Asistente normativo',i:'book',b:true},
+   {id:'mayores',l:'Conciliación de mayores',i:'ledger',b:true}
+  ]},
+  {g:'Administración',items:[
+   {id:'config',l:'Configuración',i:'gear'}
   ]}
  ]
 };
@@ -1159,6 +1172,7 @@ V.revisiones = () => { const lvl = S.role==='socio'?'Socio':S.role==='manager'?'
   const pend = REVS.filter(r=>r.estado==='pendiente'&&(!lvl||r.nivel===lvl)), mias = REVS.filter(r=>r.autor===me()), hechas=REVS.filter(r=>r.estado!=='pendiente');
   return `<div class="hd"><div><p class="eyebrow">A09 · Revisiones y aprobaciones</p><h1>Revisiones</h1><p class="sub">Nada sale sin la aprobación que su nivel exige. Cada resolución queda en el historial del expediente.</p></div>${S.role!=='asistente'?`<button class="btn" data-act="rev-export">${ic('copy')}Exportar historial para auditoría</button>`:''}</div>
   <section class="card"><div class="card-h"><h2>${lvl?`Esperan tu decisión (nivel ${lvl})`:'Enviadas por mí'}</h2><span class="hint">${(lvl?pend:mias).length} ítems</span></div><div class="list">${(lvl?pend:mias).map(revRow).join('')||'<div class="empty">Nada pendiente.</div>'}</div></section>
+  ${S.role==='socio'?(()=>{const mg=REVS.filter(r=>r.estado==='pendiente'&&r.nivel==='Manager'); return `<section class="card"><div class="card-h"><h2>En revisión de Carolina</h2><span class="hint">${mg.length} ítems · podés resolverlos vos si hace falta</span></div><div class="list">${mg.map(revRow).join('')||'<div class="empty">Nada pendiente.</div>'}</div></section>`;})():''}
   ${hechas.length?`<section class="card"><div class="card-h"><h2>Resueltas en esta sesión</h2></div><div class="list">${hechas.map(revRow).join('')}</div></section>`:''}`; };
 
 /* Solicitudes */
