@@ -548,6 +548,44 @@ button.who:hover .av{box-shadow:0 0 0 2px var(--accent)}
   .sol-items{margin-left:4px;padding-left:10px}
   .sol-i{grid-template-columns:minmax(0,1fr) 82px 38px 38px}
 }
+
+/* Inicio socio */
+.soc-g{grid-template-columns:minmax(0,1.75fr) minmax(300px,1fr);align-items:start}
+.wsoc{align-items:flex-end}
+.wsoc .sub{max-width:62ch}
+.wbar{display:flex;gap:3px;height:6px;margin-top:14px;max-width:420px}
+.wbar i{display:block;height:100%;border-radius:3px}
+.wleg{display:flex;gap:14px;flex-wrap:wrap;font-size:11.5px;color:rgba(255,255,255,.75);margin-top:7px}
+table.wk td{vertical-align:top;padding-block:12px}
+table.wk th:first-child,table.wk td:first-child{width:34%}
+table.wk th:nth-child(2),table.wk td:nth-child(2){width:30%}
+tr.wk-g td{background:var(--surface-2);font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;padding-block:8px}
+tr.wk-more td{padding:8px 16px;border-bottom:1px solid var(--line-2)}
+tr.wk-g b{color:var(--faint);font-weight:600;margin-left:4px}
+.warnt{color:var(--warn)}
+.wk-foot{padding:12px 16px;border-top:1px solid var(--line-2)}
+.wk-warn{display:flex;gap:10px;align-items:center;padding:11px 16px;background:var(--warn-bg);color:var(--ink);font-size:13px;border-radius:0 0 10px 10px}
+.wk-warn svg{color:var(--warn);flex:none}
+.wk-warn span{flex:1}
+.decl{display:flex;flex-direction:column}
+.dec{padding:14px 16px;border-bottom:1px solid var(--line-2);display:flex;flex-direction:column;gap:4px;align-items:flex-start}
+.dec:last-child{border-bottom:0}
+.dec p{margin:0;font-size:13.5px}
+.dec .dec-k{font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--crit)}
+.dec .btn{margin-top:6px}
+.mtl{display:flex;flex-direction:column;padding:4px 0}
+.mt{display:flex;gap:10px;align-items:flex-start;padding:9px 16px;font-size:13.5px}
+.sq{width:18px;height:18px;border-radius:4px;border:1.5px solid var(--faint);background:var(--surface);display:grid;place-items:center;color:transparent;padding:0;flex:none;margin-top:1px}
+.sq svg{width:12px;height:12px}
+.sq:hover{border-color:var(--good);color:var(--good)}
+.fin{display:grid;grid-template-columns:1fr 1fr;gap:14px 16px}
+.fin b{display:block;font-family:var(--f-display);font-weight:400;font-size:21px;line-height:1.15}
+.fin span{font-size:12px;color:var(--muted)}
+.fin-l{padding:0 16px 14px}
+@media (max-width:1100px){.soc-g{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:1100px){.soc-g>:last-child{display:contents}.soc-g .decbox{order:-1}}
+@media (max-width:640px){.tw table.wk tr{display:flex;flex-direction:column;align-items:stretch;gap:4px}.tw table.wk td:nth-child(2){margin-top:4px}.tw table.wk td:nth-child(3){margin-top:6px;padding-top:8px!important;border-top:1px dashed var(--line-2)}.tw table.wk td{width:auto!important;display:block}.tw table.wk td::before{display:none!important}.wsoc .stats{width:100%;justify-content:space-between}.wsoc .stats b{font-size:21px!important}}
+@media (max-width:640px){table.wk tr.wk-g{display:block;padding:8px 14px;background:var(--surface-2)}table.wk tr.wk-g td{padding:0;background:none}table.wk td:first-child,table.wk td:nth-child(2){width:auto}.wk-warn{flex-wrap:wrap}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 
@@ -1046,20 +1084,55 @@ function teamBars(){
   return hbars(ASIS.map(id=>({l:P(id).name,v:TASKS().filter(t=>t.resp===id&&t.estado!=='completada').length})),{fmt:v=>v+' tareas'});
 }
 function counts(list=EXP.filter(e=>e.estado==='En seguimiento')){ const c={verde:0,amarillo:0,rojo:0}; list.forEach(e=>c[expEval(e).salud]++); return c; }
+const EXF = id => EXP.find(x=>x.id===id);
 function homeSocio(){
   const act = EXP.filter(e=>e.estado==='En seguimiento'); const c = counts(act);
-  const esc_ = REVS.filter(r=>r.estado==='pendiente'&&r.nivel==='Socio');
-  const stale = act.filter(e=>expEval(e).fresh==='vieja');
-  const rojos = act.filter(e=>expEval(e).salud==='rojo');
-  return welcome(`Buen día, <em>${P(me()).name.split(' ')[0]}</em>`,`${esc_.length===1?'Hay 1 caso que espera':`Hay ${esc_.length} casos que esperan`} tu decisión. De ${act.length} expedientes en seguimiento, ${c.rojo} no cumplen sus compromisos.`,[[Math.round(c.verde/act.length*100)+'%','cumpliendo'],[esc_.length,'para decidir'],[usd(FACT.filter(f=>f.estado!=='cobrado').reduce((a,f)=>a+(f.saldo||f.monto),0)),'por cobrar']]) +
-  `<div class="grid g2">
-    <section class="sec"><div class="card-h"><h2>Salud de la cartera</h2><span class="hint">Expedientes en seguimiento</span></div><div class="card-b">${healthStack(c)}
-      <div style="margin-top:18px"><h3 style="margin-bottom:10px">Qué arrastra los rojos</h3>${hbars(Object.keys(TLAB).map(k=>({l:TLAB[k],v:rojos.filter(e=>expEval(e).drag?.tipo===k).length,c:'var(--crit)'})),{fmt:v=>v+' exp.'})}</div></div></section>
-    <section class="card"><div class="card-h"><h2>Para decidir</h2><span class="chip crit">${esc_.length} escalados</span></div><div class="list">${esc_.map(r=>revRow(r)).join('')||'<div class="empty">Nada escalado</div>'}</div></section>
-  </div>
-  <div class="grid g2">${myTasks()}<section class="sec"><div class="card-h"><h2>Tareas del equipo</h2><span class="hint">Abiertas por persona</span></div><div class="card-b">${hbars(PEOPLE.filter(p=>p.id!==me()).map(p=>({l:p.name,v:TASKS().filter(t=>t.resp===p.id&&t.estado!=='completada').length})),{fmt:v=>v+' tareas'})}</div></section></div>
-  <section class="card"><div class="card-h"><h2>Expedientes incumpliendo</h2><button class="link small" data-act="cartera-salud" data-s="rojo">Ver en la cartera</button></div>${expTable(rojos.slice(0,8),true)}</section>`;
+  const wkEnd = addD(TODAY,6);
+  const decs = socioDecisions();
+  const rows = act.map(e=>{ const ev=expEval(e), na=nextAction(e); const openT=e.tareas.filter(t=>t.estado!=='completada'); return {e,ev,na,openT,wk: openT.length && na && na.f<=wkEnd}; });
+  const g1=rows.filter(r=>r.ev.salud!=='verde'&&r.wk), g2=rows.filter(r=>r.ev.salud==='verde'&&r.wk), g3=rows.filter(r=>r.ev.salud!=='verde'&&!r.wk);
+  const rest=rows.filter(r=>r.ev.salud==='verde'&&!r.wk); const old=rest.filter(r=>r.ev.freshDays>90);
+  const ord = a => a.sort((x,y)=>RANK[y.ev.salud]-RANK[x.ev.salud]||(x.na?x.na.f:0)-(y.na?y.na.f:0));
+  const range = `${TODAY.getDate()} al ${fd(wkEnd)}`;
+  const tot = act.length, pc = n => (n/tot*100).toFixed(1)+'%';
+  const banner = `<section class="welcome wsoc"><div><p class="eyebrow" style="color:rgba(255,255,255,.7)">Lunes ${fdy(TODAY)}</p><h1>Buen día, <em>${esc(P(me()).name.split(' ')[0])}</em></h1>
+    <p class="sub">${decs.length} ${decs.length===1?'decisión te espera':'decisiones te esperan'}. Esta semana hay ${g1.length+g2.length} expedientes con acciones; ${g1.length} de ellos además están en riesgo.${g3.length?` Hay ${g3.length} en riesgo sin nada agendado.`:''}</p>
+    <div class="wbar" role="img" aria-label="${c.verde} al día, ${c.amarillo} en riesgo, ${c.rojo} incumpliendo"><i style="width:${pc(c.verde)};background:#7FD1A6"></i><i style="width:${pc(c.amarillo)};background:#E3AC4A"></i><i style="width:${pc(c.rojo)};background:#F08470"></i></div>
+    <div class="wleg"><span>${tot} en seguimiento</span><span>Al día ${c.verde}</span><span>En riesgo ${c.amarillo}</span><span>Incumpliendo ${c.rojo}</span></div></div>
+    <div class="stats"><div><b>${decs.length}</b><span>para decidir</span></div><div><b>${g1.length+g2.length}</b><span>con acción esta semana</span></div><div><b>${usd(FACT.filter(f=>f.estado==='facturado'||f.estado==='vencido').reduce((a,f)=>a+(f.saldo||f.monto),0))}</b><span>por cobrar</span></div></div></section>`;
+  const grp = (lab,list,cls,sal) => list.length?`<tr class="wk-g"><td colspan="3"><span class="${cls}">${lab}</span> <b>${list.length}</b></td></tr>${ord(list).slice(0,4).map(wkRow).join('')}${list.length>4?`<tr class="wk-more"><td colspan="3"><button class="link small" data-act="${sal?'cartera-salud':'nav'}" ${sal?`data-s="${sal}"`:'data-v="cartera"'}>Ver los ${list.length-4} restantes</button></td></tr>`:''}`:'';
+  const table = `<section class="card wkcard"><div class="card-h"><div><h2>Esta semana en la cartera</h2><span class="hint">${range} · salud y acción por separado</span></div><button class="link small" data-act="nav" data-v="cartera">Ver cartera completa</button></div>
+    <div class="tw"><table class="wk"><thead><tr><th>Sociedad / expediente</th><th>Salud · qué la arrastra</th><th>Próxima acción · quién</th></tr></thead><tbody>
+    ${grp('En riesgo · con acción esta semana',g1,'down')}${grp('Al día · con acción esta semana',g2,'muted','verde')}${grp('En riesgo · sin acción esta semana',g3,'warnt')}
+    </tbody></table></div>
+    <div class="wk-foot small muted">Los ${rest.length} expedientes restantes están al día y sin acciones esta semana.</div>
+    ${old.length?`<div class="wk-warn">${ic('clock','width="15" height="15"')}<span><b>${old.length} de ellos tienen datos de más de 90 días.</b> Se ven al día, pero no está confirmado.</span><button class="link small" data-act="old-list">Ver listado</button></div>`:''}</section>`;
+  const fact = (()=>{ const lis=FACT.filter(f=>f.estado==='listo'), por=FACT.filter(f=>f.estado==='facturado'||f.estado==='vencido'), ven=FACT.filter(f=>f.estado==='vencido'), cob=FACT.filter(f=>f.estado==='cobrado'); const S_=a=>a.reduce((x,f)=>x+(f.saldo||f.monto),0);
+    return `<section class="card"><div class="card-h"><h2>Facturación</h2><button class="link small" data-act="nav" data-v="facturacion">Ver detalle</button></div><div class="card-b fin"><div><b>${usd(S_(lis))}</b><span>por facturar · ${lis.length} hitos</span></div><div><b>${usd(S_(por))}</b><span>facturado, por cobrar</span></div><div><b class="down">${usd(S_(ven))}</b><span>vencido</span></div><div><b>${usd(S_(cob))}</b><span>cobrado en ${MESL[TODAY.getMonth()].toLowerCase()}</span></div></div><div class="fin-l"><button class="link small" data-act="nav" data-v="tablero">Cumplimiento y carga del equipo en el Tablero de gestión →</button></div></section>`; })();
+  const mt = TASKS().filter(t=>t.resp===me()&&t.estado!=='completada').sort((a,b)=>a.due-b.due);
+  const tasks = `<section class="card"><div class="card-h"><h2>Mis tareas</h2>${ib('tarea-libre','plus','Nueva tarea','','solid')}</div><div class="mtl">${mt.map(t=>{const e=EXF(t.exp); return `<div class="mt"><button class="sq" data-act="done" data-id="${t.id}" aria-label="Completar">${ic('check')}</button><div><div>${esc(t.titulo)}</div><div class="xs muted">${e?esc(e.soc):esc(t.cat||'Interna')} · <span class="${t.due<TODAY?'down':''}">${fd(t.due)}</span></div></div></div>`;}).join('')||'<div class="empty">Sin tareas pendientes</div>'}</div></section>`;
+  const dt = S.decT||'p'; const done=REVS.filter(r=>r.estado!=='pendiente'&&r.nivel==='Socio');
+  const decBox = `<section class="card decbox"><div class="card-h"><h2>Para decidir</h2><div class="seg sm3"><button class="${dt==='p'?'on':''}" data-act="dec-tab" data-t="p">Pendientes ${decs.length}</button><button class="${dt==='d'?'on':''}" data-act="dec-tab" data-t="d">Decididas</button></div></div><div class="decl">${dt==='p'?(decs.map(d=>`<div class="dec"><p class="dec-k">${esc(d.k)}</p><p>${esc(d.t)}</p><p class="xs muted">${d.e?`<button class="link" data-act="open" data-id="${d.e.id}">${esc(d.e.soc)}</button>`:''} · ${esc(d.who)}</p><button class="btn pri sm" ${d.act}>${esc(d.btn)}</button></div>`).join('')||'<div class="empty">Nada para decidir. </div>'):(done.map(r=>`<div class="dec"><p class="dec-k">${esc(r.tipo)}</p><p>${esc(r.detalle)}</p><p class="xs muted">${esc((EXF(r.exp)||{}).soc||'')} · <span class="chip ${r.estado==='aprobada'?'good':r.estado==='rechazada'?'crit':'warn'}">${r.estado}</span></p></div>`).join('')||'<div class="empty">Todavía no decidiste nada en esta sesión</div>')}</div></section>`;
+  return banner + `<div class="grid soc-g"><div style="min-width:0">${table}</div><div class="grid" style="align-content:start">${decBox}${tasks}${fact}</div></div>`;
 }
+function socioDecisions(){
+  const out=[];
+  REVS.filter(r=>r.estado==='pendiente'&&r.nivel==='Socio').forEach(r=>out.push({k:r.tipo,t:r.detalle,e:EXF(r.exp),who:`${P(r.autor).name.split(' ')[0]} · ${rel(r.desde)}`,btn:'Revisar y decidir',act:`data-act="decidir" data-id="${r.id}"`}));
+  EXP.filter(e=>e.estado==='Firma').forEach(e=>out.push({k:'Firma',t:'Presentación lista y revisada por Carolina. Falta tu firma para presentarla ante COMAP.',e,who:'listo para firmar',btn:'Revisar y firmar',act:`data-act="open" data-id="${e.id}"`}));
+  FACT.filter(f=>f.estado==='listo'&&-days(f.f)>14).forEach(f=>out.push({k:'Hito sin facturar',t:`${f.hito} habilitado hace ${-days(f.f)} días y todavía sin factura. ${usd(f.monto)}.`,e:EXF(f.exp),who:'detectado por el sistema',btn:'Revisar',act:'data-act="nav" data-v="facturacion"'}));
+  return out;
+}
+const SALC = {verde:'Al día',amarillo:'En riesgo',rojo:'Incumpliendo'};
+function wkRow(r){ const {e,ev,na,openT}=r; const h=ev.drag?compHealth(ev.drag):null;
+  const l=ev.drag?last(ev.drag):null; const c_=ev.drag;
+  const why = ev.salud==='verde'?'Compromisos cumplidos':!l?`${TLAB[c_.tipo]} sin mediciones`:c_.tipo==='empleo'?`Empleo ${num(l.v)} de ${num(c_.meta)} (${Math.round(h.r*100)}%)`:c_.tipo==='certificacion'?h.why:`${TLAB[c_.tipo]} ${Math.round(h.r*100)}% vs ${Math.round(h.p*100)}% esperado`;
+  const revS=REVS.find(x=>x.exp===e.id&&x.estado==='pendiente'&&x.nivel==='Socio'), revM=REVS.find(x=>x.exp===e.id&&x.estado==='pendiente'&&x.nivel==='Manager');
+  const ctx = revS?' · caso escalado a vos':revM?' · en revisión de Carolina':'';
+  const action = openT.length?`<div>${esc(na.t)}${revS?' <span class="chip info">Te toca</span>':''}</div><div class="xs muted">${esc(P(e.resp).name)} · <span class="${na.f<TODAY?'down':''}">${na.f<TODAY?'venció ':''}${fd(na.f)}</span>${ctx}</div>`
+    : `<div class="muted" style="font-style:italic">Sin acción agendada</div><div class="xs muted">Responsable: ${esc(P(e.resp).name)}</div>`;
+  return `<tr class="row" data-act="open" data-id="${e.id}"><td><div class="b">${esc(e.soc)}</div><div class="exp-n">Exp. ${e.num}</div></td>
+   <td><span class="sig s-${ev.salud}">${SALC[ev.salud]}</span><div class="xs muted" style="margin-top:4px">${esc(why)}</div>${ev.freshDays>90?`<div class="xs warnt" style="margin-top:2px;display:flex;gap:4px;align-items:center">${ic('clock','width="12" height="12"')}Dato de hace ${ev.freshDays} d</div>`:''}</td>
+   <td>${action}</td></tr>`; }
 
 /* Cartera */
 function filtered(){
@@ -1734,6 +1807,9 @@ document.addEventListener('click', ev => {
    case 'escalar': { const t=findTask(el.dataset.id); modal('Escalar a manager',`<p class="small muted">${esc(t.titulo)}</p><div class="fld"><label for="em">Motivo</label><textarea id="em" name="m" required placeholder="Qué pasó y qué necesitás que se decida"></textarea></div>`,fd=>{REVS.unshift({id:'R'+Date.now(),tipo:'Caso escalado',exp:t.exp,autor:me(),nivel:'Manager',desde:TODAY,detalle:fd.m,estado:'pendiente'}); addBit(EXP.find(e=>e.id===t.exp),'Escalado a manager: '+fd.m); toast('Escalado. Carolina lo verá en sus revisiones');},'Escalar'); break; }
    case 'medir': { const [e,c]=findComp(el.dataset.id); const l=last(c); modal('Registrar medición · '+c.label,`<p class="small muted">${esc(e.soc)} · última: ${c.unidad==='USD'?usd(l.v):num(l.v)} el ${fdy(l.f)}</p><div class="fld"><label for="mv">Valor (${c.unidad})</label><input id="mv" name="v" type="number" min="0" required value="${l.v}"></div><div class="fld"><label for="me">Evidencia</label><select id="me" name="ev"><option>Planilla BPS del período (SharePoint)</option><option>Comprobantes contables</option><option>Constancias de cursos</option></select></div>`,fd=>{ const before=expEval(e); c.med.push({f:TODAY,v:+fd.v,autor:P(me()).name,origen:'Manual'}); const after=expEval(e); addBit(e,`Medición registrada: ${c.label} = ${c.unidad==='USD'?usd(+fd.v):num(+fd.v)}`); toast(`Medición validada. Salud: ${SAL[after.salud]} · frescura recalculada`); },'Validar y recalcular'); break; }
    case 'nota': { const [e,c]=findComp(el.dataset.id); modal('Nota de contexto · '+c.label,`<p class="small muted">Mientras esté vigente, la alerta de este indicador se atenúa.</p><div class="fld"><label for="nt">Qué informó el cliente</label><textarea id="nt" name="t" required>${c.nota?esc(c.nota.texto):''}</textarea></div><div class="fld"><label for="nh">Vigente hasta</label><input id="nh" name="h" type="date" required value="${iso(addD(TODAY,45))}"></div>`,fd=>{c.nota={texto:fd.t,hasta:new Date(fd.h+'T12:00:00'),autor:P(me()).name,f:TODAY}; addBit(e,'Nota de contexto: '+fd.t); toast('Nota guardada; la alerta queda atenuada');}); break; }
+   case 'dec-tab': S.decT=el.dataset.t; render(); break;
+   case 'decidir': { const r=REVS.find(x=>x.id===el.dataset.id); const e=EXP.find(x=>x.id===r.exp); modal(r.tipo,`<p style="margin:0">${esc(r.detalle)}</p><p class="small muted" style="margin:0">${esc(e.soc)} · pedido por ${esc(P(r.autor).name)} ${rel(r.desde)}</p><div class="fld"><label for="dobs">Observaciones (opcional)</label><textarea id="dobs" name="o"></textarea></div><div class="fld"><label for="dres">Decisión</label><select id="dres" name="r"><option value="aprobada">Aprobar</option><option value="devuelta">Devolver con observaciones</option><option value="rechazada">Rechazar</option></select></div>`,fd=>{ if(fd.r==='aprobada'&&r.ov) e.override=r.ov; r.estado=fd.r; addBit(e,`${r.tipo}: ${fd.r}${fd.o?' · '+fd.o:''}`,'dec'); toast('Decisión registrada en el expediente'); },'Confirmar decisión'); break; }
+   case 'old-list': { const act=EXP.filter(e=>e.estado==='En seguimiento'&&expEval(e).salud==='verde'&&expEval(e).freshDays>90); modal('Al día, pero con datos viejos',`<p class="small muted" style="margin:0">La salud se calcula con la última medición. Si esa medición es vieja, el verde no está confirmado.</p><div class="list">${act.map(e=>{const ev=expEval(e); return `<div class="li"><div><div class="t">${esc(e.soc)}</div><div class="m">${TLAB[ev.fdrag.tipo]} · última medición hace ${ev.freshDays} días · ${esc(P(e.resp).name)}</div></div></div>`;}).join('')}</div>`,()=>{ act.forEach(e=>{ const t={id:'T'+(tid++),exp:e.id,titulo:`Pedir medición de ${TLAB[expEval(e).fdrag.tipo].toLowerCase()} al cliente`,resp:e.resp,due:addD(TODAY,7),estado:'abierta',origen:'Frescura'}; e.tareas.push(t); }); toast(`${act.length} pedidos de medición asignados a los responsables`); },'Pedir actualización a los responsables'); break; }
    case 'tarea-libre': { const pre=el.dataset.r||me(); modal('Nueva tarea',`<div class="fld"><label for="ft">Qué hay que hacer</label><input id="ft" name="t" required placeholder="Ej.: Preparar la reunión de equipo"></div><div class="grid g2"><div class="fld"><label for="fr">Responsable</label><select id="fr" name="r">${PEOPLE.map(p=>`<option value="${p.id}" ${p.id===pre?'selected':''}>${p.name}${p.id===me()?' (yo)':''} · ${p.role}</option>`).join('')}</select></div><div class="fld"><label for="fdd">Vence</label><input id="fdd" name="d" type="date" required value="${iso(addD(TODAY,7))}"></div></div><div class="grid g2"><div class="fld"><label for="fc">Tipo</label><select id="fc" name="c">${TCAT.map(c=>`<option>${c}</option>`).join('')}</select></div><div class="fld"><label for="fe">Expediente (opcional)</label><select id="fe" name="e"><option value="">Sin expediente</option>${EXP.filter(x=>S.role!=='asistente'||x.resp===me()).map(x=>`<option value="${x.id}">${esc(x.soc)}</option>`).join('')}</select></div></div>`,fd=>{ const due=new Date(fd.d+'T12:00:00'); if(fd.e){ const e=E(fd.e); e.tareas.push({id:'T'+(tid++),exp:e.id,titulo:fd.t,resp:fd.r,due,estado:'abierta',origen:'Manual'}); addBit(e,'Tarea creada: '+fd.t); } else FREE.push({id:'T'+(tid++),exp:null,titulo:fd.t,cat:fd.c,resp:fd.r,por:me(),due,estado:'abierta',origen:'Interna'}); toast(fd.r===me()?'Tarea agregada a tu lista':'Tarea asignada a '+P(fd.r).name); },'Crear tarea'); break; }
    case 'tarea': { const e=EXP.find(x=>x.id===el.dataset.id); modal('Nueva tarea',`<div class="fld"><label for="tt">Título</label><input id="tt" name="t" required placeholder="Ej.: Pedir planillas BPS del trimestre"></div><div class="grid g2"><div class="fld"><label for="tr">Responsable</label><select id="tr" name="r">${ASIS.map(id=>`<option value="${id}" ${id===e.resp?'selected':''}>${P(id).name}</option>`).join('')}</select></div><div class="fld"><label for="td">Vence</label><input id="td" name="d" type="date" required value="${iso(addD(TODAY,7))}"></div></div>`,fd=>{e.tareas.push({id:'T'+(tid++),exp:e.id,titulo:fd.t,resp:fd.r,due:new Date(fd.d+'T12:00:00'),estado:'abierta',origen:'Manual'}); addBit(e,'Tarea creada: '+fd.t); toast('Tarea creada');},'Crear tarea'); break; }
    case 'interaccion': { const e=EXP.find(x=>x.id===el.dataset.id); modal('Registrar interacción',`<div class="fld"><label for="it">Tipo</label><select id="it" name="k"><option value="int">Llamada / reunión / mail</option><option value="dec">Decisión con fundamento</option></select></div><div class="fld"><label for="ix">Detalle</label><textarea id="ix" name="t" required></textarea></div>`,fd=>{addBit(e,fd.t,fd.k); toast('Registrado en la bitácora');}); break; }
