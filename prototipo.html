@@ -169,6 +169,10 @@ th.num,td.num{text-align:center}
 th.num-r,td.num-r{text-align:right;white-space:nowrap}
 td.act-c{text-align:right;white-space:nowrap;width:1%}
 table.fact td{padding-block:12px}
+.fact-acts{display:grid;grid-template-columns:34px 140px 34px;gap:6px;align-items:center;justify-content:end}
+.fact-acts .slot{display:flex;justify-content:center}
+.fact-acts .btn{width:100%;justify-content:center}
+
 th{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);background:var(--surface-2);white-space:nowrap;position:sticky;top:0}
 th.sortable{cursor:pointer}
 th.sortable:hover{color:var(--ink)}
@@ -583,6 +587,7 @@ tr.wk-g b{color:var(--faint);font-weight:600;margin-left:4px}
 .fin span{font-size:12px;color:var(--muted)}
 .fin-l{padding:0 16px 14px}
 @media (max-width:1100px){.soc-g{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:640px){.fact-acts{grid-template-columns:34px 1fr 34px;justify-content:stretch;width:100%}}
 @media (max-width:1100px){.soc-g>:last-child{display:contents}.soc-g .decbox{order:-1}}
 @media (max-width:640px){.tw table.wk tr{display:flex;flex-direction:column;align-items:stretch;gap:4px}.tw table.wk td:nth-child(2){margin-top:4px}.tw table.wk td:nth-child(3){margin-top:6px;padding-top:8px!important;border-top:1px dashed var(--line-2)}.tw table.wk td{width:auto!important;display:block}.tw table.wk td::before{display:none!important}.wsoc .stats{width:100%;justify-content:space-between}.wsoc .stats b{font-size:21px!important}}
 @media (max-width:640px){table.wk tr.wk-g{display:block;padding:8px 14px;background:var(--surface-2)}table.wk tr.wk-g td{padding:0;background:none}table.wk td:first-child,table.wk td:nth-child(2){width:auto}.wk-warn{flex-wrap:wrap}}
@@ -1325,7 +1330,7 @@ V.facturacion = () => { const cols=[['listo','Listo para facturar','hitos sin fa
     <td class="num-r"><div>${usd(f.saldo||f.monto)}</div>${f.saldo?`<div class="xs" style="color:var(--warn)">pago parcial</div>`:''}</td>
     <td class="small ${k==='vencido'?'down':''}">${k==='listo'?'habilitado '+fd(f.f):k==='cobrado'?'—':fd(f.vence)}</td>
     <td><span class="stt ${EST[k][1]}"><span class="dot ${EST[k][1]}"></span>${EST[k][0]}</span></td>
-    <td class="act-c"><div class="acts" style="justify-content:flex-end">${k==='listo'?`${late?(f.esc?'<span class="xs down b">escalada a socios</span>':ib('fact-esc','up','Escalar a socios',`data-id="${f.id}"`)):''}<button class="btn sm pri" data-act="facturar" data-id="${f.id}">Registrar factura</button>`:k==='facturado'||k==='vencido'?`${k==='vencido'?ib('reclamo','bell',`Preparar reclamo (${f.reclamos||0} enviados)`,`data-id="${f.id}"`):''}<button class="btn sm" data-act="cobrar" data-id="${f.id}">Registrar pago</button>`:k==='anulada'?`<span class="xs muted">${esc(f.nota||'')}</span>`:''}${['facturado','vencido','cobrado'].includes(k)?more([['fact-anular','x','Anular factura',`data-id="${f.id}"`,'crit'],['fact-anular','undo','Nota de crédito y reemisión',`data-id="${f.id}" data-nc="1"`]]):''}</div></td></tr>`;};
+    <td class="act-c"><div class="fact-acts"><span class="slot">${k==='vencido'?ib('reclamo','bell',`Preparar reclamo (${f.reclamos||0} enviados)`,`data-id="${f.id}"`):''}</span><span class="slot">${k==='listo'?`<button class="btn sm pri" data-act="facturar" data-id="${f.id}">Registrar factura</button>`:k==='facturado'||k==='vencido'?`<button class="btn sm" data-act="cobrar" data-id="${f.id}">Registrar pago</button>`:k==='anulada'?`<span class="xs muted">${esc(f.nota||'')}</span>`:''}</span><span class="slot">${['facturado','vencido','cobrado'].includes(k)?more([['fact-anular','x','Anular factura',`data-id="${f.id}"`,'crit'],['fact-anular','undo','Nota de crédito y reemisión',`data-id="${f.id}" data-nc="1"`]]):''}</span></div></td></tr>`;};
   return `<div class="hd"><div><p class="eyebrow">A13 · Facturación y cobranza</p><h1>Facturación y cobranza</h1><p class="sub">La factura se habilita por un hito real del expediente. Se emite en su sistema de facturación y se registra acá.</p></div>${ib('importar','upload','Importar archivo de facturas','','solid')}</div>
   <div class="kstats">${cols.map(([k,l,sb])=>`<button class="card kpi" style="text-align:left" data-act="fact-f" data-k="${k}"><span class="lab">${l}</span><span class="val" style="font-size:24px;${k==='vencido'?'color:var(--crit)':''}">${usd(tot(k))}</span><span class="delta">${FACT.filter(f=>f.estado===k).length} ${sb}</span></button>`).join('')}</div>
   <section class="card"><div class="card-h"><h2>Facturas</h2><div class="seg">${[['todas','Todas'],...cols.map(c=>[c[0],c[1].replace(' para facturar','')])].map(([k,l])=>`<button class="${S.factF===k?'on':''}" data-act="fact-f" data-k="${k}">${l}</button>`).join('')}</div></div>
